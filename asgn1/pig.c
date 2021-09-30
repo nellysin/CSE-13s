@@ -40,50 +40,56 @@ int main (void) {
        		fprintf(stderr , "Invalid  random  seed. Using  2021  instead .\n"); // standard error
 	}
 
-	for (int i = 0; i == users; i += 1)		// for each player 
+	int points[10] = {0};                         //set a points array (keep track of scores) with 10 spaces
+
+	for (int i = 0; i < users; i += 1)		// for each player 
 	{
-		int points[10]; 			//set a pointer to the array
-							// how to fill an array (?)
-		printf("%s",names[i]);			
+		printf("%s rolls the pig... ", names[i]);		
 		srandom(SEED);
 		int roll;
-		if (points[i] >= 100)			// if check points if its >= 100
-		{
-			printf("%s wins with %d",names[i], points[i]);	// announce winner
-			break;
-			return 0;
-		}
-       		 do {							// CITE: do {} while loop from tutor
-                	roll = random() % users;			//rolling in while loop 
+       		 do {
+                	roll = random() % 7;			//rolling in while loop 
+			if (pig[roll] == 0 ||pig[roll] == 1)
+			{
+				printf(" pig lands on side");
+				int start = 0;
+				if (i == users)
+				{
+					i = start;
+				}
+				else{
+					i += 1;
+					printf("\n%s rolls the pig... ", names[i]);
+				}
+			}
 			if (pig[roll] == 2)				//categorize the type of side the pig is on
 			{
-				printf("razorback");	// print the position (cannot print enumeration)
-				points[i] += 10; // add 10 to points	//add points
+				printf(" pig lands on back");	// print the position (cannot print enumeration)
+				points[i] += 10; // add 10 to points
 			}
 			if (pig[roll] == 3)
 			{
-				printf("trotter");
+				printf(" pig lands upright");
 				points[i] += 10;
 			}
 			if (pig[roll] == 4)
 			{
-				printf("snouter")
+				printf(" pig lands on snout");
 				points[i] += 15; // add 15 to points
 			}
 
 			if (pig[roll] == 5 || pig[roll] == 6)
 			{
-				print("jowler")
+				printf(" pig lands on ear");
 				points[i] += 5;// add 5 to points
 			}
 
-        	} while (roll != 0 || roll != 1);
-		// print the position (cannot print enumeration)
+        	} while (points[i] < 100);
+		printf("\n");
+		printf("%s wins with %d\n ",names[i], points[i]);  // announce winner
+                break;
 
-		if (i == users)
-		{
-			int i = 0;
-		}
+		// print the position (cannot print enumeration)
 		 //and if it's the last player go back to the first player (same thing with points)
 		 // continue in a for loop
 	}
