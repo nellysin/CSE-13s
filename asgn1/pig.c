@@ -27,26 +27,24 @@ int main(void) {
         seed = SEED;
         fprintf(stderr, "Invalid  random  seed. Using  2021  instead .\n"); // standard error
     }
-
     int points[10] = { 0 }; //set a points array (keep track of scores) with 10 spaces
-
-    for (int i = 0; i < users; i += 1) // for each player
-    {
-        printf("%s rolls the pig...", names[i]);
-        srandom(SEED);
+    int i = 0;
+    int USER = users - 1;
+    while(i != users){
+	srandom(SEED);
         int roll;
         do {
-            roll = random() % 7; //rolling in while loop
-            if (pig[roll] == 0 || pig[roll] == 1) {
+           roll = random() % 7; //rolling in while loop
+           if (pig[roll] == 0 || pig[roll] == 1) {
                 printf(" pig lands on side");
-                if (i == users) // if it's the last player
+		if (i == USER) // if it's the last player
                 {
+		    printf("\n%s rolls the pig...", names[i]);
                     i = 0; // restart OR continue to the next player
-                    printf("\n%s rolls the pig...", names[i]);
-                } else if (i < users) {
-                    i += 1;
-                    printf("\n%s rolls the pig...", names[i]);
-                }
+                } else{
+			printf("\n%s rolls the pig...", names[i]);
+			i += 1;	
+		}
             } else if (pig[roll] == 2) //categorize the type of side the pig is on
             {
                 printf(" pig lands on back"); // print the position (cannot print enumeration)
@@ -61,9 +59,14 @@ int main(void) {
                 printf(" pig lands on ear");
                 points[i] += 5; // add 5 to points
             }
+
         } while (points[i] < 100);
-        printf("\n");
-        printf("%s wins with %d\n", names[i], points[i]); // announce winner
-        break;
+	if (points[i] >= 100)
+	{
+        	printf("\n");
+        	printf("%s wins with %d\n", names[i], points[i]); // announce winner
+        	break;
+	}
+
     }
 }
