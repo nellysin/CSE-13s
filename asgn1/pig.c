@@ -26,7 +26,7 @@ int main(void) {
     scanf("%" SCNd64, &seed); //CITE: int64_t with seed TUTOR: BEN GRANT
     if (seed > UINT_MAX || seed < 0) {
         seed = SEED;
-        fprintf(stderr, "Invalid  random  seed. Using  2021  instead .\n"); // standard error
+        fprintf(stderr, "Invalid random seed. Using 2021 instead.\n"); // standard error
     }
     int points[10] = { 0 }; //set a points array (keep track of scores) with 10 spaces
 
