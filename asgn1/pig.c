@@ -31,41 +31,40 @@ int main(void) {
     int points[10] = { 0 }; //set a points array (keep track of scores) with 10 spaces
 
     users = users - 1;
-    srandom(SEED);
     int roll;
     int i = 0;
     printf("%s rolls the pig...", names[i]);
+    srandom(seed);
     do {
-        // printf("%s rolls the pig...", names[i]);
         roll = random() % 7;
-        switch (roll) {
-        case 0:
-        case 1: printf(" pig lands on side\n"); break;
-        case 2:
+        switch (pig[roll]) {
+        case SIDE: 
+	    printf(" pig lands on side\n"); 
+	    break;
+        case RAZORBACK:
             printf(" pig lands on back"); // print the position (cannot print enumeration)
             points[i] += 10; // add 10 to points
             break;
-        case 3:
+        case TROTTER:
             printf(" pig lands upright");
             points[i] += 10;
             break;
-        case 4:
+        case SNOUTER:
             printf(" pig lands on snout");
             points[i] += 15; // add 15 to points
             break;
-        case 5:
-        case 6:
+        case JOWLER:
             printf(" pig lands on ear");
             points[i] += 5; // add 5 to points
             break;
         }
 
-        if (points[i] >= 100) {
+        if (points[i] >= 100) {					// check if a player points > 100
             printf("\n");
-            printf("%s wins with %d points!\n", names[i], points[i]);
+            printf("%s wins with %d points!\n", names[i], points[i]); 
             break;
         }
-        if (roll == 1 || roll == 0) {
+        if (roll == 1 || roll == 0) { 				// if roll = SIDE then skip to the next player or restart from the first player
             if (i == users) {
                 i = 0;
                 printf("%s rolls the pig...", names[i]);
@@ -74,5 +73,6 @@ int main(void) {
                 printf("%s rolls the pig...", names[i]);
             }
         }
-    } while (points[i] < 100 || roll != 1 || roll != 0);
+    } while (points[i] < 100 || roll != 1 || roll != 0);	//continue rolling the dice only if points < 100, roll != side
+    return 0;
 }
