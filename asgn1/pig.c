@@ -38,9 +38,7 @@ int main(void) {
     do {
         roll = random() % 7;
         switch (pig[roll]) {
-        case SIDE: 
-	    printf(" pig lands on side\n"); 
-	    break;
+        case SIDE: printf(" pig lands on side\n"); break;
         case RAZORBACK:
             printf(" pig lands on back"); // print the position (cannot print enumeration)
             points[i] += 10; // add 10 to points
@@ -59,12 +57,14 @@ int main(void) {
             break;
         }
 
-        if (points[i] >= 100) {					// check if a player points > 100
+        if (points[i] >= 100) { // check if a player points > 100
             printf("\n");
-            printf("%s wins with %d points!\n", names[i], points[i]); 
+            printf("%s wins with %d points!\n", names[i], points[i]);
             break;
         }
-        if (roll == 1 || roll == 0) { 				// if roll = SIDE then skip to the next player or restart from the first player
+        if (roll == 1
+            || roll
+                   == 0) { // if roll = SIDE then skip to the next player or restart from the first player
             if (i == users) {
                 i = 0;
                 printf("%s rolls the pig...", names[i]);
@@ -73,6 +73,7 @@ int main(void) {
                 printf("%s rolls the pig...", names[i]);
             }
         }
-    } while (points[i] < 100 || roll != 1 || roll != 0);	//continue rolling the dice only if points < 100, roll != side
+    } while (points[i] < 100 || roll != 1
+             || roll != 0); //continue rolling the dice only if points < 100, roll != side
     return 0;
 }
