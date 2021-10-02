@@ -1,4 +1,4 @@
-# Assignment 0 - Pass the Pigs
+# Assignment 1 - Pass the Pigs
 
 In this assignment, each player specified number of players, between and including 2 to 10 (names.h),
 they  will take turns rolling the pig dice. 
