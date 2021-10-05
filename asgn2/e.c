@@ -2,28 +2,33 @@
 #include "mathlib.h"
 #include <stdlib.h>
 
-/*double e_terms(){
-	static double e = 0.0; // total
-	static int k = 1; // k
+int e_terms(){
+	static double e = 1.0; // total
 	static double term = 1.0; //current term (computed)
 	static double p_term = 1.0; // previous term
-}*/
+	int static k = 1;
+	return e;
+	return term;
+	return p_term;
+	return k;
+}
+
 
 double e(){
-	static double e = 0.0;  // total
-        static int k = 1; // k
-        static double term = 1.0; //current term (computed)
-        static double p_term = 1.0; // previous term
+	double e = 1.0;  // total
+        int k = 1; // k
+        double term = 1.0; //current term (computed)
+        double p_term = 1.0;
+	e_terms();
         while(term > EPSILON){		// it will come to a halt when it reaches close the EPSILON 
-		term = 1.0/k;		// term is the 1/k 
-		e = e + p_term * term; // multiply previous term & current term add it to "e"
-		p_term = term;
+		term = term * (p_term / k);
+		e += term;	 
 		k += 1;
 	}
-        return e;
+	return e;
 }
 
 int main(void){
-	printf("%16.151f\n", e());
+	printf("%16.15lf\n", e());
 	return 0;
 }
