@@ -6,7 +6,7 @@
 
 int main(int argc, char **argv){
 	int opt = 0;
-	if (argv[0]){
+	if (argc == 1){
 		printf("SYNOPSIS\n");
 		printf("   A test harness for the small numerical library.\n");
 
