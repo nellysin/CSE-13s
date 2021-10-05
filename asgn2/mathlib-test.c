@@ -2,16 +2,18 @@
 #include <unistd.h>
 #include "mathlib.h"
 
-#define OPTIONS "pi:"
 
-int main(int argc, char **argv){
+#define OPTIONS "[-aebmrvnsh]"
+
+int main(int argc, char **argv){ // CITED: Professor Long
+	//getopt() loop should just parse CLI options
 	int opt = 0;
 	if (argc == 1){
 		printf("SYNOPSIS\n");
 		printf("   A test harness for the small numerical library.\n");
 
 		printf("\nUSAGE\n");
-		printf("   ./mathlib-test [-aebmrvnsh]\n");
+		printf("   ./mathlib-test %s\n",OPTIONS);
 
 		printf("\nOPTIONS\n");
 		printf("   -a: Runs all tests.\n");
@@ -24,16 +26,19 @@ int main(int argc, char **argv){
 		printf("   -s: Enable printing of statistics to see computed terms and factors for each tested function.\n");
 		printf("   -h: Display a help message detailing program usage.\n");
 	}
-	while ((opt = getopt(argc, argv, OPTIONS)) != -1) {
+	for (int i = 0; i < argc; i += 1){ //CITED: Professor Long set code
+	}
+	while ((opt = getopt(argc, argv, OPTIONS)) != -1) { //CITED: Professor Long (while & switch case)
 		switch (opt) {
 			case 'a':
-				printf("-a: Runs all tests.\n");
+				printf("Runs all tests.\n");
 				break;
 			case 'e':
-				printf("-e: Runs e approximation test.\n");
+				e();
+				printf("Runs e approximation test.\n");
 				break;
 			case 'b':
-				printf("-b: Runs Bailey-Borwein-Plouffe π approximation test.\n");
+				printf("Runs Bailey-Borwein-Plouffe π approximation test.\n");
 				break;
 			case 'm':
 				printf("Runs Madhava π approximation test.\n");
@@ -52,6 +57,8 @@ int main(int argc, char **argv){
 				break;
 			case 'h':
 				printf("Display a help message detailing program usage.\n");
+				break;
+			default:
 				break;
 		}
 	}
