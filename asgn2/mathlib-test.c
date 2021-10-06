@@ -9,12 +9,11 @@
 int main(int argc, char **argv){ // CITED: Professor Long
 	//getopt() loop should just parse CLI options
 	int opt = 0;
-//	bool ca = false;
         bool ce = false;
         bool cb = false;
         bool cm = false;
         bool cr = false;
-//        bool v = false;
+        bool cv = false;
         bool cn = false;
 //        bool s = false;
 	if (argc == 1){
@@ -40,7 +39,7 @@ int main(int argc, char **argv){ // CITED: Professor Long
 	while ((opt = getopt(argc, argv, OPTIONS)) != -1) { //CITED: Professor Long (while & switch case)
 		switch (opt) {
 			case 'a':
-				printf("Runs all tests.\n");
+				ce = cb = cm = cr = cv = cn = true; // CITE: Eugene showed example in section (booleans)
 				break;
 			case 'e':
 				ce = true;
@@ -55,7 +54,7 @@ int main(int argc, char **argv){ // CITED: Professor Long
 				cr = true;
 				break;
 			case 'v':
-				printf("Runs Viète π approximation test.\n");
+				cv = true;
 				break;
 			case 'n':
 				cn = true;
@@ -101,6 +100,9 @@ int main(int argc, char **argv){ // CITED: Professor Long
                 }
                 if(cm == true){
                         printf("pi_madhava() = %16.15lf, M_PI = %16.15lf, diff = %16.15lf\n", pi_madhava(), M_PI, absolute(pi_madhava() - M_PI));
+                }
+		if(cv == true){
+                        printf("pi_viete() = %16.15lf, M_PI = %16.15lf, diff = %16.15lf\n", pi_viete(), M_PI, absolute(pi_viete() - M_PI));
                 }
 
 	return 0;
