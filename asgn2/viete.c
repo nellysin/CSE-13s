@@ -5,15 +5,16 @@
 static int viete_factors = 0;
 double pi_viete(){
         viete_factors = 0;
-        double k = 1.0;
-        double viete = 0.0;
-	double n = 1.0;
-        while(n >= EPSILON){
-                n = 2.0/k;
-		viete += n;
-		k += 1.0;
+        double k = 2.0;
+//	double n = 1.0;
+        double viete = 1.0;
+        while(k >= EPSILON){
+		k = sqrt_newton(k);
+		viete *= k;
 		viete_factors += 1;
-        }
+		printf("%f", k);
+	}
+	viete = 2 / viete;
         return viete;
 }
 
@@ -26,4 +27,3 @@ int main(void){
         printf("%d\n", pi_viete_factors());
         return 0;
 }
-

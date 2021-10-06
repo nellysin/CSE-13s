@@ -2,13 +2,17 @@ C = clang
 CFLAGS = -Wall -Wpedantic -Werror -Wextra
 LFLAGS = -lm
 
-all: e.o bbp.o newton.o euler.o mathlib-test.o
-
-mathlib-test: mathlib-test.o e.o newton.o bbp.o euler.o
-	$(CC) -o mathlib-test mathlib-test.o e.o newton.o bbp.o euler.o $(LFLAGS)
+mathlib-test: mathlib-test.o e.o newton.o bbp.o euler.o madhava.o
+	$(CC) -o mathlib-test mathlib-test.o e.o newton.o bbp.o euler.o madhava.o $(LFLAGS)
 
 euler: euler.o newton.o
 	$(CC) -o euler euler.o newton.o $(LFLAGS)
+
+madhava: madhava.o newton.o
+	$(CC) -o madhava madhava.o newton.o $(LFLAGS)
+
+viete: viete.o newton.o
+	$(CC) -o viete viete.o newton.o $(LFLAGS)
 
 mathlib-test.o: mathlib-test.c
 	$(CC) $(CFLAGS) -c mathlib-test.c
@@ -24,6 +28,12 @@ bbp.o: bbp.o
 
 euler.o: euler.c
 	$(CC) $(CFLAGS) -c euler.c
+
+madhava.o: madhava.c
+	$(CC) $(CFLAGS) -c madhava.c
+
+viete.o: viete.c
+	$(CC) $(CFLAGS) -c viete.c
 
 clean:
 	rm -f mathlib-test *.o
