@@ -37,7 +37,7 @@ int main(int argc, char **argv){ // CITED: Professor Long
 				printf("e() = %16.15lf, M_E = %16.15lf, diff = %16.15lf\n", e(), M_E, absolute(e() - M_E));
 				break;
 			case 'b':
-				printf("Runs Bailey-Borwein-Plouffe π approximation test.\n");
+				printf("pi_bbp() = %16.15lf, M_PI = %16.15lf, diff = %16.15lf\n", pi_bbp(), M_PI, absolute(pi_bbp() - M_PI));
 				break;
 			case 'm':
 				printf("Runs Madhava π approximation test.\n");
