@@ -10,7 +10,7 @@ double pi_euler(){
 	double d_k = 0.0;
 	double euler = 0.0;
 	double sum = 0.0;
-	while(n > EPSILON){
+	while(n >= EPSILON){
 		d_k = k * k;
 		n = 1.0/d_k;
 		sum += 1.0/d_k;
@@ -26,8 +26,8 @@ int pi_euler_terms(){
 	return euler_term;
 }
 
-int main(void){
+/*int main(void){
 	printf("%15.16lf\n", pi_euler());
 	printf("%d\n", pi_euler_terms());
 	return 0;
-}
+}*/

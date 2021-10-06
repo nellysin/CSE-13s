@@ -43,7 +43,7 @@ int main(int argc, char **argv){ // CITED: Professor Long
 				printf("Runs Madhava π approximation test.\n");
 				break;
 			case 'r':
-				printf("Runs Euler sequence π approximation test.\n");
+				printf("pi_euler() = %16.15lf, M_PI = %16.15lf, diff = %16.15lf\n", pi_euler(), M_PI, absolute(pi_euler() - M_PI));
 				break;
 			case 'v':
 				printf("Runs Viète π approximation test.\n");
