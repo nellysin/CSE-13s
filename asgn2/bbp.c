@@ -1,25 +1,29 @@
-#include <stdio.h>
 #include "mathlib.h"
+
+#include <stdio.h>
 #include <stdlib.h>
 
-long double pi(){
-	long double pi = 0.0;
-	long double term = 1.0;
-	int k = 0.0;
-	while(term >= EPSILON){
-		pi += (4.0 / (8.0 * k + 1.0);
-	        	- 2.0 / (8.0 * k + 4.0);
-		        - 1.0 / (8.0 * k + 5.0);
-		        - 1.0 / (8.0 * k + 6.0)) * term;
-		term /= 16.0;
-		k += 1;
-		
-	}
-	return pi;
+static int bbp_term = 0;
+
+double pi_bbp() {
+    bbp_term = 0;
+    double p = 0.0;
+    double k = 1.0;
+    double n = 0.0;
+
+    while (k > EPSILON) {
+	p += (4.0 / (8.0 * n + 1.0) - 2.0 / (8.0 * n + 4.0) - 1.0 / (8.0 * n + 5.0) - 1.0 / (8.0 * n + 6.0)) * k;
+	k /= 16.0;
+	n += 1;
+	bbp_term += 1;
+    }
+    return p;
 }
 
-int main(void){
-        printf("%16.15Lf\n", pi());
+int pi_bbp_terms() {
+    return bbp_term;
+}
+int main(void) {
+        printf("%16.15lf\n", pi_bbp());
         return 0;
-
 }
