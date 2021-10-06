@@ -15,7 +15,7 @@ int main(int argc, char **argv){ // CITED: Professor Long
         bool cr = false;
         bool cv = false;
         bool cn = false;
-//        bool s = false;
+        bool cs = false;
 	if (argc == 1){
 		printf("SYNOPSIS\n");
 		printf("   A test harness for the small numerical library.\n");
@@ -60,7 +60,7 @@ int main(int argc, char **argv){ // CITED: Professor Long
 				cn = true;
 				break;
 			case 's':
-                                printf("Enable printing of statistics to see computed terms and factors for each tested function.\n");
+                                cs = true;
 				break;
 			case 'h':
 				printf("SYNOPSIS\n");
@@ -104,6 +104,46 @@ int main(int argc, char **argv){ // CITED: Professor Long
 		if(cv == true){
                         printf("pi_viete() = %16.15lf, M_PI = %16.15lf, diff = %16.15lf\n", pi_viete(), M_PI, absolute(pi_viete() - M_PI));
                 }
+		if(cs == true){
+			if (ce == true){
+				printf("e() terms = %d\n", e_terms());
+			}
+			if (cb == true){
+				printf("pi_bbp terms = %d\n", pi_bbp_terms());
+			}
+			if (cr == true){
+				printf("pi_euler terms = %d\n", pi_euler_terms());
+			}
+			if (cn == true){
+				printf("sqrt_newton() terms = %d\n", sqrt_newton_iters());
+			}
+			if (cm == true){
+				printf("pi_madhava() terms = %d\n", pi_madhava_terms());
+			}
+			if (cv == true){
+				printf("pi_viete() terms = %d\n", pi_viete_factors());
+			}
+				
+			else{
+				printf("SYNOPSIS\n");
+                        	printf("   A test harness for the small numerical library.\n");
+
+                        	printf("\nUSAGE\n");
+                        	printf("   ./mathlib-test %s\n",OPTIONS);
+
+                        	printf("\nOPTIONS\n");
+                        	printf("   -a: Runs all tests.\n");
+                        	printf("   -e: Runs e test.\n");
+                        	printf("   -b: Runs BBP pi test.\n");
+                        	printf("   -m: Runs Madhava pi test.\n");
+                        	printf("   -r: Runs Euler pi test.\n");
+                        	printf("   -v: Runs Viete pi test.\n");
+                        	printf("   -n: Runs Newton square root tests.\n");
+                       		printf("   -s: Print verbose statistics.\n");
+                        	printf("   -h: Display program synopsis and usage.\n");
+			}
+		}
+
 
 	return 0;
 }
