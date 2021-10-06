@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include "mathlib.h"
-
+#include <math.h>
 
 #define OPTIONS "[-aebmrvnsh]"
 
@@ -34,8 +34,7 @@ int main(int argc, char **argv){ // CITED: Professor Long
 				printf("Runs all tests.\n");
 				break;
 			case 'e':
-				e();
-				printf("Runs e approximation test.\n");
+				printf("e() = %16.15lf, M_E = %16.15lf, diff = %16.15lf\n", e(), M_E, absolute(e() - M_E));
 				break;
 			case 'b':
 				printf("Runs Bailey-Borwein-Plouffe π approximation test.\n");

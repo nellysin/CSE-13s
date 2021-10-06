@@ -1,16 +1,18 @@
 C = clang
 CFLAGS = -Wall -Wpedantic -Werror -Wextra
+LFLAGS = -lm
 
-all: mathlib-test
+mathlib-test: mathlib-test.o e.o 
+	$(CC) -o mathlib-test mathlib-test.o e.o $(LFLAGS)
 
-mathlib-test: mathlib-test.o
-	$(CC) -o pig pig.o
-
-mathlib-test.o: mathlib-test.c mathlib.h
+mathlib-test.o: mathlib-test.c
 	$(CC) $(CFLAGS) -c mathlib-test.c
 
+e.o: e.c
+	$(CC) $(CFLAGS) -c e.c
+
 clean:
-	rm -f mathlib-test mathlib-test.o
+	rm -f mathlib-test *.o
 
 format:
 	clang-format -i -style=file *.{ch}
