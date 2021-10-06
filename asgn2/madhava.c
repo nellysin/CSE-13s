@@ -38,9 +38,3 @@ double pi_madhava(){
 int pi_madhava_terms(){
 	return madhava_terms;
 }
-
-/*int main(void){
-	printf("%16.15lf\n", pi_madhava());
-	printf("%d\n", pi_madhava_terms());
-	return 0;
-}*/

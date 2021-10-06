@@ -18,8 +18,3 @@ double sqrt_newton(double x){
 int sqrt_newton_iters() {
 	return iters;
 }
-
-/*int main(void){
-	printf("%16.15lf\n", sqrt_newton(25));
-	printf("%d\n", iters);
-}*/
