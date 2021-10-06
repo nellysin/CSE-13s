@@ -6,20 +6,20 @@ static int iters = 0;
 double sqrt_newton(double x){
 	iters = 0;
 	double temp = 0.0;
-	double sqrt = 1.0;
-	while(absolute(sqrt - temp) > EPSILON){
-		temp = sqrt;
-		sqrt = 0.5 * (temp + x / sqrt);
+	double s = 1.0;
+	while(absolute(s - temp) > EPSILON){ //CITED: Professor Long for newton's squareroot sudo code
+		temp = s;
+		s = 0.5 * (temp + x / s);
 		iters += 1;
 	}
-	return sqrt;
+	return s;
 }
 
 int sqrt_newton_iters() {
 	return iters;
 }
 
-int main(void){
+/*int main(void){
 	printf("%16.15lf\n", sqrt_newton(25));
 	printf("%d\n", iters);
-}
+}*/

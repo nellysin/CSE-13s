@@ -49,7 +49,9 @@ int main(int argc, char **argv){ // CITED: Professor Long
 				printf("Runs Viète π approximation test.\n");
 				break;
 			case 'n':
-				printf("Runs Newton-Raphson square root approximation tests.\n");
+				for(double i = 0.0; i <= 10; i += 0.1){
+					printf("sqrt_newton(%.6f) = %16.15lf, sqrt(%.6f) = %16.15lf, diff = %16.15lf\n", i, sqrt_newton(i), i, sqrt(i), absolute(sqrt_newton(i) - sqrt(i)));
+				}
 				break;
 			case 's':
                                 printf("Enable printing of statistics to see computed terms and factors for each tested function.\n");
