@@ -44,6 +44,7 @@ clean:
 	rm -f bbp bbp.o
 	rm -f madhava madhava.o
 	rm -f viete viete.o
+	rm -f euler euler.o
 
 format:
 	clang-format -i -style=file *.[ch]
