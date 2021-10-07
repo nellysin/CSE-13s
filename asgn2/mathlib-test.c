@@ -93,16 +93,16 @@ int main(int argc, char **argv){ // CITED: Professor Long
                 if(cr == true){
                         printf("pi_euler() = %16.15lf, M_PI = %16.15lf, diff = %16.15lf\n", pi_euler(), M_PI, absolute(pi_euler() - M_PI));
                 }
-                if(cn == true){
-                        for(double i = 0.0; i <= 10; i += 0.1){
-                                printf("sqrt_newton(%.6f) = %16.15lf, sqrt(%.6f) = %16.15lf, diff = %16.15lf\n", i, sqrt_newton(i), i, sqrt(i), absolute(sqrt_newton(i) - sqrt(i)));
-                        }
-                }
                 if(cm == true){
                         printf("pi_madhava() = %16.15lf, M_PI = %16.15lf, diff = %16.15lf\n", pi_madhava(), M_PI, absolute(pi_madhava() - M_PI));
                 }
 		if(cv == true){
                         printf("pi_viete() = %16.15lf, M_PI = %16.15lf, diff = %16.15lf\n", pi_viete(), M_PI, absolute(pi_viete() - M_PI));
+                }
+ 		if(cn == true){
+                        for(double i = 0.0; i <= 10; i += 0.1){
+                                printf("sqrt_newton(%.6f) = %16.15lf, sqrt(%.6f) = %16.15lf, diff = %16.15lf\n", i, sqrt_newton(i), i, sqrt(i), absolute(sqrt_newton(i) - sqrt(i)));
+                        }
                 }
 		if(cs == true){
 			if (ce == true){
