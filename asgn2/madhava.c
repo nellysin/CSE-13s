@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-static int madhava_terms = 0;//CITED: Prof long for equation
+static int madhava_terms = 0; //CITED: Prof long for equation
 double pi_madhava() {
     madhava_terms = 0;
     double k = 1.0;
