@@ -2,6 +2,8 @@ C = clang
 CFLAGS = -Wall -Wpedantic -Werror -Wextra
 LFLAGS = -lm
 
+all: mathlib-test
+
 mathlib-test: mathlib-test.o e.o newton.o bbp.o euler.o madhava.o viete.o
 	$(CC) -o mathlib-test mathlib-test.o e.o newton.o bbp.o euler.o madhava.o viete.o $(LFLAGS)
 
