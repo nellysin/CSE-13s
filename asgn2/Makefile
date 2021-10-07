@@ -38,7 +38,12 @@ viete.o: viete.c
 	$(CC) $(CFLAGS) -c viete.c
 
 clean:
-	rm -f mathlib-test *.o
+	rm -f mathlib-test mathlib-test.o
+	rm -f e e.o
+	rm -f newton newton.o
+	rm -f bbp bbp.o
+	rm -f madhava madhava.o
+	rm -f viete viete.o
 
 format:
-	clang-format -i -style=file *.{ch}
+	clang-format -i -style=file *.[ch]
