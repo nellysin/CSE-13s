@@ -16,25 +16,25 @@ madhava: madhava.o newton.o
 viete: viete.o newton.o
 	$(CC) -o viete viete.o newton.o $(LFLAGS)
 
-mathlib-test.o: mathlib-test.c
+mathlib-test.o: mathlib-test.c mathlib.h
 	$(CC) $(CFLAGS) -c mathlib-test.c
 
-e.o: e.c
+e.o: e.c mathlib.h
 	$(CC) $(CFLAGS) -c e.c
 
-newton.o: newton.c
+newton.o: newton.c mathlib.h
 	$(CC) $(CFLAGS) -c newton.c
 
-bbp.o: bbp.o
+bbp.o: bbp.o mathlib.h
 	$(CC) $(CFLAGS) -c bbp.c
 
-euler.o: euler.c
+euler.o: euler.c mathlib.h
 	$(CC) $(CFLAGS) -c euler.c
 
-madhava.o: madhava.c
+madhava.o: madhava.c mathlib.h
 	$(CC) $(CFLAGS) -c madhava.c
 
-viete.o: viete.c
+viete.o: viete.c mathlib.h
 	$(CC) $(CFLAGS) -c viete.c
 
 clean:
