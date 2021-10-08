@@ -115,8 +115,7 @@ int main(int argc, char **argv) { // CITED: Professor Long
         if (cv == true) {
             printf("pi_viete() terms = %d\n", pi_viete_factors());
         }
-
-        else {
+        if (cs == false) {
             printf("SYNOPSIS\n");
             printf("   A test harness for the small numerical library.\n");
 
