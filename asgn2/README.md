@@ -42,7 +42,7 @@ $ clang -Wall -Wextra -Werror -Wpedantic -o viete viete.c
 This program is designed to run in Ubuntu, Linux in C program with:
 
 ```
-$ ./mathlib-test -(OPTION
+$ ./mathlib-test -OPTION
 ```
 
 ## Bugs:
