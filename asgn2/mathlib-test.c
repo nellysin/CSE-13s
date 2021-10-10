@@ -40,17 +40,22 @@ int main(int argc, char **argv) { // CITED: Professor Long
     while (
         (opt = getopt(argc, argv, OPTIONS)) != -1) { //CITED: Professor Long (while & switch case)
         switch (opt) {
-        case 'a':
-            ce = cb = cm = cr = cv = cn = true; // CITE: Eugene showed example in section (booleans)
+        case 'a': //if selected -a
+            ce = cs = true; // CITE: Eugene showed example in section (booleans)
+            cr = cs = true;
+            cb = cs = true;
+            cm = cs = true;
+            cv = cs = true;
+            cn = cs = true;
             break;
-        case 'e': ce = true; break;
-        case 'b': cb = true; break;
-        case 'm': cm = true; break;
-        case 'r': cr = true; break;
-        case 'v': cv = true; break;
-        case 'n': cn = true; break;
-        case 's': cs = true; break;
-        case 'h':
+        case 'e': ce = true; break; //if selected -e
+        case 'b': cb = true; break; //if selected -b
+        case 'm': cm = true; break; //if selected -m
+        case 'r': cr = true; break; //if selected -r
+        case 'v': cv = true; break; //if selected -v
+        case 'n': cn = true; break; //if selected -n
+        case 's': cs = true; break; //if selected -s
+        case 'h': //if selected -h
             printf("SYNOPSIS\n");
             printf("   A test harness for the small numerical library.\n");
 
@@ -71,7 +76,7 @@ int main(int argc, char **argv) { // CITED: Professor Long
         default: break;
         }
     }
-    if (ce == true) {
+    if (ce == true) { //switch cases will go to one of these if statements
         printf("e() = %16.15lf, M_E = %16.15lf, diff = %16.15lf\n", e(), M_E, absolute(e() - M_E));
     }
     if (cr == true) {
