@@ -78,49 +78,50 @@ int main(int argc, char **argv) { // CITED: Professor Long
     }
     if (ce == true) { //switch cases will go to one of these if statements
         printf("e() = %16.15lf, M_E = %16.15lf, diff = %16.15lf\n", e(), M_E, absolute(e() - M_E));
+        if (cs == true) {
+            printf("e() terms = %d\n", e_terms());
+        }
     }
     if (cr == true) {
         printf("pi_euler() = %16.15lf, M_PI = %16.15lf, diff = %16.15lf\n", pi_euler(), M_PI,
             absolute(pi_euler() - M_PI));
+        if (cs == true) {
+            printf("pi_euler terms = %d\n", pi_euler_terms());
+        }
     }
     if (cb == true) {
         printf("pi_bbp() = %16.15lf, M_PI = %16.15lf, diff = %16.15lf\n", pi_bbp(), M_PI,
             absolute(pi_bbp() - M_PI));
+        if (cs == true) {
+            printf("pi_bbp terms = %d\n", pi_bbp_terms());
+        }
     }
     if (cm == true) {
         printf("pi_madhava() = %16.15lf, M_PI = %16.15lf, diff = %16.15lf\n", pi_madhava(), M_PI,
             absolute(pi_madhava() - M_PI));
+        if (cs == true) {
+            printf("pi_madhava() terms = %d\n", pi_madhava_terms());
+        }
     }
     if (cv == true) {
         printf("pi_viete() = %16.15lf, M_PI = %16.15lf, diff = %16.15lf\n", pi_viete(), M_PI,
             absolute(pi_viete() - M_PI));
+        if (cs == true) {
+            printf("pi_viete() terms = %d\n", pi_viete_factors());
+        }
     }
     if (cn == true) {
         for (double i = 0.0; i <= 10; i += 0.1) {
             printf("sqrt_newton(%.6f) = %16.15lf, sqrt(%.6f) = %16.15lf, diff = %16.15lf\n", i,
                 sqrt_newton(i), i, sqrt(i), absolute(sqrt_newton(i) - sqrt(i)));
+            if (cs == true) {
+                printf("sqrt_newton() terms = %d\n", sqrt_newton_iters());
+            }
         }
     }
     if (cs == true) {
-        if (ce == true) {
-            printf("e() terms = %d\n", e_terms());
-        }
-        if (cb == true) {
-            printf("pi_bbp terms = %d\n", pi_bbp_terms());
-        }
-        if (cr == true) {
-            printf("pi_euler terms = %d\n", pi_euler_terms());
-        }
-        if (cn == true) {
-            printf("sqrt_newton() terms = %d\n", sqrt_newton_iters());
-        }
-        if (cm == true) {
-            printf("pi_madhava() terms = %d\n", pi_madhava_terms());
-        }
-        if (cv == true) {
-            printf("pi_viete() terms = %d\n", pi_viete_factors());
-        } else if (ce == false && cb == false && cr == false && cn == false && cm == false
-                   && cv == false) {
+        if (ce == false && cb == false && cr == false && cn == false && cm == false
+            && cv == false) {
             printf("SYNOPSIS\n");
             printf("   A test harness for the small numerical library.\n");
 
@@ -139,6 +140,5 @@ int main(int argc, char **argv) { // CITED: Professor Long
             printf("   -h: Display program synopsis and usage.\n");
         }
     }
-
     return 0;
 }
