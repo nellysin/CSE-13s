@@ -41,12 +41,12 @@ int main(int argc, char **argv) { // CITED: Professor Long
         (opt = getopt(argc, argv, OPTIONS)) != -1) { //CITED: Professor Long (while & switch case)
         switch (opt) {
         case 'a': //if selected -a
-            ce = cs = true; // CITE: Eugene showed example in section (booleans)
-            cr = cs = true;
-            cb = cs = true;
-            cm = cs = true;
-            cv = cs = true;
-            cn = cs = true;
+            ce = true; // CITE: Eugene showed example in section (booleans)
+            cr = true;
+            cb = true;
+            cm = true;
+            cv = true;
+            cn = true;
             break;
         case 'e': ce = true; break; //if selected -e
         case 'b': cb = true; break; //if selected -b
