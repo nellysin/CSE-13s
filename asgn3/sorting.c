@@ -17,27 +17,13 @@
 #define PRINT 100
 
 
-typedef enum {INSERTION, HEAP, SHELL, QUICK, NUM_SORTS} Sorts;
-const char *names[] = {"Insertion sort", "Heap sort", "Shell sort", "Quick sort"};
+typedef enum {INSERTION, HEAP, SHELL, QUICK} Sorts;
+const char *names[] = {"Insertion Sort", "Heap Sort", "Shell Sort", "Quick Sort"};
 
 //CITE: Professor Long (referencing previous assignment setup)
 //CITE: Eugene Chou for idea help in section
 
 int main(int argc, char **argv) {
-	/*Stats stats;
-	stats.moves = 0;
-	stats.compares = 0;
-
-	Set s = empty_set();
-	int opt = 0;
-
-	srandom(SEED);
-	uint32_t *A = (uint32_t *)calloc(LENGTH, sizeof(uint32_t));
-        for(uint32_t i = 0; i < PRINT; i += 1){
-                A[i] = random();
-        }*/
-
-	//bool ci = false;
 	Set s = empty_set();
 	
 	int opt = 0;
@@ -60,7 +46,6 @@ int main(int argc, char **argv) {
 		printf("   -p elements     specify number of elements to print (default: 100).\n");
 		printf("   -r seed	   specify random seed (default: 13371453)\n");
 	}
-	//CITE: Professor Long
 	for (int i = 0; i < argc; i += 1) {
 	}
 	while ((opt = getopt(argc, argv, OPTIONS)) != -1){
@@ -84,67 +69,56 @@ int main(int argc, char **argv) {
                 		printf("   -r seed         specify random seed (default: 13371453)\n");
 				break;
 			case 'a':
-				printf("prints all");
+				//s = insert_set(INSERTION, s);
 				break;
 			case 'e':
-				printf("print heap sort");
+				s = insert_set(HEAP, s);
 				break;
 			case 'i':
 				s = insert_set(INSERTION, s);
-			//	ci = true;
 				break;
 			case 's':
-				printf("shell sort");
+				s = insert_set(SHELL, s);
 				break;
 			case 'q':
-				printf("quick sort");
+				s = insert_set(QUICK, s);
 				break;
 			case 'n':
-				printf("number of arrays");
-				// get user input for size of array
+				// this is the length of array
 				break;
 			case 'p':
-				printf("printing arrays");
-				// get user input for elements number, for element array
+				// this is how many to print
 				break;
 			case 'r':
-				printf("set seed");
-				// get the uyser input for seed
+				// set seed
 				break;
 			}
 	}
-        Stats stats;
-        stats.moves = 0;
-        stats.compares = 0;
 
-        //Set s = empty_set();
-
-        srandom(SEED);
-        uint32_t *A = (uint32_t *)calloc(LENGTH, sizeof(uint32_t));
-        for(uint32_t i = 0; i <= PRINT; i += 1){
-                A[i] = random();
-        }
-
-
-	//if(ci)
-	for (Sorts x = INSERTION; x < PRINT; x += 1){
-		if (member_set(x, s)){
-			//	printf("elements = %d\n",  LENGTH);
-                        //	printf("moves = %" PRIu64 "\n", stats.moves);
-                        //	printf("compares = %" PRIu64 "\n", stats.compares);
-			
-			insertion_sort(&stats, A, LENGTH);
-		
-		printf("%" PRIu32, A[x]);
-		if(x+1 != 100){
-			printf(", \n");
-		}
-		}
+	srandom(SEED);
+	uint32_t *A = (uint32_t *)calloc(LENGTH, sizeof(uint32_t));
+	for(uint32_t i = 0; i <= LENGTH; i += 1){
+		A[i] = random();
 	}
 
-	/*printf("elements = %d\n",  LENGTH);
-        printf("moves = %" PRIu64 "\n", stats.moves);
-        printf("compares = %" PRIu64 "\n", stats.compares);
-	*/
+	Stats stats;
+	stats.moves = 0;
+	stats.compares = 0;
+
+	for (Sorts x = INSERTION; x < QUICK; x += 1){
+		if (member_set(x, s)){
+			if(x == 0){
+				insertion_sort(&stats, A, 100);
+				for (uint32_t i = 0; i < 100; i += 1){
+					printf("%" PRIu32, A[i]);
+					if(i+1 != 100){
+						printf(",  \n");
+					}
+				}
+			}
+		}
+		//same with heap, quick, shell
+	}
+	free(A);
 	return 0;
 }
