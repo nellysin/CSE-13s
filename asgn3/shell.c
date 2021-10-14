@@ -28,7 +28,7 @@ void shell_sort(Stats *stats, uint32_t *A, uint32_t n){
 		for(uint32_t i = yield; i <= n; i += yield){
 			uint32_t j = i;
 			uint32_t temp = A[i];
-			while(j >= yield && temp < A[j - yield]){
+			while(j >= yield && cmp(stats,temp, A[j - yield]) < 0){
 				A[j] = move(stats, A[j - yield]);
 				j -= yield;
 			}
