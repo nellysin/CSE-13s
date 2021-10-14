@@ -18,24 +18,24 @@
 /* the value of our assignment: starts big and decreases:
  * 	switch when this is larger 
  * 	yield is the gap -- get a new gap based in the for loop with log*/
+//CITE: Professor Long for Shell sudo code
 
 void shell_sort(Stats *stats, uint32_t *A, uint32_t n){
-	uint32_t k = (log(3 + 2 * n)/ log(3));
-	for(int i = k; i < k; i -= 1) {
-		int gaps = floor((3**i - 1) / 2)
-		for(int gap = 0; gap < gaps; gap += 1){
-			for(int g = i; j >= gap && j <= n){
-				g = i;
-				temp = move(stats,A[i]);
-				while(g >= gap && cmp(stats,temp , A[j - gap]) > 0){
-					A[j] = move(stats, A[j - gap]);
-					j -= gap;
-				}
-				A[j] = temp;
+	uint32_t max_gap = (log(3 + 2 * n)/ log(3));
+	for(uint32_t gap = max_gap; gap > 0 ; gap -= 1){
+		uint32_t yield = floor((pow(3, gap) - 1) / 2);
+//		printf("%" PRIu32, yield);
+		for(uint32_t i = yield; i <= n; i += yield){
+			uint32_t j = i;
+			uint32_t temp = A[i];
+			while(j >= yield && temp < A[j - yield]){
+				A[j] = move(stats, A[j - yield]);
+				j -= yield;
 			}
+			A[j] = move(stats,temp);
 		}
 	}
-	return 0;
+	return;
 }
 
 int main(void){
@@ -46,7 +46,7 @@ int main(void){
         srandom(SEED);
         // Array of 100 uint32_t's
         uint32_t *A = (uint32_t *)calloc(LENGTH, sizeof(uint32_t));
-        for(uint32_t i = 0; i <= LENGTH; i += 1){
+	for(uint32_t i = 0; i <= LENGTH; i += 1){
                 A[i] = random(); //remember to apply bitmask so each number is in 30-bits
         }
 
@@ -56,7 +56,7 @@ int main(void){
         for (uint32_t i = 0; i < 100; i += 1) {
                 printf("%" PRIu32, A[i]);
                 if(i+1 != 100){
-                        printf(", \n");
+                        printf("\n");
                 }
         }
         printf("]\n");
@@ -67,5 +67,7 @@ int main(void){
 
         reset(&stats);
         free(A);
+
+	return 0;
 }
 
