@@ -19,7 +19,7 @@ void insertion_sort(Stats *stats,uint32_t *A, uint32_t n){
 		int j = i; //j takes in whatever i is
 		uint32_t temp = move(stats, A[i]); //store array[i] (element) to temp
 		while(j > 0 && cmp(stats, A[j-1], temp) > 0){	//check if previous is < whatever is in A[j - 1] (previous) 
-			A[j] = move(stats, A[j - 1]);
+			A[j] = move(stats, A[j - 1]); 
 			j -=1; //going all the past elements
 		}
 		A[j] = move(stats, temp); //place whatever temp is to array[j] as an element

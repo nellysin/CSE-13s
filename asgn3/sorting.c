@@ -11,7 +11,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
-#define OPTIONS "[-haeinsqn:p:r] [-n lenth] [-p elements] [-r seed]"
+#define OPTIONS "[-haeinsqn:p:r:] [-n lenth] [-p elements] [-r seed]"
 #define SEED 13371453
 #define LENGTH 100
 #define PRINT 100
@@ -99,24 +99,41 @@ int main(int argc, char **argv) {
 	uint32_t *A = (uint32_t *)calloc(LENGTH, sizeof(uint32_t));
 	for(uint32_t i = 0; i <= LENGTH; i += 1){
 		A[i] = random();
+		// implement a bitmask to fit in 30 bits
 	}
 
 	Stats stats;
 	stats.moves = 0;
-	stats.compares = 0;
+	stats.compares = 0; 
 
-	for (Sorts x = INSERTION; x < QUICK; x += 1){
-		if (member_set(x, s)){
+	for (Sorts x = INSERTION; x <= QUICK; x += 1){
+		if(member_set(x, s)){
 			if(x == 0){
 				insertion_sort(&stats, A, 100);
-				for (uint32_t i = 0; i < 100; i += 1){
-					printf("%" PRIu32, A[i]);
-					if(i+1 != 100){
-						printf(",  \n");
+				printf("%s", names[x]);
+				printf(" %d elements ",  LENGTH);
+        			printf("%" PRIu64 " moves", stats.moves);
+				printf(" %" PRIu64 " compares\n", stats.compares);
+				for (uint32_t i = 0; i < PRINT; i += 1){
+					if(i % 5 == 0 && i != 0){
+                                                printf("\n");
 					}
+					printf("%13" PRIu32, A[i]);
 				}
+				printf("\n");
+				reset(&stats);
+			}
+			if(x == 1){
+				printf("Heap sort\n");
+			}
+			if(x == 2){
+				printf("Shell sort\n");
+			}
+			if(x == 3){
+				printf("Quick sort\n");
 			}
 		}
+			
 		//same with heap, quick, shell
 	}
 	free(A);
