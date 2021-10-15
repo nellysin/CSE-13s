@@ -1,15 +1,8 @@
 #include "shell.h"
-#include "set.h"
-#include "stats.h"
 
 #include <inttypes.h>
-#include <stdio.h>
-#include <stdlib.h>
 #include <math.h>
-
-#define SEED 13371453
-#define LENGTH 100
-#define PRINT 100
+#include <stdio.h>
 
 /* gap is how much between the numbers to compare
  * compare through out
@@ -19,26 +12,29 @@
  * 	switch when this is larger 
  * 	yield is the gap -- get a new gap based in the for loop with log*/
 //CITE: Professor Long for Shell sudo code
+//CITE: Eugene Chou for idea structure during section
 
-void shell_sort(Stats *stats, uint32_t *A, uint32_t n){
-	uint32_t max_gap = (log(3 + 2 * n)/ log(3));
-	for(uint32_t gap = max_gap; gap > 0 ; gap -= 1){
-		uint32_t yield = floor((pow(3, gap) - 1) / 2);
-//		printf("%" PRIu32, yield);
-		for(uint32_t i = yield; i <= n; i += yield){
-			uint32_t j = i;
-			uint32_t temp = A[i];
-			while(j >= yield && cmp(stats,temp, A[j - yield]) < 0){
-				A[j] = move(stats, A[j - yield]);
-				j -= yield;
-			}
-			A[j] = move(stats,temp);
-		}
-	}
-	return;
+void shell_sort(Stats *stats, uint32_t *A, uint32_t n) {
+    uint32_t max_gap = (log(3 + 2 * n) / log(3)); //taking in the max gap first
+    for (uint32_t gap = max_gap; gap > 0;
+         gap -= 1) { //gap takes in max gap and de-increment until it reaches 1
+        uint32_t yield = floor((pow(3, gap) - 1) / 2); // this will be the gap
+        for (uint32_t i = yield; i <= n;
+             i += yield) { // this is setting the gap and iterating through the array (index)
+            uint32_t j = i; //j takes in i for temp
+            uint32_t temp;
+            move(stats, temp = A[i]); // temp takes
+            while (j >= yield && cmp(stats, temp, A[j - yield]) < 0) {
+                move(stats, A[j] = A[j - yield]);
+                j -= yield;
+            }
+            move(stats, A[j] = temp);
+        }
+    }
+    return;
 }
 
-int main(void){
+/*int main(void){
         Stats stats;
         stats.moves= 0;
         stats.compares = 0;
@@ -69,5 +65,4 @@ int main(void){
         free(A);
 
 	return 0;
-}
-
+}*/
