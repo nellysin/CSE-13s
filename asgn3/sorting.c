@@ -12,7 +12,7 @@
 
 #define OPTIONS "haeisqn:p:r:"
 
-typedef enum { INSERTION, SHELL, HEAP, QUICK } Sorts;
+typedef enum { HEAP, SHELL, INSERTION, QUICK } Sorts;
 
 //CITE: Professor Long (referencing previous assignment setup)
 //CITE: Eugene Chou for idea help in section
@@ -24,7 +24,7 @@ int main(int argc, char **argv) {
     uint32_t ELEM = 100;
     uint32_t PR = 100;
 
-    void (*sort[])() = { &insertion_sort, &shell_sort, &heap_sort, &quick_sort };
+    void (*sort[])() = { &heap_sort, &shell_sort, &insertion_sort, &quick_sort };
     const char *names[] = { "Insertion Sort", "Shell Sort", "Heap Sort", "Quick Sort" };
 
     Set s = empty_set();
@@ -126,9 +126,8 @@ int main(int argc, char **argv) {
         // implement a bitmask to fit in 30 bits
     }
 
-    for (Sorts x = INSERTION; x <= QUICK; x += 1) {
+    for (Sorts x = HEAP; x <= QUICK; x += 1) {
         if (member_set(x, s)) {
-            reset(&stats);
             sort[x](&stats, A, ELEM);
             printf("%s", names[x]);
             printf(" %" PRIu32 " elements ", ELEM);

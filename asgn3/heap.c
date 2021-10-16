@@ -50,17 +50,21 @@ uint32_t fix_heap(Stats *stats, uint32_t *A, uint32_t first,
     return 0;
 }
 
-uint32_t build_heap(Stats *stats, uint32_t *A, uint32_t first, uint32_t last) {
-    for (uint32_t father = floor(last / 2); father > (first - 1); father -= 1) {
+uint32_t build_heap(Stats *stats, uint32_t *A, uint32_t first,
+    uint32_t last) { //this is the first helper function heap_sort takes
+    for (uint32_t father = floor(last / 2); father > (first - 1);
+         father -= 1) { //ordering the elements by the largest element
         fix_heap(stats, A, father, last);
     }
     return 0;
 }
 
-void heap_sort(Stats *stats, uint32_t *A, uint32_t n) {
+void heap_sort(Stats *stats, uint32_t *A,
+    uint32_t n) { // this is the main heap_sort where it connects all the helper functions
     uint32_t first = 1;
     build_heap(stats, A, first, n);
-    for (uint32_t leaf = n; leaf > first; leaf -= 1) {
+    for (uint32_t leaf = n; leaf > first;
+         leaf -= 1) { //where the elements swap if they have found the largest (fix_heap)
         swap(stats, &A[first - 1], &A[leaf - 1]);
         fix_heap(stats, A, first, leaf - 1);
     }
