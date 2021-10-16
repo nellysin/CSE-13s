@@ -132,7 +132,7 @@ int main(int argc, char **argv) {
     uint32_t *C = (uint32_t *) malloc(sizeof(uint32_t) * ELEM); //create extra
     for (uint32_t i = 0; i < ELEM; i += 1) {
         A[i] = random() & mask; //the actual array
-        C[i] = random() & mask; //use to memcpy and reset the array
+        C[i] = A[i]; //use to memcpy and reset the array
         // implement a bitmask to fit in 30 bits
     }
 
