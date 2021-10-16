@@ -19,6 +19,7 @@ typedef enum { HEAP, SHELL, INSERTION, QUICK } Sorts;
 // CITE: TA Eugene Chou for idea help in section
 // CITE: TUTOR Brian Mak for helping with valgrind
 // CITE: TA Sloan Liu for the malloc idea
+// CITE: TUTOR Ben for memcpy
 
 int main(int argc, char **argv) {
 
