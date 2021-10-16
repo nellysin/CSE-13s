@@ -24,7 +24,7 @@ int main(int argc, char **argv) {
     uint32_t ELEM = 100;
     uint32_t PR = 100;
 
-    void (*sort[])() = { &insertion_sort, &shell_sort };
+    void (*sort[])() = { &insertion_sort, &shell_sort, &heap_sort, &quick_sort };
     const char *names[] = { "Insertion Sort", "Shell Sort", "Heap Sort", "Quick Sort" };
 
     Set s = empty_set();
@@ -71,7 +71,10 @@ int main(int argc, char **argv) {
             printf("   -r seed         specify random seed (default: 13371453)\n");
             break;
         case 'a':
-            //s = insert_set(INSERTION, s);
+            s = insert_set(HEAP, s);
+            s = insert_set(SHELL, s);
+            s = insert_set(INSERTION, s);
+            s = insert_set(QUICK, s);
             break;
         case 'e': s = insert_set(HEAP, s); break;
         case 'i': s = insert_set(INSERTION, s); break;

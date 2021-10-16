@@ -66,39 +66,3 @@ void heap_sort(Stats *stats, uint32_t *A, uint32_t n) {
     }
     return;
 }
-
-int main(void) {
-    uint32_t SEED = 13371453;
-    uint32_t ELEM = 100;
-    uint32_t PR = 100;
-
-    Stats stats;
-    stats.moves = 0;
-    stats.compares = 0;
-
-    srandom(SEED);
-    uint32_t mask = 0x3fffffff;
-    // Array of 100 uint32_t's
-    uint32_t *A = (uint32_t *) malloc(sizeof(uint32_t) * ELEM);
-    for (uint32_t i = 0; i < ELEM; i += 1) {
-        A[i] = random() & mask; //remember to apply bitmask so each number is in 30-bits
-    }
-
-    heap_sort(&stats, A, ELEM);
-
-    printf(" %" PRIu32 " elements ", ELEM);
-    printf("%" PRIu64 " moves", stats.moves);
-    printf(" %" PRIu64 " compares\n", stats.compares);
-    for (uint32_t i = 0; i < PR && i < ELEM; i += 1) {
-        if (i % 5 == 0 && i != 0) {
-            printf("\n");
-        }
-        printf("%13" PRIu32, A[i]);
-    }
-    printf("\n");
-
-    reset(&stats);
-    free(A);
-
-    return 0;
-}
