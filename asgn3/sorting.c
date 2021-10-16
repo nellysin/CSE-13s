@@ -170,6 +170,7 @@ int main(int argc, char **argv) {
             printf("\n");
         }
     }
+    free(C);
     free(A); //free the array
     return 0;
 }
