@@ -131,8 +131,8 @@ int main(int argc, char **argv) {
     uint32_t *C = (uint32_t *) malloc(sizeof(uint32_t) * ELEM); //create extra
     for (uint32_t i = 0; i < ELEM; i += 1) {
         A[i] = random() & mask; //the actual array
-        C[i] = A[i]; //use to memcpy and reset the array
         // implement a bitmask to fit in 30 bits
+        C[i] = A[i]; // no memcpy but swap
     }
 
     for (Sorts x = HEAP; x <= QUICK;
@@ -140,7 +140,9 @@ int main(int argc, char **argv) {
         if (member_set(x,
                 s)) { //if it is in the member set then call the function that is suppose to be called
             reset(&stats); // reset stats
-            memcpy(A, C, (sizeof(uint32_t) * ELEM)); //reset array
+            for (uint32_t i = 0; i < ELEM; i += 1) {
+                A[i] = C[i];
+            } //reset array
             sort[x](&stats, A,
                 ELEM); //calling the function pointer to the correct sort function
             printf("%s,", names[x]);
@@ -168,7 +170,6 @@ int main(int argc, char **argv) {
             printf("\n");
         }
     }
-    free(C); //free the reset array
     free(A); //free the array
     return 0;
 }
