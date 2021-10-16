@@ -17,14 +17,23 @@ typedef enum { HEAP, SHELL, INSERTION, QUICK } Sorts;
 
 // CITE: Professor Long (referencing previous assignment setup)
 // CITE: TA Eugene Chou for idea help in section
-// CITE: TUTOR Brian Mak for helping with valgrind
+// CITE: TUTOR Brian Mak for helping with valgrind & understanding resetting array each time using a function
 // CITE: TA Sloan Liu for the malloc idea
 
-int main(int argc, char **argv) {
+static uint32_t SEED = 13371453; //set default
+static uint32_t ELEM = 100;
+static uint32_t PR = 100;
 
-    uint32_t SEED = 13371453; // set default seed, size of array, and length to print
-    uint32_t ELEM = 100;
-    uint32_t PR = 100;
+void resetting(uint32_t *A, uint32_t SEED, uint32_t ELEM) { // helper function for resetting stats
+    uint32_t mask = 0x03FFFFFFF; // bitmask to fit in 30 bits
+    srandom(SEED); //random seed
+    for (uint32_t i = 0; i < ELEM; i += 1) { //for loop for creating the array
+        A[i] = random() & mask;
+    }
+    return;
+}
+
+int main(int argc, char **argv) {
 
     void (*sort[])() = { &heap_sort, &shell_sort, &insertion_sort,
         &quick_sort }; //function pointer to all sorting functions
@@ -123,26 +132,18 @@ int main(int argc, char **argv) {
     stats.moves = 0;
     stats.compares = 0;
 
-    uint32_t mask = 0x03FFFFFFF; // bitmask to fit in 30 bits
+    //uint32_t mask = 0x03FFFFFFF; // bitmask to fit in 30 bits
 
-    srandom(SEED);
     uint32_t *A
         = (uint32_t *) malloc(sizeof(uint32_t) * ELEM); //create an array with random elements
-    uint32_t *C = (uint32_t *) malloc(sizeof(uint32_t) * ELEM); //create extra
-    for (uint32_t i = 0; i < ELEM; i += 1) {
-        A[i] = random() & mask; //the actual array
-        // implement a bitmask to fit in 30 bits
-        C[i] = A[i]; // no memcpy but swap
-    }
 
     for (Sorts x = HEAP; x <= QUICK;
          x += 1) { //this is where the elements are called w/ the member_set
+        reset(&stats); // reset stats
+        resetting(A, SEED, ELEM); // resetting array
         if (member_set(x,
                 s)) { //if it is in the member set then call the function that is suppose to be called
             reset(&stats); // reset stats
-            for (uint32_t i = 0; i < ELEM; i += 1) {
-                A[i] = C[i];
-            } //reset array
             sort[x](&stats, A,
                 ELEM); //calling the function pointer to the correct sort function
             printf("%s,", names[x]);
@@ -170,7 +171,6 @@ int main(int argc, char **argv) {
             printf("\n");
         }
     }
-    free(C);
     free(A); //free the array
     return 0;
 }

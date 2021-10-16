@@ -51,3 +51,4 @@ $./sorting [-haeisqn:p:r:] [-n length] [-p elements] [-r seed]
 ## Bugs
 
 In the shell.c (shell sorting), the moves and compares are different from the resouces shell sort.
+(Went to a couple office hours and unable to find a solution)
