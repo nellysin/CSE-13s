@@ -1,7 +1,6 @@
 #include "insert.h"
 
 #include <stdio.h>
-#include <stdio.h>
 
 //CITED: Professor Long for insertion sort sudo code
 //CITED: Eugene Chou

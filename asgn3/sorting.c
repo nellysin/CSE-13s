@@ -19,12 +19,12 @@ typedef enum { INSERTION, SHELL, HEAP, QUICK } Sorts;
 // CITE: Brian Mak for helping with valgrind
 
 int main(int argc, char **argv) {
-    
+
     uint32_t SEED = 13371453;
     uint32_t ELEM = 100;
     uint32_t PR = 100;
 
-    void (*sort[])() = { &insertion_sort, &shell_sort};
+    void (*sort[])() = { &insertion_sort, &shell_sort };
     const char *names[] = { "Insertion Sort", "Shell Sort", "Heap Sort", "Quick Sort" };
 
     Set s = empty_set();
@@ -77,20 +77,20 @@ int main(int argc, char **argv) {
         case 'i': s = insert_set(INSERTION, s); break;
         case 's': s = insert_set(SHELL, s); break;
         case 'q': s = insert_set(QUICK, s); break;
-        case 'n':   
-	ELEM = strtoul(optarg, NULL, 10);
+        case 'n':
+            ELEM = strtoul(optarg, NULL, 10);
             // this is the length of array
             break;
         case 'p':
             PR = strtoul(optarg, NULL, 10);
-	    // this is how many to print
+            // this is how many to print
             break;
         case 'r':
             SEED = strtoul(optarg, NULL, 10);
             // set seed
             break;
-        default: 
-	    printf("SYNOPSIS\n");
+        default:
+            printf("SYNOPSIS\n");
             printf("   A collection of comparison-based sorting algorithms.\n");
 
             printf("\nUSAGE\n");
@@ -106,7 +106,7 @@ int main(int argc, char **argv) {
             printf("   -n length       specify number of array elements (default: 100).\n");
             printf("   -p elements     specify number of elements to print (default: 100).\n");
             printf("   -r seed         specify random seed (default: 13371453)\n");
-            break;
+            exit(1);
         }
     }
 
@@ -123,30 +123,30 @@ int main(int argc, char **argv) {
         // implement a bitmask to fit in 30 bits
     }
 
-    for(Sorts x = INSERTION; x <= QUICK; x += 1) {
-	    if (member_set(x, s)){
+    for (Sorts x = INSERTION; x <= QUICK; x += 1) {
+        if (member_set(x, s)) {
             reset(&stats);
-	    sort[x](&stats, A, ELEM);
-	    printf("%s", names[x]);
+            sort[x](&stats, A, ELEM);
+            printf("%s", names[x]);
             printf(" %" PRIu32 " elements ", ELEM);
             printf("%" PRIu64 " moves", stats.moves);
             printf(" %" PRIu64 " compares\n", stats.compares);
-            if(PR > ELEM){
-	        for (uint32_t i = 0; i < ELEM; i += 1) {
-                	if (i % 5 == 0 && i != 0) {
-                    	printf("\n");
-                	}
-                	printf("%13" PRIu32, A[i]);
-		}
-	    }
-	    if(ELEM >= PR){
-	    	for (uint32_t i = 0; i < PR; i += 1) {
-                        if (i % 5 == 0 && i != 0) {
+            if (PR > ELEM) {
+                for (uint32_t i = 0; i < ELEM; i += 1) {
+                    if (i % 5 == 0 && i != 0) {
                         printf("\n");
-                        }
-                        printf("%13" PRIu32, A[i]);
+                    }
+                    printf("%13" PRIu32, A[i]);
                 }
-	    }
+            }
+            if (ELEM >= PR) {
+                for (uint32_t i = 0; i < PR; i += 1) {
+                    if (i % 5 == 0 && i != 0) {
+                        printf("\n");
+                    }
+                    printf("%13" PRIu32, A[i]);
+                }
+            }
             printf("\n");
         }
     }

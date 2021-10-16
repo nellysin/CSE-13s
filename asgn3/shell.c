@@ -17,18 +17,21 @@
 
 void shell_sort(Stats *stats, uint32_t *A, uint32_t n) {
     uint32_t max_gap = (log(3 + 2 * n) / log(3)); //taking in the max gap first
-    for (uint32_t gap = max_gap; gap > 0; gap -= 1) { //gap takes in max gap and de-increment until it reaches 1
-	    uint32_t yield = floor((pow(3, gap) - 1) / 2); // this will be the gap
-        for (uint32_t i = yield; i < n; i += yield) { // this is setting the gap and iterating through the array (index)
+    for (uint32_t gap = max_gap; gap > 0;
+         gap -= 1) { //gap takes in max gap and de-increment until it reaches 1
+        uint32_t yield = floor((pow(3, gap) - 1) / 2); // this will be the gap
+        for (uint32_t i = yield; i < n;
+             i += yield) { // this is setting the gap and iterating through the array (index)
             uint32_t j = i; //j takes in i for temp
             uint32_t temp = move(stats, A[i]); // temp takes
-            while (j > 0 && cmp(stats, temp, A[j - yield]) < 0) { // while loop to check if the element is larger than the other
+            while (j > 0
+                   && cmp(stats, temp, A[j - yield])
+                          < 0) { // while loop to check if the element is larger than the other
                 A[j] = move(stats, A[j - yield]);
                 j -= yield;
             }
             A[j] = move(stats, temp);
         }
-	
     }
     return;
 }
