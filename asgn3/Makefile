@@ -19,7 +19,7 @@ heap: heap.o stats.o
 quick: quick.o stats.o
 	$(CC) -o quick quick.o stats.o $(LFLAGS)
 
-sorting.o: sorting.c set.h 
+sorting.o: sorting.c set.h stats.h
 	$(CC) $(CFLAGS) -c sorting.c
 
 insert.o: insert.c set.h insert.h
