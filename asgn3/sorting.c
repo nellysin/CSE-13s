@@ -149,9 +149,10 @@ int main(int argc, char **argv) {
             printf("%s,", names[x]);
             printf(" %" PRIu32 " elements ", ELEM);
             printf("%" PRIu64 " moves", stats.moves);
-            printf(" %" PRIu64 " compares\n", stats.compares);
+            printf(" %" PRIu64 " compares", stats.compares);
             if (PR
                 > ELEM) { //if print size is greater than element size then print how many elements
+                printf("\n");
                 for (uint32_t i = 0; i < ELEM; i += 1) {
                     if (i % 5 == 0 && i != 0) { //creating a column of 5
                         printf("\n");
@@ -161,6 +162,7 @@ int main(int argc, char **argv) {
             }
             if (ELEM
                 >= PR) { //if elements are equal or greater than print then print how many elements
+                printf("\n");
                 for (uint32_t i = 0; i < PR; i += 1) {
                     if (i % 5 == 0 && i != 0) {
                         printf("\n");
@@ -168,7 +170,6 @@ int main(int argc, char **argv) {
                     printf("%13" PRIu32, A[i]);
                 }
             }
-            printf("\n");
         }
     }
     free(A); //free the array
