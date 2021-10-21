@@ -31,12 +31,12 @@ void graph_delete(Graph **G){
 
 uint32_t graph_vertices(Graph *G){
 	//returns the number of vertices
-	return G-> vertices
+	return G-> vertices;
 }
 
 bool graph_add_edge(Graph *G, uint32_t i, uint32_t j, uint32_t k){
 	// messes with the matrix (i = start, j = dst, k = weight (distance))
-	if(undirected){
+	if(G-> undirected){
 		G-> matrix[j][i] = k;
 		G-> matrix[i][j] = k;
 	}else{
@@ -52,7 +52,7 @@ bool graph_has_edge(Graph *G, uint32_t i, uint32_t j){
 	}	
 }
 
-bool graph_visited(Graph *G, uint_t v){
+bool graph_visited(Graph *G, uint32_t v){
 	if(v < G-> vertices){
 		return true;
 	}else{
@@ -61,20 +61,22 @@ bool graph_visited(Graph *G, uint_t v){
 }
 
 void graph_mark_visited(Graph *G, uint32_t v){
-	v = graph_visited;
+	if(v < G-> vertices){
+		return;
+	}
 }
 
 void graph_mark_unvisited(Graph *G, uint32_t v){
-	v = graph_visited;
+	if(v < G-> vertices){
+		return;
+	}
 }
 
 void graph_print(Graph *G){
-	for(uint32_t i = 0; i < vertices; i += 1){
-		for(uint32_t j = 0; j < vertices; j += 1){
-			printf("%" PRIu32,G-> matrix[i][j]);
+	for(uint32_t i = 0; i < G-> vertices; i += 1){
+		for(uint32_t j = 0; j < G-> vertices; j += 1){
+			printf("%u", G-> matrix[i][j]);
 			printf("\n");
 		}
 	}
 }
-
-
