@@ -73,7 +73,7 @@ uint32_t graph_edge_weight(Graph *G, uint32_t i, uint32_t j){
 }
 
 bool graph_visited(Graph *G, uint32_t v){
-	if(v == G-> vertices){
+	if(visited[v]){
 		return true;
 	}else{
 		return false;
@@ -81,15 +81,13 @@ bool graph_visited(Graph *G, uint32_t v){
 }
 
 void graph_mark_visited(Graph *G, uint32_t v){
-	if(v < G-> vertices){
-		return;
-	}
+	G-> visited[v] = true;
+	return;
 }
 
 void graph_mark_unvisited(Graph *G, uint32_t v){
-	if(v < G-> vertices){
-		return;
-	}
+	G-> visited[v] = false;
+	return;
 }
 
 /*void graph_print(Graph *G){
