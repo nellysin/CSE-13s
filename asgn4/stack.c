@@ -64,7 +64,7 @@ bool stack_push(Stack *s, uint32_t x){
 	if(s-> == s-> capacity){
 		return false;
 	}else{
-		s-> items[s-> x]
+		s-> items[s-> top] = x
 		s-> top += 1;
 		return true;
 	}
@@ -117,9 +117,4 @@ void stack_print(Stack*s, FILE *outfile, char *cities[]){
 	}
 	printf(outfile, "\n");
 }
-
-
-
-
-
 
