@@ -7,7 +7,6 @@
 
 //CITE: Professor Long
 //CITE: TA Eugene
-//(*G).vertices
 
 struct Stack {
 	uint32_t top;
@@ -87,14 +86,22 @@ bool stack_peek(Stack *s, uint32_t *x){
 		return false;
 	}else{
 		*x = (*s).items[((*s).top) -1];
-		(*s).top += 1;
 		return true;
 	}
 }
 
-/*bool stack_copy(Stack *dst, Stack *src){
+void stack_copy(Stack *dst, Stack *src){
 	//Taking the src and copy to the destination -- it keeps track of the paths
 	//to find the shortest path
+	//Stack *src = (Stack *) malloc(sizeof(Stack));
+	for(uint32_t i = 0; i < (*s).top; i+= 1){
+		(*src).items[((*src).top)] = (*s).items[(*s).top]
+			for(uint32_t j = 0; j < (*src).top; j += 1){
+				(*dst).items[(*src).top] = (*src).items[((*src).top)];
+			}
+	}
+	return;
+
 }
 
 void stack_print(Stack*s, FILE *outfile, char *cities[]){
@@ -106,5 +113,5 @@ void stack_print(Stack*s, FILE *outfile, char *cities[]){
 		}
 	}
 	printf(outfile, "\n");
-}*/
+}
 
