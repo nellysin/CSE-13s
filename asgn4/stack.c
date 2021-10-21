@@ -8,7 +8,7 @@
 
 //CITE: Professor Long
 //CITE: TA Eugene
-
+//(*G).vertices
 struct Stack {
 	uint32_t top;
 	uint32_t capacity;
@@ -18,9 +18,9 @@ struct Stack {
 Stack *stack_create(uint32_t capacity) {
 	Stack *s = (Stack *) malloc(sizeof(Stack));
 	if (s){
-		s-> top = 0; //intialize top to 0
-		s-> capacity = capacity; //set to a specified capacity
-		s-> items = (uint32_t *) calloc(capacity, sizeof(uint32_t));//indicates the num of items to allocate memory
+		(*s).top = 0; //intialize top to 0
+		(*s).capacity = capacity; //set to a specified capacity
+		(*s).items = (uint32_t *) calloc(capacity, sizeof(uint32_t));//indicates the num of items to allocate memory
 		if(!s-> items){
 			free(s);
 			s = NULL;
@@ -31,7 +31,7 @@ Stack *stack_create(uint32_t capacity) {
 
 void stack_delete(Stack **s){
 	if(*s && (*s)-> items){
-		free((*s) -> items);
+		free((*s)-> items);
 		free(*s);
 		*s = NULL;
 	}
@@ -39,7 +39,7 @@ void stack_delete(Stack **s){
 }
 
 bool stack_empty(Stack *s){
-	if(s-> top == 0){
+	if((*s).top == 0){
 		return true;
 	}else{
 		return false;
@@ -47,7 +47,7 @@ bool stack_empty(Stack *s){
 }
 
 bool stack_full(Stack *s){
-	if(s-> top == s-> capacity){
+	if((*s).top < (*s).capacity){
 		return true;
 	}else{
 		return false;
@@ -56,16 +56,16 @@ bool stack_full(Stack *s){
 
 uint32_t stack_size(Stack *s){
 	// how many elements are in there -- see top
-	return s-> top;	
+	return (*s).top-1;	
 }
 
 bool stack_push(Stack *s, uint32_t x){
 	//returns the success of pushing *s to x
-	if(s-> == s-> capacity){
+	if((*s).top < (*s).capacity){
 		return false;
 	}else{
-		s-> items[s-> top] = x
-		s-> top += 1;
+		(*s).items[(*s).top] = x
+		(*s).top += 1;
 		return true;
 	}
 
@@ -73,21 +73,22 @@ bool stack_push(Stack *s, uint32_t x){
 
 bool stack_pop(Stack *s, uint32_t *x){
 	//returns the success of popping *s to x
-	if(s-> top == 0){
+	if((*s).top == 0){
 		return false;
 	}else{
-		*x = s-> items[s-> top];
-		s-> top -= 1;
+		(*s).top -= 1;
+		*x = s-> items[(*s).top];
 		return true;
 	}
 }
 
 bool stack_peek(Stack *s, uint32_t *x){
 	//similar to stack pop (returning the success) but it does not remove it from stack
-	if(s-> top == 0){
+	if((*s).top == 0){
 		return false;
 	}else{
-		x* = s-> items[s-> top];
+		x* = (*s).items[((*s).top) -1];
+		(*s).top += 1;
 		return true;
 	}
 }
@@ -96,8 +97,8 @@ bool stack_copy(Stack *dst, Stack *src){
 	//Taking the src and copy to the destination -- it keeps track of the paths
 	//to find the shortest path
 	if(dst == src){
-		src-> items = (uint32_t *)calloc(s-> capacity, sizeof(uint32_t));
-		dst-> items = (uint32_t *)calloc(s-> capacity, sizeof(uint32_t));
+		(*src).items = (uint32_t *)calloc((*s).capacity, sizeof(uint32_t));
+		(*dst).items = (uint32_t *)calloc((*s).capacity, sizeof(uint32_t));
 		if(!dst-> items){
 			free(dst);
 			free(src);
