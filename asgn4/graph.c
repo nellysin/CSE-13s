@@ -73,7 +73,7 @@ uint32_t graph_edge_weight(Graph *G, uint32_t i, uint32_t j){
 }
 
 bool graph_visited(Graph *G, uint32_t v){
-	if(visited[v]){
+	if(G-> visited[v] == 1){
 		return true;
 	}else{
 		return false;
