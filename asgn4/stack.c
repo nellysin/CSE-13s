@@ -61,21 +61,35 @@ uint32_t stack_size(Stack *s){
 
 bool stack_push(Stack *s, uint32_t x){
 	//returns the success of pushing *s to x
-	s-> top = s-> items[s-> x] 
-	return true;
+	if(s-> == s-> capacity){
+		return false;
+	}else{
+		s-> items[s-> x]
+		s-> top += 1;
+		return true;
+	}
 
 }
 
 bool stack_pop(Stack *s, uint32_t *x){
 	//returns the success of popping *s to x
-	*x = s-> items[s-> top];
-	return true;
+	if(s-> top == 0){
+		return false;
+	}else{
+		*x = s-> items[s-> top];
+		s-> top -= 1;
+		return true;
+	}
 }
 
 bool stack_peek(Stack *s, uint32_t *x){
 	//similar to stack pop (returning the success) but it does not remove it from stack
-	s-> items[s-> top];
-	return true;
+	if(s-> top == 0){
+		return false;
+	}else{
+		x* = s-> items[s-> top];
+		return true;
+	}
 }
 
 bool stack_copy(Stack *dst, Stack *src){
