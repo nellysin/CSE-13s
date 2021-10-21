@@ -14,16 +14,12 @@ struct Graph {
 	bool undirected;
 	bool visited [VERTICES];
 	uint32_t matrix [VERTICES][VERTICES];
-	uint32_t i;
-	uint32_t j;
-	uint32_t k;
 };
 
 Graph *graph_create(uint32_t vertices, bool undirected){
 	Graph *G = (Graph *)calloc(1, sizeof(Graph));
 	G-> vertices = vertices;
 	G-> undirected = undirected;
-	G-> matrix[i][j] = k;
 	return G;
 }
 
@@ -34,34 +30,51 @@ void graph_delete(Graph **G){
 }
 
 uint32_t graph_vertices(Graph *G){
-	for(uint32_t vertices = 0; vertices < VERTICES; vertices += 1){
-		G[vertices];
-	}
-	return vertices
+	//returns the number of vertices
+	return G-> vertices
 }
 
 bool graph_add_edge(Graph *G, uint32_t i, uint32_t j, uint32_t k){
+	// messes with the matrix (i = start, j = dst, k = weight (distance))
 	if(undirected){
-		i-> j;
-		j-> i;
-		k;
+		G-> matrix[j][i] = k;
+		G-> matrix[i][j] = k;
+	}else{
+		G-> matrix[i][j] = k;
 	}
 }
 
 bool graph_has_edge(Graph *G, uint32_t i, uint32_t j){
+	if(i < G-> vertices && j < G-> vertices){
+	       return true;
+	}else{
+		return false;
+	}	
 }
 
 bool graph_visited(Graph *G, uint_t v){
+	if(v < G-> vertices){
+		return true;
+	}else{
+		return false;
+	}
 }
 
 void graph_mark_visited(Graph *G, uint32_t v){
+	v = graph_visited;
 }
 
 void graph_mark_unvisited(Graph *G, uint32_t v){
+	v = graph_visited;
 }
 
 void graph_print(Graph *G){
-
+	for(uint32_t i = 0; i < vertices; i += 1){
+		for(uint32_t j = 0; j < vertices; j += 1){
+			printf("%" PRIu32,G-> matrix[i][j]);
+			printf("\n");
+		}
+	}
 }
 
 
