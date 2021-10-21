@@ -1,5 +1,4 @@
-#include "graph.h"
-#include "vertices.h"
+#include "stack.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -9,6 +8,7 @@
 //CITE: Professor Long
 //CITE: TA Eugene
 //(*G).vertices
+
 struct Stack {
 	uint32_t top;
 	uint32_t capacity;
@@ -17,10 +17,9 @@ struct Stack {
 
 Stack *stack_create(uint32_t capacity) {
 	Stack *s = (Stack *) malloc(sizeof(Stack));
-	if (s){
-		(*s).top = 0; //intialize top to 0
-		(*s).capacity = capacity; //set to a specified capacity
-		(*s).items = (uint32_t *) calloc(capacity, sizeof(uint32_t));//indicates the num of items to allocate memory
+	if(s){
+		s-> top = 0; //intialize top to 0
+		s-> items = (uint32_t *) calloc(capacity, sizeof(uint32_t));//indicates the num of items to allocate memory
 		if(!s-> items){
 			free(s);
 			s = NULL;
@@ -38,8 +37,13 @@ void stack_delete(Stack **s){
 	return;
 }
 
+uint32_t stack_size(Stack *s){
+        // how many elements are in there -- see top
+        return (*s).top;
+}
+
 bool stack_empty(Stack *s){
-	if((*s).top == 0){
+	if( (*s).top == 0){
 		return true;
 	}else{
 		return false;
@@ -47,16 +51,11 @@ bool stack_empty(Stack *s){
 }
 
 bool stack_full(Stack *s){
-	if((*s).top < (*s).capacity){
+	if(((*s).top) < ((*s).capacity)){
 		return true;
 	}else{
 		return false;
 	}
-}
-
-uint32_t stack_size(Stack *s){
-	// how many elements are in there -- see top
-	return (*s).top-1;	
 }
 
 bool stack_push(Stack *s, uint32_t x){
@@ -64,7 +63,7 @@ bool stack_push(Stack *s, uint32_t x){
 	if((*s).top < (*s).capacity){
 		return false;
 	}else{
-		(*s).items[(*s).top] = x
+		(*s).items[(*s).top] = x;
 		(*s).top += 1;
 		return true;
 	}
@@ -77,7 +76,7 @@ bool stack_pop(Stack *s, uint32_t *x){
 		return false;
 	}else{
 		(*s).top -= 1;
-		*x = s-> items[(*s).top];
+		*x = (*s).items[(*s).top];
 		return true;
 	}
 }
@@ -87,25 +86,15 @@ bool stack_peek(Stack *s, uint32_t *x){
 	if((*s).top == 0){
 		return false;
 	}else{
-		x* = (*s).items[((*s).top) -1];
+		*x = (*s).items[((*s).top) -1];
 		(*s).top += 1;
 		return true;
 	}
 }
 
-bool stack_copy(Stack *dst, Stack *src){
+/*bool stack_copy(Stack *dst, Stack *src){
 	//Taking the src and copy to the destination -- it keeps track of the paths
 	//to find the shortest path
-	if(dst == src){
-		(*src).items = (uint32_t *)calloc((*s).capacity, sizeof(uint32_t));
-		(*dst).items = (uint32_t *)calloc((*s).capacity, sizeof(uint32_t));
-		if(!dst-> items){
-			free(dst);
-			free(src);
-			src = NULL;
-			dst = NULL;
-		}
-	}
 }
 
 void stack_print(Stack*s, FILE *outfile, char *cities[]){
@@ -117,5 +106,5 @@ void stack_print(Stack*s, FILE *outfile, char *cities[]){
 		}
 	}
 	printf(outfile, "\n");
-}
+}*/
 
