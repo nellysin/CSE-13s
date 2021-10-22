@@ -50,16 +50,16 @@ bool stack_empty(Stack *s){
 }
 
 bool stack_full(Stack *s){
-	if((*s).top < (*s).capacity){
-		return true;
-	}else{
+	if((*s).top > (*s).capacity){
 		return false;
+	}else{
+		return true;
 	}
 }
 
 bool stack_push(Stack *s, uint32_t x){
 	//returns the success of pushing *s to x
-	if((*s).top < (*s).capacity){
+	if((*s).top > (*s).capacity){
 		return false;
 	}else{
 		(*s).items[(*s).top] = x;
