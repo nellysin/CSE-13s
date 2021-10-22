@@ -1,15 +1,18 @@
 #include "path.h"
 #include "stack.h"
 #include "vertices.h"
+#include "graph.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include <stdint.h>
+#include <inttypes.h>
 
 //CITE: Professor Long
 //CITE: TA Eugene
-static int length = 0
+
+static uint32_t length;
 
 struct Path {
 	Stack *vertices;
@@ -40,9 +43,10 @@ bool path_push_vertex(Path *p, uint32_t v, Graph *G){
 	//questions:
 	//b/c we need to call stack_full
 	//what are the parameters for stack_full? -- would if be just *p?
-	if(stack_full(*p) == 0){
-		(*p).vertices[(*p).top] = v;
-		(*p).length += graph_edge_weight(Graph *G, v, stack_peek(*p, v)); //use peek to access the weight of the stack 
+	if(stack_full((*p).vertices) == 0){
+		uint32_t peekpush = stack_peek((*p).vertices, &v);
+		stack_push((*p).vertices, v);
+		(*p).length += graph_edge_weight(Graph *G, v, peekpush); //use peek to access the weight of the stack 
 		return true;
 	}else{
 		return false;
@@ -53,9 +57,10 @@ bool path_push_vertex(Path *p, uint32_t v, Graph *G){
 }
 
 bool path_pop_vertex(Path *p, uint32_t *v, Graph *G){
-	if(stack_empty(*p) == 0){
-		(*p)vertices[(*p).top] = v;
-		(*p).length -= graph_edge_weight(Graph *G, v, stack_peek(*p, v)); //stack_peek(Stack *s, uint32_t *x)
+	if(stack_empty((*p).vertices) == 0){
+		uint32_t peekpop = stack_peek((*p).vertices, v);
+		stack_pop((*p).vertices, v);
+		(*p).length -= graph_edge_weight(Graph *G, v, peekpop); //stack_peek(Stack *s, uint32_t *x)
 		return true;
 	}else{
 		return false;
@@ -63,7 +68,7 @@ bool path_pop_vertex(Path *p, uint32_t *v, Graph *G){
 }
 
 uint32_t path_vertices(Path *p){
-	return (*p).vertices;
+	return stack_size((*p).vertices);
 }
 
 uint32_t path_length(Path *p){
@@ -72,19 +77,20 @@ uint32_t path_length(Path *p){
 
 void path_copy(Path *dst, Path *src){
 	//copy(shortest path, current path)
-	//wouldn't this be the same as stack copy?
-	for(uint32_t i = 0; i < i(*p).top; i+= 1){
-		(*src).items[((*src).top)] = (*p).items[(*s).top]
-                for(uint32_t j = 0; j < (*src).top; j += 1){
-			(*dst).items[(*src).top] = (*src).items[((*src).top)];
-                }
-        }
+	//same as stack copy
+	stack_copy((*dst).vertices, (*src).vertices);
         return;
 	
 }
 
 void path_print(Path *p, FILE *outfile, char *cities[]){
-	fprintf(stack_print(*p, *outfile, *cities[]));
+	for(uint32_t i = 0; i < path_vertices(p); i += 1){
+                printf(outfile, "%s", cities[p-> vertices[i]]);
+                if(i + 1 != p-> top){
+                        printf(outfile, " -> ");
+                }
+        }
+        printf(outfile, "\n");
 }
 
 
