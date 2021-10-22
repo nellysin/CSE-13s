@@ -69,7 +69,7 @@ bool graph_has_edge(Graph *G, uint32_t i, uint32_t j){
 
 uint32_t graph_edge_weight(Graph *G, uint32_t i, uint32_t j){
         uint32_t k = G-> matrix[i][j];
-	if(i < G-> vertices || j < G-> vertices){
+	if(i < G-> vertices && j < G-> vertices && k > 0){
                 return k;
         }else{
                 return 0;
@@ -93,12 +93,3 @@ void graph_mark_unvisited(Graph *G, uint32_t v){
 	G-> visited[v] = false;
 	return;
 }
-
-/*void graph_print(Graph *G){
-	for(uint32_t i = 0; i < G-> vertices; i += 1){
-		for(uint32_t j = 0; j < G-> vertices; j += 1){
-			printf("%u", G-> matrix[i][j]);
-			printf("\n");
-		}
-	}
-}*/
