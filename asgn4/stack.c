@@ -96,9 +96,10 @@ void stack_copy(Stack *dst, Stack *src){
 	//Stack *src = (Stack *) malloc(sizeof(Stack));
 	for(uint32_t i = 0; i <= stack_size(src); i+= 1){
 		dst->items[i] = src-> items[i];
+		dst-> top = src-> top;
 	}
 	dst-> items = src-> items;
-	(*dst).top = (*src).top;
+	//(*dst).top = (*src).top;
 	return;
 
 }
