@@ -9,6 +9,7 @@
 
 //CITE: Professor Long
 //CITE: TA Eugene
+static int length = 0
 
 struct Path {
 	Stack *vertices;
@@ -20,7 +21,7 @@ Path *path_create(void){
 	//set vertices as a freshly created stack (holding up to VERTICES)
 	//initialize length to be 0
 	Path *p = (Path *)malloc(sizeof(Path));
-	(*p).vertices = stack_create(VERTICES)
+	(*p).vertices = stack_create(VERTICES);
 	(*p).length = 0; //initialize length to 0
 
 	return p;
@@ -41,7 +42,7 @@ bool path_push_vertex(Path *p, uint32_t v, Graph *G){
 	//what are the parameters for stack_full? -- would if be just *p?
 	if(stack_full(*p) == 0){
 		(*p).vertices[(*p).top] = v;
-		(*p).length += graph_edge_weight(Graph *G, v, vertices[((*p).top)-1]);
+		(*p).length += graph_edge_weight(Graph *G, v, stack_peek(*p, v)); //use peek to access the weight of the stack 
 		return true;
 	}else{
 		return false;
@@ -54,7 +55,7 @@ bool path_push_vertex(Path *p, uint32_t v, Graph *G){
 bool path_pop_vertex(Path *p, uint32_t *v, Graph *G){
 	if(stack_empty(*p) == 0){
 		(*p)vertices[(*p).top] = v;
-		(*p).length -= graph_edge_weight(Graph *G, v, vertices[((*p).top)-1]); //stack_peek(Stack *s, uint32_t *x)
+		(*p).length -= graph_edge_weight(Graph *G, v, stack_peek(*p, v)); //stack_peek(Stack *s, uint32_t *x)
 		return true;
 	}else{
 		return false;
@@ -70,24 +71,20 @@ uint32_t path_length(Path *p){
 }
 
 void path_copy(Path *dst, Path *src){
-
 	//copy(shortest path, current path)
 	//wouldn't this be the same as stack copy?
-	for(uint32_t i = 0; i < (*p).vertices; i += 1){
-		(*dst).vertices[((*dst).top)] = (*p).vertices[(*p).top];
-	}
-	/*        for(uint32_t i = 0; i < (*s).top; i+= 1){
-                (*src).items[((*src).top)] = (*s).items[(*s).top]
-                        for(uint32_t j = 0; j < (*src).top; j += 1){
-                                (*dst).items[(*src).top] = (*src).items[((*src).top)];
-                        }
+	for(uint32_t i = 0; i < i(*p).top; i+= 1){
+		(*src).items[((*src).top)] = (*p).items[(*s).top]
+                for(uint32_t j = 0; j < (*src).top; j += 1){
+			(*dst).items[(*src).top] = (*src).items[((*src).top)];
+                }
         }
         return;
-
-}*/
-
+	
 }
 
 void path_print(Path *p, FILE *outfile, char *cities[]){
 	fprintf(stack_print(*p, *outfile, *cities[]));
 }
+
+
