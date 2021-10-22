@@ -12,14 +12,11 @@
 //CITE: Professor Long
 //CITE: TA Eugene
 
-static uint32_t length;
-
 struct Path {
 	Stack *vertices;
 	uint32_t length;
 };
 
-static uint32_t length;
 Path *path_create(void){
 	//set vertices as a freshly created stack (holding up to VERTICES)
 	//initialize length to be 0
@@ -41,8 +38,6 @@ bool path_push_vertex(Path *p, uint32_t v, Graph *G){
 	//length of path increases by weight
 	//return true when successful
 	//questions:
-	//b/c we need to call stack_full
-	//what are the parameters for stack_full? -- would if be just *p?
 	if(stack_full((*p).vertices) == 0){
 		uint32_t peekpush = stack_peek((*p).vertices,&v);
 		stack_push((*p).vertices, v);
@@ -51,9 +46,6 @@ bool path_push_vertex(Path *p, uint32_t v, Graph *G){
 	}else{
 		return false;
 	}
-	//how do we add weight?
-	//b/c graph_edge_weight have 3 paramters: how do we get i and j to fill the parameters? 
-	//how would v be pushed to the path if top isn't identified here?
 }
 
 bool path_pop_vertex(Path *p, uint32_t *v, Graph *G){
@@ -78,19 +70,15 @@ uint32_t path_length(Path *p){
 void path_copy(Path *dst, Path *src){
 	//copy(shortest path, current path)
 	//same as stack copy
-	stack_copy((*dst).vertices, (*src).vertices);
-        return;
+	stack_copy(dst-> vertices, src-> vertices);
+        dst-> length = src-> length;
+	return;
 	
 }
 
 void path_print(Path *p, FILE *outfile, char *cities[]){
-	for(uint32_t i = 0; i < path_vertices(p); i += 1){
-                fprintf(outfile, "%s", cities[(*p).vertices[i]]);
-                if(i + 1 != path_vertices(p)){
-                        fprintf(outfile, " -> ");
-                }
-        }
-        fprintf(outfile, "\n");
+	stack_print(p-> vertices, outfile, cities);
+	return;
 }
 
 
