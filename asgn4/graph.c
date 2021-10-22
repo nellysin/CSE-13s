@@ -56,8 +56,18 @@ bool graph_add_edge(Graph *G, uint32_t i, uint32_t j, uint32_t k){
 }
 
 bool graph_has_edge(Graph *G, uint32_t i, uint32_t j){
-	if(i < G-> vertices && j < G-> vertices && k > 0){
-	       return true;
+	uint32_t k = 0;
+	uint32_t kd = 0;
+	G-> matrix[j][j] = k;
+	G-> matrix[i][j] = kd;
+	if(i < G-> vertices && j < G-> vertices){
+		if(G-> undirected && k > 0 && kd > 0){
+	       		return true;
+		}else if(kd > 0){
+			return true;
+		}else{
+			return false;
+		}
 	}else{
 		return false;
 	}	
