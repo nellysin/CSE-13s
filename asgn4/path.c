@@ -70,12 +70,12 @@ uint32_t path_length(Path *p){
 void path_copy(Path *dst, Path *src){
 	//copy(shortest path, current path)
 	//same as stack copy
-	for(uint32_t i = 0; i <= path_vertices(src); i+= 1){
-                dst-> vertices[i] = src-> vertices[i];
-        }
-        dst-> length = src-> length;
-	//stack_copy(dst-> vertices, src-> vertices);
+	//for(uint32_t i = 0; i <= path_vertices(src); i+= 1){
+        //        dst-> vertices[i] = src-> vertices[i];
+        //}
         //dst-> length = src-> length;
+	stack_copy(dst-> vertices, src-> vertices);
+        dst-> length = src-> length;
 	return;
 	
 }
