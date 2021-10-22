@@ -50,7 +50,7 @@ bool stack_empty(Stack *s){
 }
 
 bool stack_full(Stack *s){
-	if(((*s).top) < ((*s).capacity)){
+	if((((*s).top)-1) < ((*s).capacity)){
 		return true;
 	}else{
 		return false;
@@ -95,7 +95,7 @@ void stack_copy(Stack *dst, Stack *src){
 	//to find the shortest path
 	//Stack *src = (Stack *) malloc(sizeof(Stack));
 	for(uint32_t i = 0; i < stack_size(src); i+= 1){
-		(*dst).items[i] = (*src).items[i];
+		dst->items[i] = src->items[i];
 	}
 	dst-> items = src-> items;
 	return;
