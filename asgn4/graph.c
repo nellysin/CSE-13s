@@ -56,7 +56,7 @@ bool graph_add_edge(Graph *G, uint32_t i, uint32_t j, uint32_t k){
 }
 
 bool graph_has_edge(Graph *G, uint32_t i, uint32_t j){
-	if(i <= G-> vertices && j= < G-> vertices){
+	if(i <= G-> vertices && j <= G-> vertices){
 	       return true;
 	}else{
 		return false;
