@@ -2,7 +2,7 @@ CC = clang
 CFLAGS = -Wall -Wpedantic -Werror -Wextra
 LFLAGS = -lm
 
-all: path
+all: 
 
 path: path.o graph.o stack.o
 	$(CC) -o path path.o graph.o stack.o $(LFLAGS)
