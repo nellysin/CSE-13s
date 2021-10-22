@@ -56,8 +56,8 @@ bool graph_add_edge(Graph *G, uint32_t i, uint32_t j, uint32_t k){
 }
 
 bool graph_has_edge(Graph *G, uint32_t i, uint32_t j){
-	if(i < G-> vertices && j < G-> vertices){
-		if(G-> matrix[i][j] > 0 || G-> matrix[j][i] > 0){
+	if(G-> matrix[i][j] > 0){ //if there exists an edge from i to j
+		if(i < G-> vertices && j < G-> vertices){ // if i & j are within bounds
 			return true;
 		}else{
 			return false;
