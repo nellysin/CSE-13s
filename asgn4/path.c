@@ -44,9 +44,9 @@ bool path_push_vertex(Path *p, uint32_t v, Graph *G){
 	//b/c we need to call stack_full
 	//what are the parameters for stack_full? -- would if be just *p?
 	if(stack_full((*p).vertices) == 0){
-		uint32_t peekpush = stack_peek((*p).vertices, &v);
+		uint32_t peekpush = stack_peek((*p).vertices,&v);
 		stack_push((*p).vertices, v);
-		(*p).length += graph_edge_weight(Graph *G, v, peekpush); //use peek to access the weight of the stack 
+		(*p).length += graph_edge_weight(G, v, peekpush); //use peek to access the weight of the stack 
 		return true;
 	}else{
 		return false;
@@ -60,7 +60,7 @@ bool path_pop_vertex(Path *p, uint32_t *v, Graph *G){
 	if(stack_empty((*p).vertices) == 0){
 		uint32_t peekpop = stack_peek((*p).vertices, v);
 		stack_pop((*p).vertices, v);
-		(*p).length -= graph_edge_weight(Graph *G, v, peekpop); //stack_peek(Stack *s, uint32_t *x)
+		(*p).length -= graph_edge_weight(G, *v, peekpop); //stack_peek(Stack *s, uint32_t *x)
 		return true;
 	}else{
 		return false;
@@ -85,12 +85,12 @@ void path_copy(Path *dst, Path *src){
 
 void path_print(Path *p, FILE *outfile, char *cities[]){
 	for(uint32_t i = 0; i < path_vertices(p); i += 1){
-                printf(outfile, "%s", cities[p-> vertices[i]]);
-                if(i + 1 != p-> top){
-                        printf(outfile, " -> ");
+                fprintf(outfile, "%s", cities[(*p).vertices[i]]);
+                if(i + 1 != path_vertices(p)){
+                        fprintf(outfile, " -> ");
                 }
         }
-        printf(outfile, "\n");
+        fprintf(outfile, "\n");
 }
 
 
