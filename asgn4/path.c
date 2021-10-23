@@ -37,7 +37,7 @@ bool path_push_vertex(Path *p, uint32_t v, Graph *G){
 	//push vertex (v) onto the path p
 	//length of path increases by weight
 	//return true when successful
-	if(stack_full(p-> vertices) == false){ // when stack_full is false
+	if(stack_full(p-> vertices) == true){ // when stack_full is false
 		return false;
 	}else{
 		//stack_push(p-> vertices, v); //pushing v to p.vertices
