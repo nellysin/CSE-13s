@@ -98,8 +98,6 @@ void stack_copy(Stack *dst, Stack *src){
 		dst->items[i] = src-> items[i];
 		dst-> top = src-> top;
 	}
-	dst-> items = src-> items;
-	//(*dst).top = (*src).top;
 	return;
 
 }

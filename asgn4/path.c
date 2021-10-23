@@ -38,12 +38,12 @@ bool path_push_vertex(Path *p, uint32_t v, Graph *G){
 	//length of path increases by weight
 	//return true when successful
 	//questions:
-	if(stack_full((*p).vertices) == 0){ // when stack_full is false
+	if(stack_full(p-> vertices) == false){ // when stack_full is false
 		//stack_push(p-> vertices, v); //pushing v to p.vertices
 		uint32_t first = 0;
 		uint32_t peekpush = stack_peek(p-> vertices,&first); //access the weight 
 		stack_push(p-> vertices, v); //pushing v to p.vertices
-		if(stack_empty((*p).vertices) == 0){
+		if(stack_empty(p->vertices) == false){
 			p-> length += 0;
 		}else{
 			p->length += graph_edge_weight(G, peekpush, v); //use peek to access the weight of the stack 
@@ -55,10 +55,10 @@ bool path_push_vertex(Path *p, uint32_t v, Graph *G){
 }
 
 bool path_pop_vertex(Path *p, uint32_t *v, Graph *G){
-	if(stack_empty((*p).vertices) == 0){ //when stack empty is false
+	if(stack_empty(p-> vertices) == false){ //when stack empty is false
 		uint32_t start = 0;
-		uint32_t peekpop = stack_peek(p->vertices, v); //to access the weight
 		stack_pop(p-> vertices, v); //popping v from p.vertices 
+		uint32_t peekpop = stack_peek(p->vertices, v); //to access the weight
 		p->length -= graph_edge_weight(G, peekpop, *v); //stack_peek(Stack *s, uint32_t *x)
 		return true;
 	}else{
