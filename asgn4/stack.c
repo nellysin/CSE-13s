@@ -52,9 +52,9 @@ bool stack_empty(Stack *s){
 
 bool stack_full(Stack *s){
 	if(s-> top == s->capacity){
-		return false;
-	}else{
 		return true;
+	}else{
+		return false;
 	}
 }
 
@@ -76,7 +76,7 @@ bool stack_pop(Stack *s, uint32_t *x){
 		return false;
 	}else{
 		s->top -= 1;
-		*x = s->items[(*s).top];
+		*x = s->items[s->top];
 		return true;
 	}
 }
@@ -86,7 +86,7 @@ bool stack_peek(Stack *s, uint32_t *x){
 	if(stack_empty(s) == true){
 		return false;
 	}else{
-		*x = s->items[((*s).top) -1];
+		*x = s->items[(s->top) -1];
 		return true;
 	}
 }
