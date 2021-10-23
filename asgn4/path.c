@@ -43,7 +43,7 @@ bool path_push_vertex(Path *p, uint32_t v, Graph *G){
 		uint32_t peekpush = stack_peek(p-> vertices,&first); //access the weight 
 		stack_push(p-> vertices, v); //pushing v to p.vertices
 		if(stack_empty(p->vertices) == true){
-			p-> length += 0; //doesn't add any length
+			p-> length =  p-> length; //doesn't add any length
 		}else{
 			p->length += graph_edge_weight(G, peekpush, v); //use peek to access the weight of the stack 
 		}
@@ -76,8 +76,8 @@ uint32_t path_length(Path *p){
 void path_copy(Path *dst, Path *src){
 	//copy(shortest path, current path)
 	//same as stack copy, but also copies the length
-	dst-> length = src-> length;
 	stack_copy(dst-> vertices, src-> vertices);
+	dst-> length = src-> length;
 	return;
 	
 }
