@@ -94,7 +94,7 @@ void stack_copy(Stack *dst, Stack *src){
 	//Taking the src and copy to the destination -- it keeps track of the paths
 	//to find the shortest path
 	//Stack *src = (Stack *) malloc(sizeof(Stack));
-	for(uint32_t i = 0; i <= stack_size(src); i+= 1){
+	for(uint32_t i = 0; i < stack_size(src); i+= 1){
 		dst->items[i] = src-> items[i];
 		dst-> top = src-> top;
 	}
