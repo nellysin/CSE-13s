@@ -21,8 +21,8 @@ Path *path_create(void){
 	//set vertices as a freshly created stack (holding up to VERTICES)
 	//initialize length to be 0
 	Path *p = (Path *)malloc(sizeof(Path));
-	(*p).vertices = stack_create(VERTICES);
-	(*p).length = 0; //initialize length to 0
+	p->vertices = stack_create(VERTICES);
+	p->length = 0; //initialize length to 0
 
 	return p;
 }
@@ -43,7 +43,7 @@ bool path_push_vertex(Path *p, uint32_t v, Graph *G){
 		uint32_t peekpush = stack_peek(p-> vertices,&first); //access the weight 
 		stack_push(p-> vertices, v); //pushing v to p.vertices
 		if(stack_empty(p->vertices) == true){
-			p-> length =  p-> length; //doesn't add any length
+			p-> length += 0; //doesn't add any length
 		}else{
 			p->length += graph_edge_weight(G, peekpush, v); //use peek to access the weight of the stack 
 		}
@@ -70,7 +70,7 @@ uint32_t path_vertices(Path *p){
 }
 
 uint32_t path_length(Path *p){
-	return p->length;
+	return p-> length;
 }
 
 void path_copy(Path *dst, Path *src){
@@ -79,7 +79,6 @@ void path_copy(Path *dst, Path *src){
 	stack_copy(dst-> vertices, src-> vertices);
 	dst-> length = src-> length;
 	return;
-	
 }
 
 void path_print(Path *p, FILE *outfile, char *cities[]){
