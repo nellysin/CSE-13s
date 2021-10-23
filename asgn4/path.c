@@ -46,12 +46,12 @@ bool path_push_vertex(Path *p, uint32_t v, Graph *G){
 		stack_push(p-> vertices, v); //pushing v to p.vertices
 		uint32_t w = graph_edge_weight(G, first, v);
                 p->length += w; //use peek to access the weight of the stack 
-		/*if(stack_empty(p->vertices) == true){
+		if(stack_empty(p->vertices) == true){
 			p-> length = p-> length; //doesn't add any length
 		}else{
 			uint32_t w = graph_edge_weight(G, first, v);
 			p->length += w; //use peek to access the weight of the stack 
-		}*/
+		}
 		return true;
 	}
 }
