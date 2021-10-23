@@ -50,7 +50,7 @@ bool stack_empty(Stack *s){
 }
 
 bool stack_full(Stack *s){
-	if((*s).top == ((*s).capacity-1)){
+	if((*s).top == ((*s).capacity)){
 		return false;
 	}else{
 		return true;
@@ -59,7 +59,7 @@ bool stack_full(Stack *s){
 
 bool stack_push(Stack *s, uint32_t x){
 	//returns the success of pushing *s to x
-	if((*s).top == ((*s).capacity-1)){
+	if(stack_full == true){
 		return false;
 	}else{
 		(*s).items[(*s).top] = x;
@@ -71,7 +71,7 @@ bool stack_push(Stack *s, uint32_t x){
 
 bool stack_pop(Stack *s, uint32_t *x){
 	//returns the success of popping *s to x
-	if((*s).top == 0){
+	if(stack_empty == true){
 		return false;
 	}else{
 		(*s).top -= 1;
