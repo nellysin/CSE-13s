@@ -1,12 +1,15 @@
 #include "graph.h"
 #include "path.h"
 #include "stack.h"
+#include "vertices.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include <stdint.h>
 #include <inttypes.h>
+#include <string.h>
+#include <unistd.h>
 
 //CITE: Professor Long
 //CITE: TA Eugene
@@ -20,25 +23,32 @@ void dfs(Graph *G, uint32_t v, Path *curr, Path *shortest, char *cities[], FILE 
 	//if vertex w is not labeled as visited then
 	//recursively call DFS(G,w)
 	//label v as unvisted
-	//??idk where to use the outfile and cities??
 	v = START_VERTEX;
-	Stack *s = stack_create(graph_vertices(G)); //create new stack
-
-	while(!stack_empty(s)){ //while stack is not empty
-		stack_pop(s, &v); //do stack pop
-		visit = graph_visited(G, v);//check if graph is visited or not
-	for(uint32_t u = 0; u < graph_vertices(G); u +=1){
-		if(visit == 0 && graph_has_edge(G, v,)){ //??what would the graph has edge parameters be??
-			stack_push(s, v) // push the visited to the stack 
+	verticies = path_verticies(G)
+	Stack *s = path_create(verticies); //create new stack
+	//if current is greater than shortest then stop 
+	if(path_length(curr) > path_length(shortest)){  //compare the stacks (if it's longer then break)
+		path_copy(shortest, curr);
+		return;						
+	}
+	while(!path_empty(vertices)){ //while visited path is not full
+		path_pop_vertex(s, &v); //push
+		if(v == START_VERTEX){
+			graph_mark_unvisited(G,v);
+		}
+		bool visit = graph_visited(G, v);//check if graph is visited or not
+		uint32_t w = graph_vertices(G);
+	for(uint32_t u = 0; u < w; u +=1){
+		if(visit == true && graph_has_edge(G, v,w)){ //??what would the graph has edge parameters be??
+			path_push_vertex(s, v); // push the visited to the stack 
 			graph_mark_visited(G, v); //mark this as visited
 		}else{
-			dfs(G, v, curr, shortest, cities, outfile); //recursive call dfs
-                        call += 1; //increment the number of recursive call
 			graph_mark_unvisited(G,v); // mark this as unvisited
 		}
+		}
 	}
-	stack_copy(shortest, curr);
-	return;
+	call += 1; //increment the number of recursive call
+	dfs(G, v, curr, shortest, cities, outfile); //recursive call dfs
 }
 
 int main(int argc, char **argv){
@@ -66,26 +76,38 @@ int main(int argc, char **argv){
 			//setting to be undirected (function)
 			break;
 		case 'i':
-			printf("Using %s as input file\n", optarg);
-			infile = fopen(optarg, "r");
+			printf("Using ... as input file\n");
+			//infile = fopen(optarg, "r");
 			break;
 		case 'o':
-			printf("Using %s as output file\n", optarg);
-			outfile = fopen(optarg, "w");
+			printf("Using ... as output file\n");
+			//outfile = fopen(optarg, "w");
 			break;
 		}
 	}
+
 	//opening the file 
-	//??but file is unfound since it is not defined??
-	FILE-> infile = fopen("example.graph", "r"); 
+       	FILE *infile = fopen("mythical.graph", "r");
+        FILE *infile = stdin;
+	FILE *outfile = stdout;	
 
         //scan in number (reading in the number of vertices)
-        uint32_t number = 0;
-        fscanf(infile, "%" SCNu32 "\n", &number);
+        uint32_t numvert = 0;
+        fscanf(infile, "%" SCNu32 "\n", &numvert);
+	if(numvert > VERTICES){
+		printf("Error");
+	}
 
-        //read a line
-        char buf[1024];
-        fgets(buf, 1024, infile);
+        //read a line (reading the city names)
+        char read_city[numvert];
+        fgets(read_city, numvert, infile);
+	read_city[strlen(read_city) -1] = '\0';
+	for(uint32_t i; i < numvert; i += 1;){
+		if(strdup(read_city[i]) 
+
+
+	//create graph "G"
+	graph_create(numvert, )
 
         //read tuple 
         uint32_t a = 0, b = 0;
@@ -95,13 +117,10 @@ int main(int argc, char **argv){
         printf("line = %s", buf);
         printf("tuple = <%" PRIu32 ", %" PRIu32 ">\n", a, b);
 
-        FILE *infile = stdin;
-        FILE *outfile = stdout;
-
-	char buf[1024];
-	fgets(buf, 1024, infile);
-	buf[strlen(buf) -1] = '\0'; // getting rid of newline
-	fputs(buf, outfile);
+	char read_city[numvert];
+	fgets(read_city, numvert, infile);
+	read_city[strlen(buf) -1] = '\0'; // getting rid of newline
+	fputs(read_city, outfile);
 
 	//create graph 'G'
 	//reading the rest of the file and add each edge to graph 'G'
@@ -109,6 +128,6 @@ int main(int argc, char **argv){
 	//create shortest path
 	//calling DFS
 	//printing results (verbose)
-
+	
 	return 0;
 }
