@@ -17,6 +17,7 @@ struct Stack {
 Stack *stack_create(uint32_t capacity) {
 	Stack *s = (Stack *) malloc(sizeof(Stack));
 	if(s){
+		s-> capacity = capacity;
 		s-> top = 0; //intialize top to 0
 		s-> items = (uint32_t *) calloc(capacity, sizeof(uint32_t));//indicates the num of items to allocate memory
 		if(!s-> items){
@@ -38,7 +39,7 @@ void stack_delete(Stack **s){
 
 uint32_t stack_size(Stack *s){
         // how many elements are in there -- see top
-        return (*s).top;
+        return s->top;
 }
 
 bool stack_empty(Stack *s){
@@ -75,17 +76,17 @@ bool stack_pop(Stack *s, uint32_t *x){
 		return false;
 	}else{
 		s->top -= 1;
-		*x = (*s).items[(*s).top];
+		*x = s->items[(*s).top];
 		return true;
 	}
 }
 
 bool stack_peek(Stack *s, uint32_t *x){
 	//similar to stack pop (returning the success) but it does not remove it from stack
-	if((*s).top == 0){
+	if(stack_empty(s) == true){
 		return false;
 	}else{
-		*x = (*s).items[((*s).top) -1];
+		*x = s->items[((*s).top) -1];
 		return true;
 	}
 }
