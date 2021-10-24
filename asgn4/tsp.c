@@ -113,27 +113,27 @@ int main(int argc, char **argv) {
         //maybe create an array special to cities
     }
     //create graph 'G'
-    Graph *G = graph_create(n, undirected);
+    //Graph *G = graph_create(n, undirected);
 
     //add edge to graph 'G' and reading edges
     while (fscanf(infile, "%" SCNu32 " %" SCNu32 " %" SCNu32 "\n", &i, &j, &k) != EOF) {
         fscanf(infile, "%" SCNu32 " %" SCNu32 " %" SCNu32 "\n", &i, &j, &k);
         printf("%" PRIu32 " %" PRIu32 " %" PRIu32 "\n", i, j, k);
-        graph_add_edge(G, i, j, k);
+      //  graph_add_edge(G, i, j, k);
     }
     //create current path
-    Path *curr = path_create();
+    //Path *curr = path_create();
 
     //create shortest path
-    Path *shortest = path_create();
+    //Path *shortest = path_create();
     //
     //call dfs
     //dfs(G, n, curr, shortest, cities, FILE *outfile);
     //print results
     //free paths and graphs
 
-    graph_delete(&G);
-    path_delete(&curr);
-    path_delete(&shortest);
+    //graph_delete(&G);
+    //path_delete(&curr);
+    //path_delete(&shortest);
     return 0;
 }
