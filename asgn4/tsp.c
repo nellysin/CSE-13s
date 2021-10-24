@@ -49,6 +49,8 @@ void dfs(Graph *G, uint32_t v, Path *curr, Path *shortest, char *cities[], FILE 
 }
 
 int main(int argc, char **argv){
+	FILE* infile = stdin;
+        FILE* outfile = stdout;
 	call = 0;
 	int opt = 0;
 	while((opt = getopt(argc, argv, OPTIONS)) != -1){
@@ -73,12 +75,10 @@ int main(int argc, char **argv){
 			//setting to be undirected (function)
 			break;
 		case 'i':
-			printf("Using ... as input file\n");
-			//inputfile_name = optarg;
+			infile = fopen(optarg, "r");
 			break;
 		case 'o':
-			printf("Using ... as output file\n");
-			//outfile = fopen(optarg, "w");
+			outfile = fopen(optarg, "w");
 			break;
 		default:
 			printf("SYNOPSIS\n");
@@ -91,96 +91,35 @@ int main(int argc, char **argv){
                         printf("  -h            Program usage and help.\n");
                         printf("  -i infile     Input containing graph (default: stdin)\n");
                         printf("  -o outfile    Output of computed path (default: stdout)\n");
-			break;
+			exit(1);
 		}
 	}
-
-char **cities(char n){
-	char **m = (char **)calloc(n, sizeof(char *));
-	assert(m);
-
-	for (int i = 0; i< n; i +=1){
-		m[i] = (int *)calloc(n, sizeof(char));
-		assert(m[i]);
-	}
-
-	return m;
-}
-
-void cities delete(char **m, int n){
-	for(int i = 0; i < n; i += 1){
-		free(m[i]);
-		m[i] = NULL;
-	}
-
-	free(m);
-	m = NULL;
-	return;
-}
-
-	//FILE* infile = stdin;
-	//opening the file 
-        FILE* infile = fopen("mythical.graph", "r");
-	//FILE* outfile = stdout;
-
-	uint32_t i = 0;
-	uint32_t j = 0;
-	uint32_t k = 0;
-
-	uint32_t numvert = 0;
-	if(1 != sscanf(buffer, "%u", &numvert)){
-		printf("error");
-	}else{
-		printf("number = %" PRIu32 "\n", numvert);
-	}
-
-	char **cities = 
-	for(uint32_t i = 0; i < numvert; i += 1){
-
-
-	for(uint32_t i = 0; i < numvert; i += 1){
-		fgets(buffer, 1024, infile);
-	}
-
-	while(NULL != fgets(buffer, 1024, infile)){
-		sscanf(buffer, "%u %u %u", &i, &j, &k);
-		printf("tuple = <%" PRIu32 ", %" PRIu32 ", %" PRIu32 ">\n", i, j, k);
-	}
-        //scan in number (reading in the number of vertices)
-/*        uint32_t numvert = 0;
-        fscanf(infile, "%" SCNu32 "\n", &numvert);
-
-        //read a line (reading the city names)
-        uint32_t i = 0;
-	uint32_t j = 0;
-	uint32_t k = 0;
-
-	char **cities = NULL;
-        fgets(*cities, numvert, infile);
-	*cities[strlen(*cities) -1] = '\0';
-
-	//create graph "G"
-//	Graph *G = graph_create(numvert, undirected);
-
-        //read tuple 
-        char i = '\0';
-        char j = '\0';
-	char k = '\0';
-	char city_number;
-
-	sscanf(&i, &j, &k);
+	//opening the file (after doing the command -i) -- structure CITE: TUTOR James
 	
-	fgets(&city_number, numvert, infile);
+	// read in the number of vertices 'n'
+	uint32_t n = 0;
+	fscanf(infile, "%" SCNu32 "\n", &n);
+	printf("%" PRIu32 "\n", n);
 
-        printf("number = %" PRIu32 "\n", numvert);
-        printf("line = %s", *cities);*/
-        //printf("tuple = <%" PRIu32 ", %" PRIu32 ", %" PRIu32 ">\n", i, j, k);
-	//create graph 'G'
-	//reading the rest of the file and add each edge to graph 'G'
-	//create current path 
+	//read in the line
+	char buffer[1024]; //CITE: TA Eugene
+	while(fgets(buffer, 1024, infile)){ 
+		buffer[strlen(buffer)] = '\0'; //CITE: TA Christan
+		printf("%s", buffer);
+	}
+	strdup(buffer);
+	//create graph
+	
+	
+	//read the rest of the file
+	//add each edge to graph 'g'
+	//
+	//create current path
 	//create shortest path
-	//calling DFS
-	//printing results (verbose)
-
+	//
+	//call dfs
+	//
+	//print results
+	
 	return 0;
 }
