@@ -46,4 +46,4 @@ $./tsp [-hvui:o:] [-i infile] [-o outfile]
 
 ## Bugs
 
-
+Since I don't have my tsp properly set up, it will not pass Valgrind or the functionality.

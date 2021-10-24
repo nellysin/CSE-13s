@@ -11,7 +11,7 @@
 #include <string.h>
 #include <unistd.h>
 
-//CITE: Professor Long for dfs
+//CITE: Professor Long for dfs sudo
 //CITE: TA Eugene for structure
 
 #define OPTIONS "uvhi:o:"
@@ -21,11 +21,13 @@ static int call = 0;
 //static FILE* outfile = stdout;
 
 void dfs(Graph *G, uint32_t v, Path *curr, Path *shortest, char *cities[], FILE *outfile) {
-    //label v as visited
+    //if the city is reachable and it is not visited:
+    //	label v as visited
+    //if the city is not reachable:
+    //	label v as unvisited.
     //for all edges from v to w in G.adjacentEdges(v) do
     //if vertex w is not labeled as visited then
     //recursively call DFS(G,w)
-    //label v as unvisted
     v = START_VERTEX;
     uint32_t vertex = graph_vertices(G);
     shortest = path_create(); // shortest path
@@ -112,6 +114,7 @@ int main(int argc, char **argv) {
     }
     //create graph 'G'
     Graph *G = graph_create(n, undirected);
+
     //add edge to graph 'G' and reading edges
     while (fscanf(infile, "%" SCNu32 " %" SCNu32 " %" SCNu32 "\n", &i, &j, &k) != EOF) {
         fscanf(infile, "%" SCNu32 " %" SCNu32 " %" SCNu32 "\n", &i, &j, &k);
@@ -119,15 +122,18 @@ int main(int argc, char **argv) {
         graph_add_edge(G, i, j, k);
     }
     //create current path
-    //Path *curr = path_create();
+    Path *curr = path_create();
 
     //create shortest path
-    //Path *shortest = path_create();
+    Path *shortest = path_create();
     //
     //call dfs
     //dfs(G, n, curr, shortest, cities, FILE *outfile);
-    //
     //print results
+    //free paths and graphs
 
+    graph_delete(&G);
+    path_delete(&curr);
+    path_delete(&shortest);
     return 0;
 }
