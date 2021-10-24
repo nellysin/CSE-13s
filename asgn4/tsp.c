@@ -17,8 +17,6 @@
 #define OPTIONS "uvhi:o:"
 
 static int call = 0;
-//static FILE* infile = stdin;
-//static FILE* outfile = stdout;
 
 void dfs(Graph *G, uint32_t v, Path *curr, Path *shortest, char *cities[], FILE *outfile) {
     //if the city is reachable and it is not visited:
@@ -29,13 +27,9 @@ void dfs(Graph *G, uint32_t v, Path *curr, Path *shortest, char *cities[], FILE 
     //if vertex w is not labeled as visited then
     //recursively call DFS(G,w)
     v = START_VERTEX;
-    uint32_t vertex = graph_vertices(G);
-    shortest = path_create(); // shortest path
-    curr = path_create(); //current path
-    bool visit = graph_visited(G, v); //check if graph is visited or not
-    for (uint32_t u = 0; u < vertex; u += 1) {
-        if (visit == true
-            && graph_has_edge(G, v, vertex)) { //??what would the graph has edge parameters be??
+    visit = graph_visited(G, v); //check if graph is visited or not
+    for(uint32_t u = 0; u < ; u += 1) {
+        if (visit == true && graph_has_edge(G, v, vertex)) { //??what would the graph has edge parameters be??
             path_push_vertex(curr, v, G); // push the visited to the stack
             graph_mark_visited(G, v); //mark this as visited
         } else {
@@ -123,10 +117,9 @@ int main(int argc, char **argv) {
             cities[m] = buffer; //create array for cities
             printf("%s\n", cities[m]);
         }
-	while(fgets(buffer, 1024, infile) !=  NULL){
-		fscanf(infile, "%" SCNu32 " %" SCNu32 " %" SCNu32 "\n", &i, &j, &k);
-		printf("%" PRIu32 " %" PRIu32 " %" PRIu32 "\n", i, j, k);
+	while(fscanf(infile, "%" SCNu32 " %" SCNu32 " %" SCNu32 "\n", &i, &j, &k) !=  EOF){
 		graph_add_edge(G,i,j,k);
+		printf("%" PRIu32 " %" PRIu32 " %" PRIu32 "\n", i, j, k);
 	}
 
     //create current path
@@ -135,7 +128,8 @@ int main(int argc, char **argv) {
     //create shortest path
     Path *shortest = path_create();
     //call dfs
-    
+    dfs(G, START_VERTICES, curr, shortest, cities[], outfile)
+
     //print results
 
     //free paths and graphs before returning!!
