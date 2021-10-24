@@ -2,7 +2,7 @@ CC = clang
 CFLAGS = -Wall -Wpedantic -Werror -Wextra
 LFLAGS = -lm
 
-all:
+all: tsp
 
 tsp: tsp.o path.o graph.o stack.o
 	$(CC) -o tsp tsp.o path.o graph.o stack.o $(LFLAGS)
@@ -23,6 +23,7 @@ path.o: path.c path.h graph.h stack.h
 	$(CC) $(CFLAGS) -c path.c
 
 clean:
+	rm -f tsp tsp.o
 	rm -f graph graph.o
 	rm -f stack stack.o
 	rm -f path path.o
