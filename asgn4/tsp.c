@@ -116,17 +116,18 @@ int main(int argc, char **argv) {
     char **cities = (char **) calloc(vert, sizeof(char *));
     //read in the line by how many vertices
     char buffer[1024];
-    while (fgets(buffer, 1024, infile) != NULL){ //reading the file lines
         for (uint32_t m = 0; m < vert; m += 1) { //indicate the city names in file
             fgets(buffer, 1024, infile); 
-            strdup(buffer);
+            buffer[strlen(buffer) - 1] = '\0';
+	    strdup(buffer);
             cities[m] = buffer; //create array for cities
-            printf("%s", cities[m]);
+            printf("%s\n", cities[m]);
         }
-        fscanf(infile, "%" SCNu32 " %" SCNu32 " %" SCNu32 "\n", &i, &j, &k);
-        printf("%" PRIu32 " %" PRIu32 " %" PRIu32 "\n", i, j, k);
-        //graph_add_edge(G, i, j, k); //add edge to graph 'G' and reading edges
-    }
+	while(fgets(buffer, 1024, infile) !=  NULL){
+		fscanf(infile, "%" SCNu32 " %" SCNu32 " %" SCNu32 "\n", &i, &j, &k);
+		printf("%" PRIu32 " %" PRIu32 " %" PRIu32 "\n", i, j, k);
+		graph_add_edge(G,i,j,k);
+	}
 
     //create current path
     Path *curr = path_create();
