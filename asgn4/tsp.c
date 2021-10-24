@@ -97,6 +97,7 @@ int main(int argc, char **argv) {
             exit(1);
         }
     }
+    //This part has not yet been finished but these were my ideas:
     //opening the file (after doing the command -i) -- structure CITE: TUTOR James
     // read in the number of vertices 'n'
     char buffer[1024]; //CITE: TA Eugene
@@ -113,27 +114,20 @@ int main(int argc, char **argv) {
         //maybe create an array special to cities
     }
     //create graph 'G'
-    //Graph *G = graph_create(n, undirected);
 
     //add edge to graph 'G' and reading edges
     while (fscanf(infile, "%" SCNu32 " %" SCNu32 " %" SCNu32 "\n", &i, &j, &k) != EOF) {
         fscanf(infile, "%" SCNu32 " %" SCNu32 " %" SCNu32 "\n", &i, &j, &k);
         printf("%" PRIu32 " %" PRIu32 " %" PRIu32 "\n", i, j, k);
-        //  graph_add_edge(G, i, j, k);
+        //call graph edge to assign i, j, and k in the graph
     }
     //create current path
-    //Path *curr = path_create();
 
     //create shortest path
-    //Path *shortest = path_create();
-    //
     //call dfs
-    //dfs(G, n, curr, shortest, cities, FILE *outfile);
-    //print results
-    //free paths and graphs
 
-    //graph_delete(&G);
-    //path_delete(&curr);
-    //path_delete(&shortest);
+    //print results
+
+    //free paths and graphs before returning!!
     return 0;
 }
