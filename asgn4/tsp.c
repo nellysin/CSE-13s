@@ -103,13 +103,17 @@ int main(int argc, char **argv){
 
 	//read in the line
 	char buffer[1024]; //CITE: TA Eugene
-	while(fgets(buffer, 1024, infile)){ 
-		buffer[strlen(buffer)] = '\0'; //CITE: TA Christan
+	for(uint32_t t = 0; t < n; t += 1){
+		fgets(buffer, 1024, infile); 
 		printf("%s", buffer);
 	}
-	strdup(buffer);
+
+	uint32_t i = 0, j = 0, k = 0;
 	//create graph
-	
+	for(uint32_t t = 0; t < n; t += 1){
+		fscanf(infile, "%" SCNu32 " %" SCNu32 " %" SCNu32 "\n", &i, &j, &k);
+		printf("%" PRIu32 " %" PRIu32 " %" PRIu32 "\n", i, j, k);
+	}
 	
 	//read the rest of the file
 	//add each edge to graph 'g'
