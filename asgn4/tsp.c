@@ -119,7 +119,7 @@ int main(int argc, char **argv) {
     while (fscanf(infile, "%" SCNu32 " %" SCNu32 " %" SCNu32 "\n", &i, &j, &k) != EOF) {
         fscanf(infile, "%" SCNu32 " %" SCNu32 " %" SCNu32 "\n", &i, &j, &k);
         printf("%" PRIu32 " %" PRIu32 " %" PRIu32 "\n", i, j, k);
-      //  graph_add_edge(G, i, j, k);
+        //  graph_add_edge(G, i, j, k);
     }
     //create current path
     //Path *curr = path_create();
