@@ -111,16 +111,10 @@ int main(int argc, char **argv){
 		printf("%s", buffer);
 		//maybe create an array special to cities
 	}
-
-	int vert = 0;
-	while(fgets(buffer, 1024, infile) != NULL){
-		vert += 1;
-	}
 	//create graph 'G'
         Graph *G = graph_create(n, undirected);
 	//add edge to graph 'G'
-	
-	for(int t = 0; t < vert; t += 1){
+	while(fscanf(infile, "%" SCNu32 " %" SCNu32 " %" SCNu32 "\n", &i, &j, &k) != EOF){
 		fscanf(infile, "%" SCNu32 " %" SCNu32 " %" SCNu32 "\n", &i, &j, &k);
 		printf("%" PRIu32 " %" PRIu32 " %" PRIu32 "\n", i, j, k);
 		graph_add_edge(G, i, j, k);
