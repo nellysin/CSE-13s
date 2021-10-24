@@ -53,6 +53,7 @@ int main(int argc, char **argv){
         FILE* outfile = stdout;
 	call = 0;
 	int opt = 0;
+	bool undirected;
 	while((opt = getopt(argc, argv, OPTIONS)) != -1){
 		switch (opt){
 		case 'h':
@@ -72,7 +73,8 @@ int main(int argc, char **argv){
 			break;
 		case 'u': 
 			printf("specifies the graph to be undirected");
-			//setting to be undirected (function)
+			//setting to be undirected
+			undirected = true;
 			break;
 		case 'i':
 			infile = fopen(optarg, "r");
@@ -95,33 +97,42 @@ int main(int argc, char **argv){
 		}
 	}
 	//opening the file (after doing the command -i) -- structure CITE: TUTOR James
-	
 	// read in the number of vertices 'n'
+	char buffer[1024]; //CITE: TA Eugene
+	uint32_t i = 0, j = 0, k = 0;
 	uint32_t n = 0;
+
 	fscanf(infile, "%" SCNu32 "\n", &n);
 	printf("%" PRIu32 "\n", n);
 
 	//read in the line
-	char buffer[1024]; //CITE: TA Eugene
 	for(uint32_t t = 0; t < n; t += 1){
 		fgets(buffer, 1024, infile); 
 		printf("%s", buffer);
+		//maybe create an array special to cities
 	}
 
-	uint32_t i = 0, j = 0, k = 0;
-	//create graph
-	for(uint32_t t = 0; t < n; t += 1){
+	int vert = 0;
+	while(fgets(buffer, 1024, infile) != NULL){
+		vert += 1;
+	}
+	//create graph 'G'
+        Graph *G = graph_create(n, undirected);
+	//add edge to graph 'G'
+	
+	for(int t = 0; t < vert; t += 1){
 		fscanf(infile, "%" SCNu32 " %" SCNu32 " %" SCNu32 "\n", &i, &j, &k);
 		printf("%" PRIu32 " %" PRIu32 " %" PRIu32 "\n", i, j, k);
+		graph_add_edge(G, i, j, k);
 	}
-	
-	//read the rest of the file
-	//add each edge to graph 'g'
-	//
 	//create current path
+	//Path *curr = path_create();
+
 	//create shortest path
+	//Path *shortest = path_create();
 	//
 	//call dfs
+	//dfs(G, n, curr, shortest, cities, FILE *outfile);
 	//
 	//print results
 	
