@@ -26,24 +26,33 @@ void dfs(Graph *G, uint32_t v, Path *curr, Path *shortest, char *cities[], FILE 
     //for all edges from v to w in G.adjacentEdges(v) do
     //if vertex w is not labeled as visited then
     //recursively call DFS(G,w)
-    v = START_VERTEX;
-    visit = graph_visited(G, v); //check if graph is visited or not
-    for(uint32_t u = 0; u < ; u += 1) {
-        if (visit == true && graph_has_edge(G, v, vertex)) { //??what would the graph has edge parameters be??
+    bool visit = graph_visited(G, v); //check if graph is visited or not
+    //graph_vertices
+    uint32_t max = graph_vertices(G); //this is the number of verticies
+    for(v = START_VERTEX; v < max; v += 1){
+        if (v == START_VERTEX){ //if the visit is true and if 
             path_push_vertex(curr, v, G); // push the visited to the stack
             graph_mark_visited(G, v); //mark this as visited
         } else {
-            graph_mark_unvisited(G, v); // mark this as unvisited
-            call += 1; //increment the number of recursive call
-            dfs(G, v, curr, shortest, cities, outfile); //recursive call dfs
-        }
+		if(visit == true && graph_has_edge(G, v, max)){ //graph has edge is the neighboring
+			path_push_vertex(curr, v, G); // push the visited to the stack
+            		graph_mark_visited(G, v); //mark this as visited
+		}else{
+	    		path_pop_vertex(curr, &v, G); //pop it off of the current path
+            		graph_mark_unvisited(G, v); // mark this as unvisited
+	    		call += 1;
+            		dfs(G, v, curr, shortest, cities, outfile); //recursive call dfs
+		}
+	}
     }
     //if current is greater than shortest then stop
-    if (path_length(curr)
-        > path_length(shortest)) { //compare the stacks (if it's longer then break)
+    if (path_length(curr) < path_length(shortest)) { //compare the stacks (if it's longer then break)
         path_copy(shortest, curr);
-        return;
     }
+
+
+    return;
+    
 }
 
 int main(int argc, char **argv) {
@@ -111,13 +120,13 @@ int main(int argc, char **argv) {
     //read in the line by how many vertices
     char buffer[1024];
         for (uint32_t m = 0; m < vert; m += 1) { //indicate the city names in file
-            fgets(buffer, 1024, infile); 
-            buffer[strlen(buffer) - 1] = '\0';
-	    strdup(buffer);
+            fgets(buffer, 1024, infile); 	
+            buffer[strlen(buffer) - 1] = '\0'; //CITE Euegen for stlen buffer
             cities[m] = buffer; //create array for cities
+	    strdup(buffer);
             printf("%s\n", cities[m]);
         }
-	while(fscanf(infile, "%" SCNu32 " %" SCNu32 " %" SCNu32 "\n", &i, &j, &k) !=  EOF){
+	while(fscanf(infile, "%" SCNu32 " %" SCNu32 " %" SCNu32 "\n", &i, &j, &k) !=  EOF){ //CITE: EUGENE
 		graph_add_edge(G,i,j,k);
 		printf("%" PRIu32 " %" PRIu32 " %" PRIu32 "\n", i, j, k);
 	}
@@ -128,11 +137,12 @@ int main(int argc, char **argv) {
     //create shortest path
     Path *shortest = path_create();
     //call dfs
-    dfs(G, START_VERTICES, curr, shortest, cities[], outfile)
+    dfs(G, vert, curr, shortest, cities, outfile);
 
     //print results
 
     //free paths and graphs before returning!!
+    free(cities);
     path_delete(&shortest);
     path_delete(&curr);
     graph_delete(&G);
