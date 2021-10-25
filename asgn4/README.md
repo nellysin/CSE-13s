@@ -46,4 +46,8 @@ $./tsp [-hvui:o:] [-i infile] [-o outfile]
 
 ## Bugs
 
-Since I don't have my tsp properly set up, it will not pass Valgrind or the functionality.
+NOTE:
+My dfs function in the tsp file does not work but my file readings work (noted in the comments of tsp.c).
+Also, my functionality for stack, path, graph, and valgrind works on the pipline before I started the DFS and 
+after my file readings work. 
+
