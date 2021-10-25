@@ -140,10 +140,10 @@ int main(int argc, char **argv) {
     //print results
 
     //free paths and graphs before returning!!
-    //free(cities);
     //path_delete(&shortest);
     //path_delete(&curr);
     //graph_delete(&G);
+    free(cities);
     fclose(infile);
     return 0;
 }
