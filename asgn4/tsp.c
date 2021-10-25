@@ -143,7 +143,7 @@ int main(int argc, char **argv) {
     //path_delete(&shortest);
     //path_delete(&curr);
     //graph_delete(&G);
-    free(**cities);
+    free(*cities);
     fclose(infile);
     return 0;
 }
