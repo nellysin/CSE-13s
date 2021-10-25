@@ -47,7 +47,4 @@ $./tsp [-hvui:o:] [-i infile] [-o outfile]
 ## Bugs
 
 NOTE:
-My dfs function in the tsp file does not work but my file readings work (noted in the comments of tsp.c).
-Also, my functionality for stack, path, graph, and valgrind works on the pipline before I started the DFS and 
-after my file readings work. 
-
+I commented almost all of my parts in main including the dfs function in the tsp file because it does not work but my file readings work (noted in the comments of tsp.c). Also, my functionality for stack, path, graph, and valgrind works on the pipline before I started the DFS and after my file readings work.
