@@ -1,40 +1,55 @@
 #include "io.h"
+#include "defines.h"
 #include "code.h"
 
-#include <stdio.h>
-#include <inttypes.h>
 #include <fcntl.h>
-#include <unistd.h>
-#include <stdint.h>
+#include <inttypes.h>
 #include <stdbool.h>
+#include <stdint.h>
+#include <stdio.h>
+#include <unistd.h>
 
 uint64_t bytes_read;
 uint64_t bytes_written;
+static uint8_t buf[BLOCK];
 
-int read_bytes(int infile, uint8_t *buf, int nbytes){
-	nbytes = read(infile, buf, nbytes);
-	bytes_read = 0;
-	while((uint64_t) nbytes != bytes_read){
-		read(infile, buf, nbytes);
-		bytes_read += 1;
+int read_bytes(int infile, uint8_t *buf, int nbytes) {
+    uint64_t i = nbytes;
+    while(i != bytes_read){ 	//reading the specified bytes by nbytes
+	uint64_t bytes = read(infile, (buf+bytes_read), (nbytes-bytes_read));
+       	bytes_read += bytes;	//reading the bytes and incrementing bytes_read
+    	if(bytes == 0){
+		break;
 	}
-	return bytes_read;
+    }
+    return bytes_read;
 }
 
 int write_bytes(int outfile, uint8_t *buf, int nbytes){
-	bytes_written = 0;
-	while((uint64_t) nbytes != bytes_read){
-		write(outfile, buf, nbytes);
+	uint64_t w = nbytes;
+	while(w != bytes_written){
+		uint64_t bytes = write(outfile, (buf+bytes_written), (nbytes-bytes_written));
+		bytes_written += bytes;
+		if(bytes == 0){
+			break;
+		}
 	}
 	return bytes_written;
 }
 
-int main(void){
-	uint8_t buf[256];
-	int infile = open("test.txt", O_RDONLY);
+bool read_bit(int infile, uint8_t *bit){
+	int b = BLOCK;
+	if(b == 0){
+		return false;
+	}
+	else{
+		int read = read_bytes(infile, buf, b);
+		if(read != 0){
+			bit = &buf[b];
+			b -= 1;
+		}
+		return true;
+	}
 
-	read_bytes(infile, buf, 256);
-	printf("Bytes read: %"PRIu64"\n", bytes_read);
-	printf("Bytes written: %"PRIu64"\n", bytes_written);
-	return 0;
 }
+
