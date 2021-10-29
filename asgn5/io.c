@@ -24,36 +24,38 @@ int read_bytes(int infile, uint8_t *buf, int nbytes) {
 	uint64_t bytes = read(infile, (buf+bytes_read), (nbytes-bytes_read)); //buffer will take in the bytes read and nbytes will decrement 
        	bytes_read += bytes;	//reading the bytes and incrementing bytes_read
     	if(bytes == 0){		//once it reaches to the end then break
-		break;
+		return bytes_read;
 	}
     }
     return bytes_read;
 }
 
 int write_bytes(int outfile, uint8_t *buf, int nbytes){
-	uint64_t w = nbytes;
-	while(w != bytes_written){
-		uint64_t bytes = write(outfile, (buf+bytes_written), (nbytes-bytes_written));
-		bytes_written += bytes;
-		if(bytes == 0){
-			break;
+	uint64_t w = nbytes; // w changes nbytes
+	while(w != bytes_written){ //keep track if w does not equal to bytes_written
+		uint64_t bytes = write(outfile, (buf+bytes_written), (nbytes-bytes_written)); //buffer takes in bytes written and nbytes decrement
+		bytes_written += bytes;	//bytes_written adds how many bytes written
+		if(bytes == 0){		//if bytes reaches the end return bytes
+			return bytes_read; //return bytes read if it read the whole file
 		}
 	}
-	return bytes_written;
+	return bytes_written; //return bytes_written once it stops the while loop
 }
 
 bool read_bit(int infile, uint8_t *bit){
-        uint64_t bytes = read_bytes(infile, (bit+bytes_read), (BLOCK-bytes_read));	
-	uint8_t b = 0;
-	if()
-	*bit = buf[b / 8] >> (b % 8) & 0x1;
-	if(bytes == 0){
-		return false;
-	}else{
-		bytes_read += bytes;
-		bit->buf[b / 8] >> (b % 8) & 0x1;	//CITE: Prof Long for bv8.c
-		b += 1;
+        uint64_t bytes_read = read_bytes(infile, bit, BLOCK);	// reading the bytes first
+	uint8_t b = 0; 				// this is the index
+	if(bytes_read != 0){			//if the bytes_read does not reach to 0
+		if(b < 8){
+			*bit = buf[b / 8] >> (b % 8) & 0x1;	//Finding the bit, shifting it, and and it to find the exact bit in index (CITE: Prof Long from bv8.c)
+			b += 1;
+		}else{
+			bytes_read = read_bytes(infile, bit-1, BLOCK-1); //pop from the bit
+		}
 		return true;
+	}
+	else{
+		return false;
 	}
 }
 
