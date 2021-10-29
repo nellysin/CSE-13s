@@ -7,6 +7,9 @@
 #include <stdlib.h>
 #include <inttypes.h>
 
+//CITE: Professor Long for additional sudo code
+//CITE: TA Eugene (structure)
+
 struct Stack{
 	uint32_t top;
 	uint32_t capacity;
