@@ -4,7 +4,6 @@
 
 #include <stdbool.h>
 #include <stdint.h>
-#include <stdio.h>
 #include <stdlib.h>
 
 // CITE: Professor Long for sudo code
@@ -94,18 +93,19 @@ bool code_pop_bit(Code *c, uint8_t *bit){ //similar to stack.c
 	}
 }
 
-//void code_print(Code *c){
-//	c = code_init();
-//	code_push_bit(c, 1);
-//	code_push_bit(c, 0);
-//	code_pop_bit(c, 0);
-//	for(int i = 0; i < 10; i+= 1){
-//		printf("%"PRIu32"\n", bits[i]);
-//	}
-//	return;
-//}
+void code_print(Code *c){
+	code_push_bit(c, 1);
+	code_push_bit(c, 0);
+	code_push_bit(c, 1);
+	code_push_bit(c, 0);
+	for(int i = 0; i < 4; i+= 1){
+		printf("%d \n", bits[i]);
+	}
+	return;
+}
 
-//int main(void){
-//	code_print();
-//	return 0;
-//}
+int main(void){
+	Code c = code_init();
+	code_print(&c);
+	return 0;
+}
