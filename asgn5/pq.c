@@ -5,6 +5,7 @@
 #include <stdint.h>
 #include <inttypes.h>
 #include <stdlib.h>
+
 //CITE: Professor Long for Priority Queue during lecture
 //CITE: TA Eugene
 
@@ -43,7 +44,7 @@ bool pq_empty(PriorityQueue *q){
 }
 
 bool pq_full(PriorityQueue *q){  //FIFO elements are dequeued at tail
-	if(q->tail == capacity){
+	if(q->tail == q->capacity){
 		return true;
 	}
 	else{
@@ -55,27 +56,38 @@ uint32_t pq_size(PriorityQueue *q){ //returning the size of priority queue
 	return q->tail;
 }
 
-bool enqueue(PriorityQueue *q, Node *n){ //
+bool enqueue(PriorityQueue *q, Node *n){ //CITE: TA Eugene for enqueue sudo code
 	if(pq_full(q) == true){
 		return false;
 	}
 	if(q->tail == 0){
 		q->items[q->tail] = n;
+		q->tail += 1;
 		return true;
 	}
-	int i = q->tail -1;
-	while(q->items[q->tail-1] > q->items[q->tail]){
-		q->items[(q->tail) + 1] = q->items[(q->tail)];
-		q->tail -= 1;
+	else{
+		int parent = q->tail;
+		q->items[parent] = n;
+		q->tail += 1;
+		while(parent > 1){ //while k > 1 <- this will be the index
+			parent = (parent/2); //parent = floor(k/2)
+			if(n->frequency < q->items[parent]->frequency){
+				Node *temp = node_create(0,0);
+				temp = q->items[parent];
+				q->items[parent] = n;
+				n = temp;
+			}
+		}
+		return true;
 	}
-	q->item[q->tail + 1] = n;
-	q->tail += 1;
-	return true;
-}	
-bool dequeue(PriorityQueue *q, Node **n){
-
 }
 
-void pq_print(PriorityQueue *q){
 
-}
+
+//bool dequeue(PriorityQueue *q, Node **n){
+
+//}
+
+//void pq_print(PriorityQueue *q){
+
+//}

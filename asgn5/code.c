@@ -10,12 +10,12 @@
 // CITE: TA Eugene for code init 
 
 Code code_init(void){
-	Code *c = NULL;	//create new code on the stack
-	c-> top = 0;	// set top to 0
+	Code c;	//create new code on the stack
+	c.top = 0;	// set top to 0
 	for(int i = 0; i < MAX_CODE_SIZE; i += 1){ //zeroing out the array of bits
-		c->bits[i] = 0;		//setting the bits[i] == 0
+		c.bits[i] = 0;		//setting the bits[i] == 0
 	}
-	return *c;
+	return c;
 }
 
 uint32_t code_size(Code *c){
@@ -93,7 +93,7 @@ bool code_pop_bit(Code *c, uint8_t *bit){ //similar to stack.c
 	}
 }
 
-void code_print(Code *c){
+void code_print(Code *c){ //testing harness
 	code_push_bit(c, 1);
 	code_push_bit(c, 0);
 	code_push_bit(c, 1);
