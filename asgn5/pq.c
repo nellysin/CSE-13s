@@ -56,15 +56,15 @@ uint32_t pq_size(PriorityQueue *q) { //returning the size of priority queue
 }
 
 bool enqueue(PriorityQueue *q, Node *n) { //CITE: TA Eugene for enqueue sudo code
-    if (pq_full(q) == true) {
+    if (pq_full(q) == true) { //if it is full
         return false;
     }
-    if (q->tail == 0) {
+    if (q->tail == 0) {		//if it is empty
         q->items[q->tail] = n;
         q->tail += 1;
         return true;
     } else {
-        int parent = q->tail;
+        int parent = q->tail; //the parent 
         q->items[parent] = n;
         q->tail += 1;
         while (parent > 1) { //while k > 1 <- this will be the index
@@ -79,38 +79,48 @@ bool enqueue(PriorityQueue *q, Node *n) { //CITE: TA Eugene for enqueue sudo cod
         return true;
     }
 }
+void min_child(Node **f, first, last)
 
-/*uint32_t fix_heap(PriorityQueue *f, uint32_t parent){
-	parent = 1;
+void fix_heap(Node **f, int first, int last){
+	bool found = false;
 	uint32_t left = parent * 2;
 	uint32_t right = left + 1;
-	uint32_t temp;
-	uint32_t min;
+	uint32_t min = first;
+	
+	if(left <q->capacity && f[left]->frequency < f[parent]->frequency){ //check if the left freq is less than parent
+		min = f[left]->frequency;
+	}else{
+		min = f[parent]->frequency; //the min is still the parent
+	}
+	if(f[right]->frequency < f[parent]->frequency){ //check if the right freq is less than parent
+		min = f[right]->frequency; //make min to the right freq.
+	} else{
+		min = f[parent]->frequency; //make min to the parent freq
+	}
+	if(min != parent){	//when the min isn't parent
+		Node *temp = node_create(0,0); //this is swapping using a new Node *temp
+		temp = f[parent];
+		f[parent] = f[min];
+		f[min] = temp;
+		found = true;
+		}
+}
 
-	if(left >= f->tail || left < 0){
-		left -= 1;
+*bool dequeue(PriorityQueue *q, Node **n) {  //CITE Ben for help on fix heap and dequeue
+	if(pq_empty(q) == true){ //return false when pq is empty
+		return false;
 	}
-	if(right >= f->tail || right < 0){
-		right -= 1;
+	if(q->tail == 1){
+		q->tail += 1;
+		*n = q->items[0];
+		return true;
 	}
-	if(left != -1 && f->items[left] < f->items[parent]){
-		min = left;
-	}
-	else{
-		min = parent;
-	}
-	if(right != -1 && f->items[right] < f->items[min]){
-		min = right;
-	}
-	if(min != parent){
-		temp = f->items[min];
-		f->items[min] = f->items[parent];
-		f->items[parent] = temp;
-	}
-}*/
-
-bool dequeue(PriorityQueue *q, Node **n) {
-    return true;
+	*n = q->items[0];
+	uint32_t s = (q->tail - 1);
+	q->[0] = q->items[s];
+	q->tail -= 1;
+	fix_heap(q, 1);
+	return true;
 }
 
 void pq_print(PriorityQueue *q) {
