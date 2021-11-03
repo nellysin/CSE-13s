@@ -73,39 +73,29 @@ bool code_get_bit(Code *c, uint32_t i){
 	}
 }
 
-bool code_push_bit(Code *c, uint8_t bit){ //this is similar to stack.c
+bool code_push_bit(Code *c, uint8_t bit){ //this is similar to stack.c (CITE: Eugene)
 	if(code_full(c) == true){ //if code is not full yet, then keep pushing + incrementing the top
 		return false;
 	}else{
-		c->bits[c->top] = bit;
-		c->top += 1;
+		if(bit == 1){
+			c->top += 1;
+			code_set_bit(c, c->top);
+		}
+		else{
+			code_clr_bit(c, c->top);
+			c->top += 1;
+		}
 		return true;
 	}
 }
 
-bool code_pop_bit(Code *c, uint8_t *bit){ //similar to stack.c
+bool code_pop_bit(Code *c, uint8_t *bit){ //similar to stack.c (CITE: Eugene)
 	if(code_empty(c) == true){ //if the code is not empty yet, then continue popping and decrement the top
 		return false;
 	}else{
 		c->top -= 1;
-		*bit = c->bits[c->top];
+		*bit = code_get_bit(c, c->top);
+		code_clr_bit(c, c->top);
 		return true;
 	}
-}
-
-void code_print(Code *c){ //testing harness
-	code_push_bit(c, 1);
-	code_push_bit(c, 0);
-	code_push_bit(c, 1);
-	code_push_bit(c, 0);
-	for(int i = 0; i < 4; i+= 1){
-		printf("%d \n", bits[i]);
-	}
-	return;
-}
-
-int main(void){
-	Code c = code_init();
-	code_print(&c);
-	return 0;
 }

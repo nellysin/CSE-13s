@@ -5,6 +5,7 @@
 #include <stdint.h>
 #include <inttypes.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 //CITE: Professor Long for Priority Queue during lecture
 //CITE: TA Eugene
@@ -82,12 +83,40 @@ bool enqueue(PriorityQueue *q, Node *n){ //CITE: TA Eugene for enqueue sudo code
 	}
 }
 
+/*uint32_t fix_heap(PriorityQueue *f, uint32_t parent){
+	parent = 1;
+	uint32_t left = parent * 2;
+	uint32_t right = left + 1;
+	uint32_t temp;
+	uint32_t min;
 
+	if(left >= f->tail || left < 0){
+		left -= 1;
+	}
+	if(right >= f->tail || right < 0){
+		right -= 1;
+	}
+	if(left != -1 && f->items[left] < f->items[parent]){
+		min = left;
+	}
+	else{
+		min = parent;
+	}
+	if(right != -1 && f->items[right] < f->items[min]){
+		min = right;
+	}
+	if(min != parent){
+		temp = f->items[min];
+		f->items[min] = f->items[parent];
+		f->items[parent] = temp;
+	}
+}*/
 
 //bool dequeue(PriorityQueue *q, Node **n){
-
 //}
 
-//void pq_print(PriorityQueue *q){
-
-//}
+void pq_print(PriorityQueue *q){
+        for(uint32_t i = 0; i < q->tail; i += 1){
+                printf("%lu", q->items[i]->frequency);
+        }
+}
