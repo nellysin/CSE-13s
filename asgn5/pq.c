@@ -112,8 +112,9 @@ bool enqueue(PriorityQueue *q, Node *n){ //CITE: TA Eugene for enqueue sudo code
 	}
 }*/
 
-//bool dequeue(PriorityQueue *q, Node **n){
-//}
+bool dequeue(PriorityQueue *q, Node **n){
+	return true;
+}
 
 void pq_print(PriorityQueue *q){
         for(uint32_t i = 0; i < q->tail; i += 1){
