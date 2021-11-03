@@ -77,8 +77,8 @@ bool code_push_bit(Code *c, uint8_t bit) { //this is similar to stack.c (CITE: E
         return false;
     } else {
         if (bit == 1) {
-            c->top += 1;
             code_set_bit(c, c->top);
+            c->top += 1;
         } else {
             code_clr_bit(c, c->top);
             c->top += 1;
