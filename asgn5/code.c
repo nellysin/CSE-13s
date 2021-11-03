@@ -7,95 +7,94 @@
 #include <stdlib.h>
 
 // CITE: Professor Long for sudo code
-// CITE: TA Eugene for code init 
+// CITE: TA Eugene for code init
 
-Code code_init(void){
-	Code c;	//create new code on the stack
-	c.top = 0;	// set top to 0
-	for(int i = 0; i < MAX_CODE_SIZE; i += 1){ //zeroing out the array of bits
-		c.bits[i] = 0;		//setting the bits[i] == 0
-	}
-	return c;
+Code code_init(void) {
+    Code c; //create new code on the stack
+    c.top = 0; // set top to 0
+    for (int i = 0; i < MAX_CODE_SIZE; i += 1) { //zeroing out the array of bits
+        c.bits[i] = 0; //setting the bits[i] == 0
+    }
+    return c;
 }
 
-uint32_t code_size(Code *c){
-	return c->top; //returning the size of the code (top)
+uint32_t code_size(Code *c) {
+    return c->top; //returning the size of the code (top)
 }
 
-bool code_empty(Code *c){
-	if(c->top == 0){ //if code is empty then return true
-		return true;
-	}
-	else{
-		return false; //else return false
-	}
+bool code_empty(Code *c) {
+    if (c->top == 0) { //if code is empty then return true
+        return true;
+    } else {
+        return false; //else return false
+    }
 }
 
-bool code_full(Code *c){
-	if(c->top == ALPHABET){ //if code is full return true
-		return true;
-	}
-	else{
-		return false; //else return false
-	}
+bool code_full(Code *c) {
+    if (c->top == ALPHABET) { //if code is full return true
+        return true;
+    } else {
+        return false; //else return false
+    }
 }
 
-bool code_set_bit(Code *c, uint32_t i){
-	if(i > ALPHABET){	//if i is out of bounds
-		return false;  //return false
-	}
-	else{
-		c->bits[i / MAX_CODE_SIZE] |= (0x1 << i % MAX_CODE_SIZE);//CITE: Professor Long for the setbit from bv8
-		return true; //we are setting the bits
-	}
+bool code_set_bit(Code *c, uint32_t i) {
+    if (i > ALPHABET) { //if i is out of bounds
+        return false; //return false
+    } else {
+        c->bits[i / MAX_CODE_SIZE]
+            |= (0x1 << i % MAX_CODE_SIZE); //CITE: Professor Long for the setbit from bv8
+        return true; //we are setting the bits
+    }
 }
 
-bool code_clr_bit(Code *c, uint32_t i){
-	if(i > ALPHABET){ //if i is out of bounds
-		return false; //return false
-	}
-	else{
-		c->bits[i / MAX_CODE_SIZE] &= ~(0x1 << i % MAX_CODE_SIZE); //CITE: Professor Long from comments repo
-		return true; //we are clearing the bits by using &
-	}
+bool code_clr_bit(Code *c, uint32_t i) {
+    if (i > ALPHABET) { //if i is out of bounds
+        return false; //return false
+    } else {
+        c->bits[i / MAX_CODE_SIZE]
+            &= ~(0x1 << i % MAX_CODE_SIZE); //CITE: Professor Long from comments repo
+        return true; //we are clearing the bits by using &
+    }
 }
 
-bool code_get_bit(Code *c, uint32_t i){
-	if(i > ALPHABET || i == 0){ //if i is out of bounds and it's 0 then return false
-		return false;
-	}else{
-		if(i == 1){ //if and only if i = 1 
-			i = (c->bits[i/MAX_CODE_SIZE] >> i % MAX_CODE_SIZE) & 0x1; //CITE: Professor Long from comments repo
-			return true;	//we are getting the bit and setting it to i
-		}else{
-			return false; // double if i != 1 return false
-		}
-	}
+bool code_get_bit(Code *c, uint32_t i) {
+    if (i > ALPHABET || i == 0) { //if i is out of bounds and it's 0 then return false
+        return false;
+    } else {
+        if (i == 1) { //if and only if i = 1
+            i = (c->bits[i / MAX_CODE_SIZE] >> i % MAX_CODE_SIZE)
+                & 0x1; //CITE: Professor Long from comments repo
+            return true; //we are getting the bit and setting it to i
+        } else {
+            return false; // double if i != 1 return false
+        }
+    }
 }
 
-bool code_push_bit(Code *c, uint8_t bit){ //this is similar to stack.c (CITE: Eugene)
-	if(code_full(c) == true){ //if code is not full yet, then keep pushing + incrementing the top
-		return false;
-	}else{
-		if(bit == 1){
-			c->top += 1;
-			code_set_bit(c, c->top);
-		}
-		else{
-			code_clr_bit(c, c->top);
-			c->top += 1;
-		}
-		return true;
-	}
+bool code_push_bit(Code *c, uint8_t bit) { //this is similar to stack.c (CITE: Eugene)
+    if (code_full(c) == true) { //if code is not full yet, then keep pushing + incrementing the top
+        return false;
+    } else {
+        if (bit == 1) {
+            c->top += 1;
+            code_set_bit(c, c->top);
+        } else {
+            code_clr_bit(c, c->top);
+            c->top += 1;
+        }
+        return true;
+    }
 }
 
-bool code_pop_bit(Code *c, uint8_t *bit){ //similar to stack.c (CITE: Eugene)
-	if(code_empty(c) == true){ //if the code is not empty yet, then continue popping and decrement the top
-		return false;
-	}else{
-		c->top -= 1;
-		*bit = code_get_bit(c, c->top);
-		code_clr_bit(c, c->top);
-		return true;
-	}
+bool code_pop_bit(Code *c, uint8_t *bit) { //similar to stack.c (CITE: Eugene)
+    if (code_empty(c)
+        == true) { //if the code is not empty yet, then continue popping and decrement the top
+        return false;
+    } else {
+        c->top -= 1;
+        *bit = code_get_bit(c, c->top);
+        code_clr_bit(c, c->top);
+        return true;
+    }
 }
