@@ -55,7 +55,7 @@ uint32_t pq_size(PriorityQueue *q) { //returning the size of priority queue
     return q->tail;
 }
 
-bool enqueue(PriorityQueue *q, Node *n) { //CITE: TA Eugene for enqueue sudo code
+bool enqueue(PriorityQueue *q, Node *n) { //CITE: TA Eugene for enqueue sudo code & referencing build heap in asgn3
     if (pq_full(q) == true) { //if it is full
         return false;
     }
@@ -66,7 +66,7 @@ bool enqueue(PriorityQueue *q, Node *n) { //CITE: TA Eugene for enqueue sudo cod
     } else {
         int parent = q->tail; //initialize parent to q->tail (make it a little cleaner)
         q->items[parent] = n; //assign items[parent] to the node
-        q->tail += 1;
+        q->tail += 1; 	//increment tail by 1
         while (q->tail > 1 
                && q->items[parent]->frequency
                       < q->items[parent / 2]->frequency) { //while k > 1 <- this will be the index and comparing the frequency
@@ -80,29 +80,33 @@ bool enqueue(PriorityQueue *q, Node *n) { //CITE: TA Eugene for enqueue sudo cod
     }
 }
 
-void heapify(
+void fix_heap(
     PriorityQueue *q, uint32_t parent) { //CITE: TA Eugene & Tutor Ben for heapify and dequeue
-    uint32_t left = (parent * 2);
-    uint32_t right = (left + 1);
     uint32_t min = parent;
+    uint32_t left = (min * 2);
+    uint32_t right = (left + 1);
 
-    if ((left < q->capacity)
-        && (q->items[min]->frequency
-            < q->items[left]
+    if ((left < q->capacity) //check if the left is less than the capacity and if the minimum frequency 
+        && (q->items[min]->frequency 
+            > q->items[left] 
                   ->frequency)) { //check if the left freq is less than parent and a stop function for capacity
         min = left;
+    } else{
+	    min = parent; 	//min will stay as parent
     }
     if ((right < q->capacity)
         && (q->items[min]->frequency
-            < q->items[right]->frequency)) { //check if the right freq is less than parent
+            > q->items[right]->frequency)) { //check if the right freq is less than parent
         min = right; //make min to the right freq.
+    } else{
+	    min = parent; //min will stay as parent
     }
     if (min != parent) { //when the min isn't parent
         Node *temp = node_create(0, 0); //this is swapping using a new Node *temp
-        temp = q->items[parent];
-        q->items[parent] = q->items[min];
-        q->items[min] = temp;
-        heapify(q, min);
+        temp = q->items[min]; //assign [parent] to temp
+        q->items[min] = q->items[parent]; // assign the parent frequency to min
+        q->items[parent] = temp; //assign the parent node to the temp
+        fix_heap(q, min); // recursively call & the this function until it reaches capacity
     }
     return;
 }
@@ -111,10 +115,11 @@ bool dequeue(PriorityQueue *q, Node **n) { //CITE Ben for help on fix heap and d
     if (pq_empty(q) == true) { //return false when pq is empty
         return false;
     }
+    //setting item to the lowest frequency
     *n = q->items[0];
     q->items[0] = q->items[q->tail - 1];
     q->tail -= 1;
-    heapify(q, 0);
+    fix_heap(q, 0);
     return true;
 }
 
