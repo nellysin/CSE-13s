@@ -85,7 +85,7 @@ bool read_bit(int infile, uint8_t *bit) { // CITE: TA Eugene
     return index != end;
 }
 
-void write_code(int outfile, Code *c) { //CITE: TA Eugene
+/*void write_code(int outfile, Code *c) { //CITE: TA Eugene
     //buffers a code
     //buffer is written when filled
 
@@ -109,7 +109,7 @@ void write_code(int outfile, Code *c) { //CITE: TA Eugene
         index = 0;
     }
     return;
-}
+}*/
 
 void flush_codes(int outfile) {
     //flush bits out of buffer if not empty
