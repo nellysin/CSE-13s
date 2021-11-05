@@ -35,12 +35,13 @@ Node *build_tree(uint64_t hist [static ALPHABET]){ //CITE: TA Eugene & Tutor Eri
 	
 }
 
-/*void build_codes(Node *root, Code table[static ALPHABET]){
+void build_codes(Node *root, Code table[static ALPHABET]){
 	//walk the huffman tree to construct the corresponding code for each symbol
 	Code c = {0, {0}};
 
 	if(root->left == NULL && root->right == NULL){
-			
+		table[root->symbol] = c
+	}		
 	return;		
 }
 void dump_tree(int outfile, Node *root){
@@ -53,4 +54,4 @@ Node *rebuild_tree(uint16_t nbytes, uint8_t tree_dump[static nbytes]){
 
 void delete_tree(Node **root){
 	return;
-}*/
+}
