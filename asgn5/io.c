@@ -20,7 +20,7 @@ static uint8_t wfbuf[BLOCK];
 //CITE: TA Sloan for help on read byte
 //CITE: Miles for help on read bit
 
-/*int read_bytes(int infile, uint8_t *buf, int nbytes) { //CITE: TA Eugene for sudo
+/*int read_bytes(int infile, uint8_t *buf, int nbytes) { //CITE: TA Eugene for sudo & Tutor Jason
     uint64_t i = nbytes; //changing expression
     while (i != bytes_read) { //reading the specified bytes by nbytes
         uint64_t bytes = read(infile, (buf + bytes_read),
@@ -33,7 +33,7 @@ static uint8_t wfbuf[BLOCK];
     return bytes_read;
 }
 
-int write_bytes(int outfile, uint8_t *buf, int nbytes) { //CITE: TA Eugene for sudo
+int write_bytes(int outfile, uint8_t *buf, int nbytes) { //CITE: TA Eugene for sudo & Tutor Jason
     uint64_t w = nbytes; // w changes nbytes
     while (w != bytes_written) { //keep track if w does not equal to bytes_written
         uint64_t bytes = write(outfile, (buf + bytes_written),
@@ -46,30 +46,34 @@ int write_bytes(int outfile, uint8_t *buf, int nbytes) { //CITE: TA Eugene for s
     return bytes_written; //return bytes_written once it stops the while loop
 }*/
 
-int read_bytes(int infile, uint8_t *buf, int nbytes) { //CITE: TA Eugene for read_bytes sudo code & Tutor Eric
-	int bytes = -1; 
+int read_bytes(int infile, uint8_t *buf, int nbytes) { //CITE: TA Eugene for sudo
+	int bytes = 0;
 	int total_bytes = 0;
-	while ((total_bytes != nbytes) && (bytes != 0)){
-		bytes = read(infile, buf, nbytes); //read function that read the infile
-		total_bytes += bytes; //adding total bytes read
-		buf += bytes; //add buffer
-		nbytes -= bytes; //decrement nbytes
-	}
-	bytes_read += total_bytes; //read bytes will transfer to the bytes_read and return bytes_read
-	return bytes_read; //returning the bytes_read
+
+	do{
+		bytes = read(infile, buf + total_bytes, nbytes - total_bytes);
+		total_bytes += bytes;
+
+	} while(bytes > 0);
+
+	bytes_written += total_bytes;
+
+	return bytes_read;
 }
 
-int write_bytes(int outfile, uint8_t *buf, int nbytes) { //CITE: TA Eugene for write_bytes sudo code & Tutor Eric
-	int bytes = -1;
+int write_bytes(int outfile, uint8_t *buf, int nbytes) { //CITE: TA Eugene for sudo
+	int bytes = 0;
 	int total_bytes = 0;
-	while((total_bytes != nbytes) && (bytes != 0)){
-		bytes = write(outfile, buf, nbytes); //read function that wirte to the outfile
-		total_bytes += bytes;  // add the bytes to total_bytes
-		buf += bytes;  // this will add the bytes to the buffer
-		nbytes -= bytes; //decrement the nbytes
-	}
-	bytes_written += total_bytes; //this is for assigning total_bytes to bytes_written
-	return bytes_written; //returning bytes_written
+
+	do{
+		bytes = write( outfile, buf + total_bytes, nbytes - total_bytes);
+		total_bytes += bytes;
+	
+	} while(bytes > 0);
+
+	bytes_written += total_bytes;
+
+	return bytes_written;
 }
 
 bool read_bit(int infile, uint8_t *bit) { // CITE: TA Eugene & Tutor Eric
@@ -113,14 +117,9 @@ void write_code(int outfile, Code *c) { //CITE: TA Eugene & Tutor Eric
     }
     return;
 }
-void flush_codes(int outfile) { //CITE: TA Eugene
+void flush_codes(int outfile) { //CITE: TA Eugene & Tutor Eric
     //flush bits out of buffer if not empty
-    uint8_t byte = 0;
-    if((index % 8) == 0){
-	   byte = (index / 8);
-    } else {
-	    byte = ((index / 8) + 1);
-    }
-    write_bytes(outfile, wfbuf, byte);
+    int bytes_write = (index % 8) == 0 ? (index / 8) : (index /8) + 1;
+    write_bytes(outfile, wfbuf, bytes_write);
     return;
 }
