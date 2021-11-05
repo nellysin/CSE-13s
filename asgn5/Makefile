@@ -2,25 +2,28 @@ CC = clang
 CFLAGS = -Wall -Wpedantic -Werror -Wextra
 LFLAGS = -lm
 
-all: pq
+all:
 
-code: code.o stack.o
-	$(CC) -o code code.o stack.o $(LFLAGS)
+encode.o: encode.c defines.h
+	$(CC) $(CFLAGS) -c encode.c
 
-pq: pq.o node.o
-	$(CC) -o pq pq.o node.o $(LFLAGS)
+decode.o: decode.o
+	$(CC) $(CFLAGS) -c decode.c
 
-io.o: io.c io.h code.h
-	$(CC) $(CFLAGS) -c io.c
+node.o: node.h
+	$(CC) $(CFLAGS) -c node.c
 
-stack.o: stack.c stack.h defines.h code.h
-	$(CC) $(CLFAGS) -c stack.c
+stack.o: stack.h node.c node.h
+	$(CC) $(CFLAGS) -c stack.c
 
-code.o: code.c code.h defines.h code.h
+pq.o: pq.h node.c node.h
+	$(CC) $(CFLAGS) -c pq.c
+
+code.o: code.h node.c node.h
 	$(CC) $(CFLAGS) -c code.c
 
-pq.o: pq.c pq.h node.h
-	$(CC) $(CFLAGS) -c pq.c
+io.o: io.h
+	$(CC) $(CFLAGS) -c code.c
 
 clean:
 	rm -f *.o
