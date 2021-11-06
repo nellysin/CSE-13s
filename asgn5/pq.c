@@ -11,8 +11,8 @@
 //CITE: TA Eugene
 
 struct PriorityQueue {
-    uint32_t capacity;
-    uint32_t tail;
+    uint32_t capacity; //the capcity of the priority queue
+    uint32_t tail; //this will be keeping track of the size
     Node **items;
 };
 
@@ -31,8 +31,12 @@ PriorityQueue *pq_create(uint32_t capacity) {
     return q;
 }
 void pq_delete(PriorityQueue **q) {
-    free(*q);
-    *q = NULL;
+    if(*q && (*q)->items){
+	    free((*q)->items);
+	    free(*q);
+    	    *q = NULL;
+    }
+    return;
 }
 
 bool pq_empty(PriorityQueue *q) {
@@ -85,10 +89,10 @@ bool enqueue(PriorityQueue *q,
 }
 
 void fix_heap(
-    PriorityQueue *q, uint32_t parent) { //CITE: TA Eugene & Tutor Ben for heapify and dequeue
-    uint32_t min = parent;
-    uint32_t left = (min * 2);
-    uint32_t right = (left + 1);
+    PriorityQueue *q, uint32_t parent) { //CITE: TA Eugene, Tutor Ben, & Tutor Eric for heapify and dequeue
+    uint32_t min = parent; //min is the parent
+    uint32_t left = (min * 2); // left is min * 2
+    uint32_t right = (left + 1); //right is (min * 2) + 1
 
     if ((left
             < q->capacity) //check if the left is less than the capacity and if the minimum frequency
@@ -116,6 +120,7 @@ void fix_heap(
     return;
 }
 
+//CITE: TA Eugene & Tutor Eric for heapify and dequeue
 bool dequeue(PriorityQueue *q, Node **n) { //CITE Ben for help on fix heap and dequeue
     if (pq_empty(q) == true) { //return false when pq is empty
         return false;
