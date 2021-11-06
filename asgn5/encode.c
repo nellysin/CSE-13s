@@ -38,26 +38,12 @@ void help(){ //printing out the menu
 	return;
 }
 
-struct stat statbuffer;
-//construct header
-/*Header create_header(int infile, int outfile){
-	Header h;
-	fstat(infile, &statbuffer);
-	fchmod(outfile, statbuffer.st_mode);
-	h.magic = MAGIC;
-	h.permissions = statbuffer.st_mode;
-	h.tree_size = (3 * */
-//print out the statistics
-
-
 int main(int argc, char **argv){ 
 	int infile = STDIN_FILENO;
 	int outfile = STDOUT_FILENO;
-
 	bool verbose = false;
-
+	
 	int opt = 0;
-
 	while((opt = getopt(argc, argv, OPTIONS)) != -1){
 		switch(opt){
 			case 'h': 
@@ -74,52 +60,50 @@ int main(int argc, char **argv){
 				}
 				break;
 			case 'o':
-				outfile = open(optarg, O_WRONLY | O_CREAT);
+				outfile = open(optarg, O_WRONLY | O_CREAT | O_TRUNC);
 				if(outfile == -1){
 					fprintf(stderr, "Error: Unable to write file.\n");
 					exit(1);
 				}
 			default:
-				break;
+				help();
+				exit(1);
 		}
 	}			
-	return 0;
 
 	//histogram
 	uint64_t histogram[ALPHABET] = {0};
+	histogram[0] += 1; // histogram will have two elements present
+	histogram[ALPHABET-1] += 1; //increment the count element 0 and 255
+	
 	uint32_t symbols = 0;
 	uint8_t buffer[BLOCK] = {0};
-	histogram[0] += 1;
-	histogram[ALPHABET] += 1;
-	bytes_read = read_bytes(infile, buffer, BLOCK);
-	while(bytes_read > 0){
-		for(int i = 0; i < bytes_read; i += 1){
+	//bytes_read = read_bytes(infile, buffer, BLOCK);
+	while((bytes_read = read_bytes(infile, buffer, BLOCK)) > 0){
+		for(uint64_t i = 0; i < bytes_read; i += 1){
 			if(histogram[buffer[i]] == 0){
 				symbols += 1;
 			}
 			histogram[buffer[i]] += 1;
 		}
 	}
-
-	//building the tree
-
-	Node *root;
-	root = build_tree(histogram);
+	
+	//build the tree
+	Node *root = build_tree(histogram);
 	Code table[ALPHABET] = {0};
 	build_codes(root, table);
 
-	//construct header
 	//file permissions
-	
 	//creating the header
-	Header header = {0,0,0,0};
-	fstat(infile, &statbuffer);
-	fchmod(outfile, statbuffer.st_mode);
+	struct stat sbuffer;
+	Header header = {0,0,0,0}; //construct header
+	fstat(infile, &sbuffer);
+	fchmod(outfile, sbuffer.st_mode);
 
-	header.magic = MAGIC;
-	header.permissions = statbuffer.st_mode;
+	header.magic = MAGIC; 
+	header.permissions = sbuffer.st_mode;
 	header.tree_size = (3 * symbols) - 1;
-	header.file_size = statbuffer.st_size;
+	header.file_size = sbuffer.st_size;
 
 	write_bytes(outfile, (uint8_t *)&header, sizeof(header));
 	
@@ -128,14 +112,20 @@ int main(int argc, char **argv){
 
 	//get the infile stats
 	lseek(infile, 0, SEEK_SET);
-	while(bytes_read > 0){
-			for(int i = 0; i < bytes_read; i += 1){
+	//bytes_read = read_bytes(infile, buffer, BLOCK);
+	while((bytes_read = read_bytes(infile, buffer, BLOCK)) > 0){
+			for(uint64_t i = 0; i < bytes_read; i += 1){
 				write_code(outfile, &table[buffer[i]]);
 			}
 	}
 	flush_codes(outfile);
 	if(verbose == true){
 		//printing stats
+		fstat(infile, &sbuffer);
+		//fprint the stats
+		fprintf(stderr, "Uncompressed file size: %" PRId64 " bytes\n", header.file_size);
+		fprintf(stderr, "Compressed file size: %" PRId64 "bytes\n", bytes_written - header.file_size);
+		// space saving
 	}
 
 	delete_tree(&root);

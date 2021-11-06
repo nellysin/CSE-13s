@@ -62,11 +62,12 @@ Node *build_tree(uint64_t hist [static ALPHABET]){ //CITE: TA Eugene 10/26 secti
         return;
 }*/
 
+static Code c;
 void build_codes(Node *root, Code table[static ALPHABET]){ 
 	//CITE: TA Eugene 10/26 section & Tutor Eric 11/3 session four BUILD_CODES
 	//CITE: Professor Long for pseudocode in assgment doc
 	//walk the huffman tree to construct the corresponding code for each symbol
-	Code c = code_init(); //initialize code c
+	c = code_init(); //initialize code c
 	uint8_t i; //a variable to where the bit is popped
         if(root->left == NULL && root->right == NULL){ //letters can only be leaf nodes!!
                 table[root->symbol] = c;
@@ -91,39 +92,40 @@ void dump_tree(int outfile, Node *root){
 	//post order traversal -- dumping the tree (going as far as we can in the tree)
 	//static uint8_t tree_buffer[] = {'L', 'I'}; //using a static buffer for the symbol as well
 
-	uint8_t leaf = 'L';
-	uint8_t interior = 'I';
+	uint8_t leaf = 'L'; //leaf for 'L'
+	uint8_t interior = 'I'; //interior is 'I'
 
 	//post order(n)
 	//if node isn't null
 	if(root != NULL){
 		dump_tree(outfile, root->left); //post order (n->left)
-		dump_tree(outfile, root->right); //post order(n->right)
-	} 
-	//if root->left or root->right is a leaf
-	if(root->left == NULL && root->right == NULL){
-	//	tree_buffer[0] = 'L'; //setting to 'L'
-		write_bytes(outfile, &leaf, 1); //when on a leaf node "L" followed by the symbol of node "c"
-		write_bytes(outfile, &root->symbol, 1);
-	} else { //if this is not a interior 
-	//	tree_buffer[1] = 'I'; //setting the 'I'
-		write_bytes(outfile, &interior, 1); //if it is an interior node "I" followed by the symbol of the node
+		dump_tree(outfile, root->right); //post order(n->right) 
+		//if root->left or root->right is a leaf
+		if(root->left == NULL && root->right == NULL){
+		//	tree_buffer[0] = 'L'; //setting to 'L'
+			write_bytes(outfile, &leaf, 1); //when on a leaf node "L" followed by the symbol of node "c"
+			write_bytes(outfile, &root->symbol, 1);
+		} else { //if this is not a interior 
+		//	tree_buffer[1] = 'I'; //setting the 'I'
+			write_bytes(outfile, &interior, 1); //if it is an interior node "I" followed by the symbol of the node
+		}
 	}
 	return;
 }
 
-Node *rebuild_tree(uint16_t nbytes, uint8_t tree_dump[static nbytes]){ //CITE: TA Eugene for rebuild tree sudo in 11/4 section
+Node *rebuild_tree(uint16_t nbytes, uint8_t tree[static nbytes]){ //CITE: TA Eugene for rebuild tree sudo in 11/4 section
 	Stack *s = stack_create(nbytes); //we must create a stack for the parents
 	//loop for dumping
 	for(uint32_t i = 0; i < nbytes; i += 1){ //if we dump 'L'
-		if(tree_dump[i] == 'L'){
-			Node *n = node_create(tree_dump[i += 1], 0);
-			stack_push(s, n);
+		if(tree[i] == 'L'){
+			uint32_t next = i + 1; //for the next 
+			Node *n = node_create(tree[next], 0); //that means the next index will be a symbol
+			stack_push(s, n); //push the node to the stack
 		}
 		//when we reach the parent node
-		if(tree_dump[i] == 'I'){ //if we dump 'I'
-			Node *right; 
-			Node *left;
+		if(tree[i] == 'I'){ //if we dump 'I'
+			Node *right; //initiliaze right
+			Node *left; //initialize left
 			stack_pop(s, &right); //pop the right 
 			stack_pop(s, &left); //pop the left
 			Node *n = node_join(left, right); // the parent is n and will be using node join for left and right
@@ -132,7 +134,7 @@ Node *rebuild_tree(uint16_t nbytes, uint8_t tree_dump[static nbytes]){ //CITE: T
 	}
 	// we have to return the root 
 	Node *root; //node for root
-	stack_pop(s, &root); //pop the top of the stack to the root
+	stack_pop(s, &root); //pop the top of the stack to the root 
 	stack_delete(&s);  //and delete the the top of the stack after
 	return root;
 }
