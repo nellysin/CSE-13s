@@ -4,16 +4,17 @@
 #include "io.h"
 #include "node.h"
 #include "pq.h"
-#include "variables.h"
 
 #include <stdio.h>
 #include <stdbool.h>
 #include <sys/stat.h>
-#include <sys/types.h>
 #include <stdint.h>
 #include <fcntl.h>
 #include <string.h>
 #include <stdlib.h>
+#include <unistd.h>
+#include <inttypes.h>
+#include <errno.h>
 
 #define OPTIONS "hvi:o:"
 
@@ -25,7 +26,7 @@ void help(){ //printing out the menu
 	printf("SYNOPSIS\n");
 	printf("  A Huffman encoder.\n");
 	printf("  Compresses a file using the Huffman coding algorithm.\n");
-	printf("\n")
+	printf("\n");
 	printf("USAGE\n");
 	printf("  ./encode [-h] [-i infile] [-o outfile]\n");
 	printf("\n");
@@ -37,8 +38,15 @@ void help(){ //printing out the menu
 	return;
 }
 
+struct stat statbuffer;
 //construct header
-
+/*Header create_header(int infile, int outfile){
+	Header h;
+	fstat(infile, &statbuffer);
+	fchmod(outfile, statbuffer.st_mode);
+	h.magic = MAGIC;
+	h.permissions = statbuffer.st_mode;
+	h.tree_size = (3 * */
 //print out the statistics
 
 
@@ -59,16 +67,16 @@ int main(int argc, char **argv){
 				verbose = true;
 				break;
 			case 'i':
-			        infile = open(optarg, O_RDONLY);
+			        infile = open(optarg, O_RDONLY| O_CREAT);
 				if(infile == -1){
-					stderr = error message;
+					fprintf(stderr, "Error: open infile failed.\n");
 					exit(1);
 				}
 				break;
 			case 'o':
-				outfile = open(optarg, O_WRONGLY | O_CREAT | OTRUNE);
+				outfile = open(optarg, O_WRONLY | O_CREAT);
 				if(outfile == -1){
-					stderr = error message;
+					fprintf(stderr, "Error: Unable to write file.\n");
 					exit(1);
 				}
 			default:
@@ -87,11 +95,13 @@ int main(int argc, char **argv){
 	while(bytes_read > 0){
 		for(int i = 0; i < bytes_read; i += 1){
 			if(histogram[buffer[i]] == 0){
-				sum += 1;
+				symbols += 1;
 			}
 			histogram[buffer[i]] += 1;
 		}
 	}
+
+	//building the tree
 
 	Node *root;
 	root = build_tree(histogram);
@@ -101,17 +111,18 @@ int main(int argc, char **argv){
 	//construct header
 	//file permissions
 	
-	struct stat statbuffer
-	Header header;
-	fstat(infile, statbuffer);
-	fchmod(outfile, buffer.st_mode);
+	//creating the header
+	Header header = {0,0,0,0};
+	fstat(infile, &statbuffer);
+	fchmod(outfile, statbuffer.st_mode);
 
 	header.magic = MAGIC;
 	header.permissions = statbuffer.st_mode;
 	header.tree_size = (3 * symbols) - 1;
 	header.file_size = statbuffer.st_size;
-	write_bytes(outfile, (uint8_t *)&h, sizeof(h));
 
+	write_bytes(outfile, (uint8_t *)header, sizeof(header));
+	
 	//dump tree
 	dump_tree(outfile, root);
 
