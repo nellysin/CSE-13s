@@ -121,7 +121,7 @@ int main(int argc, char **argv){
 	header.tree_size = (3 * symbols) - 1;
 	header.file_size = statbuffer.st_size;
 
-	write_bytes(outfile, (uint8_t *)header, sizeof(header));
+	write_bytes(outfile, (uint8_t *)&header, sizeof(header));
 	
 	//dump tree
 	dump_tree(outfile, root);
