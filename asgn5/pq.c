@@ -8,8 +8,9 @@
 #include <stdio.h>
 
 //CITE: Professor Long for Priority Queue during lecture
-//CITE: TA Eugene
+//CITE: TA Eugene for pseudo code
 
+//Most of these are referencing stack.c but credit goes to the help from Professor Long and TA Eugene
 struct PriorityQueue {
     uint32_t capacity; //the capcity of the priority queue
     uint32_t tail; //this will be keeping track of the size
@@ -22,19 +23,19 @@ PriorityQueue *pq_create(uint32_t capacity) {
     if (q) {
         q->tail = 0;
         q->capacity = capacity;
-        q->items = (Node **) calloc(capacity, sizeof(Node));
-        if (!q->items) {
+        q->items = (Node **) calloc(capacity, sizeof(Node *));
+        if (!q->items) { //free if there is no items
             free(q);
             q = NULL;
         }
     }
     return q;
 }
-void pq_delete(PriorityQueue **q) {
-    if(*q && (*q)->items){
-	    free((*q)->items);
-	    free(*q);
-    	    *q = NULL;
+void pq_delete(PriorityQueue **q) { //CITE: TA Eugene
+    if (*q && (*q)->items) { //for freeing the memory
+        free((*q)->items);
+        free(*q);
+        *q = NULL;
     }
     return;
 }
@@ -88,8 +89,8 @@ bool enqueue(PriorityQueue *q,
     }
 }
 
-void fix_heap(
-    PriorityQueue *q, uint32_t parent) { //CITE: TA Eugene, Tutor Ben, & Tutor Eric for heapify and dequeue
+void fix_heap(PriorityQueue *q,
+    uint32_t parent) { //CITE: TA Eugene, Tutor Ben, & Tutor Eric for heapify and dequeue
     uint32_t min = parent; //min is the parent
     uint32_t left = (min * 2); // left is min * 2
     uint32_t right = (left + 1); //right is (min * 2) + 1
@@ -133,8 +134,8 @@ bool dequeue(PriorityQueue *q, Node **n) { //CITE Ben for help on fix heap and d
     return true;
 }
 
-void pq_print(PriorityQueue *q) {
-    for (uint32_t i = 0; i < q->tail; i += 1) {
-        printf("%lu", q->items[i]->frequency);
-    }
-}
+//void pq_print(PriorityQueue *q) {
+//    for (uint32_t i = 0; i < q->tail; i += 1) {
+//        printf("%lu", q->items[i]->frequency);
+//    }
+//}

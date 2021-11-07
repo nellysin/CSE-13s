@@ -70,7 +70,7 @@ int main(int argc, char **argv) {
         }
     }
     //file permissions
-    Header header = {0,0,0,0}; //CITE: TUTOR Eric -- initialize header
+    Header header = { 0, 0, 0, 0 }; //CITE: TUTOR Eric -- initialize header
 
     read_bytes(infile, (uint8_t *) &header, sizeof(header)); //read file
 
