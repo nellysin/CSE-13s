@@ -115,10 +115,9 @@ int main(int argc, char **argv) {
 	}
 
 	//if verbose is true (print stats)
-	if(verbose == true){
+	/*if(verbose == true){
 		double space = 0;
-		fprintf(stderr, "Compressed file size:")
-
+		fprintf(stderr, "Compressed file size:")*/
 
     delete_tree(&root); //MUST DELETE AND CLOSE FILES
     close(infile);
