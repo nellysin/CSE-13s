@@ -22,11 +22,11 @@
 //CITE: TA Eugene for pseudo code and structure of encode (ALL) during 11/4 & 11/2 section
 //CITE: Tutor Eric for pseudo code of encode during 11/3 (ALL) session
 
-uint32_t s_symbols = 0;
+/*uint32_t s_symbols = 0;
 struct stat sbuffer;
 //a constructor for the header
 Header construct_header(int infile, int outfile) {
-    Header header;
+    Header header = {0,0,0,0};
     fstat(infile, &sbuffer);
     fchmod(outfile, sbuffer.st_mode);
     header.magic = MAGIC;
@@ -34,7 +34,7 @@ Header construct_header(int infile, int outfile) {
     header.tree_size = (3 * s_symbols) - 1;
     header.file_size = sbuffer.st_size;
     return header;
-}
+}*/
 
 void help(void) { //printing out the menu
     printf("SYNOPSIS\n");
@@ -47,7 +47,7 @@ void help(void) { //printing out the menu
     printf("OPTIONS\n");
     printf("  -h		 Program usage and help.\n");
     printf("  -v		 Print compression statistics.\n");
-    printf("  -i infile	 Input file to compress.\n");
+    printf("  -i infile	 	 Input file to compress.\n");
     printf("  -o outfile	 Output of compressed data.\n");
     return;
 }
@@ -86,18 +86,19 @@ int main(int argc, char **argv) {
 
     //creating the histogram
     uint64_t histogram[ALPHABET] = { 0 };
-    histogram[0] += 1; // histogram will have two elements present
-    histogram[ALPHABET - 1] += 1; //increment the count element 0 and 255
-
-    //uint32_t s_symbols;
+    uint32_t s_symbol = 0;
+    uint8_t buffer[BLOCK] = { 0 };
     //Header header = construct_header(infile, outfile);
 
-    uint8_t buffer[BLOCK] = { 0 };
+    histogram[0] += 1; // histogram will have two elements present
+    histogram[ALPHABET - 1] += 1; //increment the count element 0 and 255
     //bytes_read = read_bytes(infile, buffer, BLOCK);
-    while ((bytes_read = read_bytes(infile, buffer, BLOCK)) > 0) {
-        for (uint64_t i = 0; i < bytes_read; i += 1) {
+
+    int bytes = 0;
+    while ((bytes = read_bytes(infile, buffer, BLOCK)) > 0) {
+        for (int i = 0; i < bytes; i += 1) {
             if (histogram[buffer[i]] == 0) {
-                s_symbols += 1;
+                s_symbol += 1;
             }
             histogram[buffer[i]] += 1;
         }
@@ -105,23 +106,25 @@ int main(int argc, char **argv) {
 
     //build the tree
     Node *root = build_tree(histogram); //using build tree to use pq
+
     Code table[ALPHABET] = { 0 }; //set the table for build codes
     build_codes(root, table);
 
     //file permissions
     //creating the header
     //this is to initialize the header
-    //    struct stat sbuffer;
-    //    fstat(infile, &sbuffer);
-    //    fchmod(outfile, sbuffer.st_mode);
+    struct stat sbuffer;
+    fstat(infile, &sbuffer);
+    fchmod(outfile, sbuffer.st_mode);
 
-    //    Header header = { 0, 0, 0, 0 }; //construct header CITE: Tutor Eric
-    //    header.magic = MAGIC; //set to magic number
-    //    header.permissions = sbuffer.st_mode;
-    //    header.tree_size = (3 * s_symbols) - 1;
-    //    header.file_size = sbuffer.st_size;
+    Header header = { 0, 0, 0, 0 }; //construct header CITE: Tutor Eric
+    header.magic = MAGIC; //set to magic number
+    header.permissions = sbuffer.st_mode;
+    header.tree_size = (3 * s_symbol) - 1;
+    header.file_size = sbuffer.st_size;
 
-    Header header = construct_header(infile, outfile);
+    //Calling for my file permissions
+    //Header header = construct_header(infile, outfile);
 
     write_bytes(outfile, (uint8_t *) &header, sizeof(header)); //writing the bytes
 
@@ -132,14 +135,15 @@ int main(int argc, char **argv) {
     lseek(infile, 0, SEEK_SET); //allows the file offset to be set beyond the end of the file
     //bytes_read = read_bytes(infile, buffer, BLOCK);
     //this is where we will be writing
-    while ((bytes_read = read_bytes(infile, buffer, BLOCK)) > 0) {
-        for (uint64_t i = 0; i < bytes_read; i += 1) {
+    bytes = 0;
+    while ((bytes = read_bytes(infile, buffer, BLOCK)) > 0) {
+        for (int i = 0; i < bytes; i += 1) {
             write_code(outfile, &table[buffer[i]]);
         }
     }
     flush_codes(outfile);
 
-    if (verbose == true) {
+    /*if (verbose == true) {
         //printing stats
         fstat(infile, &sbuffer);
         //fprint the stats
@@ -147,7 +151,7 @@ int main(int argc, char **argv) {
         fprintf(
             stderr, "Compressed file size: %" PRId64 "bytes\n", bytes_written - header.file_size);
         // space saving
-    }
+    }*/
 
     delete_tree(&root);
     close(infile);
