@@ -22,6 +22,20 @@
 //CITE: TA Eugene for pseudo code and structure of encode (ALL) during 11/4 & 11/2 section
 //CITE: Tutor Eric for pseudo code of encode during 11/3 (ALL) session
 
+uint32_t s_symbols = 0;
+struct stat sbuffer;
+//a constructor for the header
+Header construct_header(int infile, int outfile) {
+    Header header;
+    fstat(infile, &sbuffer);
+    fchmod(outfile, sbuffer.st_mode);
+    header.magic = MAGIC;
+    header.permissions = sbuffer.st_mode;
+    header.tree_size = (3 * s_symbols) - 1;
+    header.file_size = sbuffer.st_size;
+    return header;
+}
+
 void help(void) { //printing out the menu
     printf("SYNOPSIS\n");
     printf("  A Huffman encoder.\n");
@@ -75,7 +89,9 @@ int main(int argc, char **argv) {
     histogram[0] += 1; // histogram will have two elements present
     histogram[ALPHABET - 1] += 1; //increment the count element 0 and 255
 
-    uint32_t s_symbols = 0;
+    //uint32_t s_symbols;
+    //Header header = construct_header(infile, outfile);
+
     uint8_t buffer[BLOCK] = { 0 };
     //bytes_read = read_bytes(infile, buffer, BLOCK);
     while ((bytes_read = read_bytes(infile, buffer, BLOCK)) > 0) {
@@ -95,15 +111,17 @@ int main(int argc, char **argv) {
     //file permissions
     //creating the header
     //this is to initialize the header
-    struct stat sbuffer;
-    fstat(infile, &sbuffer);
-    fchmod(outfile, sbuffer.st_mode);
+    //    struct stat sbuffer;
+    //    fstat(infile, &sbuffer);
+    //    fchmod(outfile, sbuffer.st_mode);
 
-    Header header = { 0, 0, 0, 0 }; //construct header CITE: Tutor Eric
-    header.magic = MAGIC; //set to magic number
-    header.permissions = sbuffer.st_mode;
-    header.tree_size = (3 * s_symbols) - 1;
-    header.file_size = sbuffer.st_size;
+    //    Header header = { 0, 0, 0, 0 }; //construct header CITE: Tutor Eric
+    //    header.magic = MAGIC; //set to magic number
+    //    header.permissions = sbuffer.st_mode;
+    //    header.tree_size = (3 * s_symbols) - 1;
+    //    header.file_size = sbuffer.st_size;
+
+    Header header = construct_header(infile, outfile);
 
     write_bytes(outfile, (uint8_t *) &header, sizeof(header)); //writing the bytes
 
