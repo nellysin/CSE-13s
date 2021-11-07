@@ -13,14 +13,16 @@
 #include <fcntl.h>
 #include <string.h>
 #include <stdlib.h>
-#include <unistd.h>
 #include <inttypes.h>
+#include <unistd.h>
 
 #define OPTIONS "hvi:o:"
 
 //CITE: Professor Long for steps of encode in assignment doc (ALL)
 //CITE: TA Eugene for pseudo code and structure of encode (ALL) during 11/4 & 11/2 section
 //CITE: Tutor Eric for pseudo code of encode during 11/3 (ALL) session
+uint64_t bytes_read = 0;
+uint64_t bytes_written = 0;
 
 struct stat sbuffer;
 //a constructor for the header
@@ -54,9 +56,10 @@ void help(void) { //printing out the menu
 int main(int argc, char **argv) {
     int infile = STDIN_FILENO;
     int outfile = STDOUT_FILENO;
-    if (outfile != STDOUT_FILENO) {
-        close(outfile);
-    }
+    
+    uint64_t uncompressed = 0;
+    uint64_t compressed = 0;
+
     bool verbose = false;
 
     //the command lines with switch cases
@@ -99,6 +102,7 @@ int main(int argc, char **argv) {
             histogram[buffer[i]] += 1;
         }
     }
+    uncompressed = bytes_read;
 
     //build the tree
     Node *root = build_tree(histogram); //using build tree to use pq
@@ -117,11 +121,13 @@ int main(int argc, char **argv) {
     //get the infile stats
     lseek(infile, 0, SEEK_SET); //allows the file offset to be set beyond the end of the file
     //this is where we will be writing
+    bytes_read = 0;
     while ((bytes_read = read_bytes(infile, buffer, BLOCK)) > 0) {
         for (uint64_t i = 0; i < bytes_read; i += 1) {
             write_code(outfile, &table[buffer[i]]);
         }
     }
+    compressed = bytes_written;
     flush_codes(outfile);
 
     delete_tree(&root);
