@@ -35,6 +35,10 @@ void help(void) { //printing out the menu
     return;
 }
 
+//CITE: Professor Long for steps of decode in assignment doc (ALL)
+//CITE: TA Eugene for pseudo code and structure of decode (ALL) during 11/4 section
+//CITE: Tutor Eric for pseudo code of decode during 11/3 (ALL) session
+
 int main(int argc, char **argv) {
     int infile = STDIN_FILENO;
     int outfile = STDOUT_FILENO;
@@ -105,15 +109,18 @@ int main(int argc, char **argv) {
                         }
                 }
         }
-        //CITE: Tutor Jason for the tip
+        //CITE: Tutor Jason for reading rest of the tip
 	if(i % BLOCK != 0 && i != 0){ //checking the rest of the bytes 
 		write_bytes(outfile, buf, (i % BLOCK)); //write out the rest of the bytes
 	}
 
 	//if verbose is true (print stats)
+	if(verbose == true){
+		double space = 0;
+		fprintf(stderr, "Compressed file size:")
 
 
-    delete_tree(&root);
+    delete_tree(&root); //MUST DELETE AND CLOSE FILES
     close(infile);
     close(outfile);
     return 0;
