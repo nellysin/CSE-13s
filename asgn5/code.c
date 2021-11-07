@@ -90,7 +90,7 @@ bool code_pop_bit(Code *c, uint8_t *bit) { //similar to stack.c (CITE: Eugene) d
     } else {
         c->top -= 1; //decrement like a reg popping
         code_get_bit(c, *bit); //get the bit
-        code_clr_bit(c, *bit); //and clearing the bit after
+        code_clr_bit(c, c->top); //and clearing the bit after
         return true;
     }
 }
