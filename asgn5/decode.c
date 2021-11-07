@@ -36,8 +36,8 @@ void help(void) { //printing out the menu
 }
 
 //CITE: Professor Long for steps of decode in assignment doc (ALL)
-//CITE: TA Eugene for pseudo code and structure of decode (ALL) during 11/4 section
-//CITE: Tutor Eric for pseudo code of decode during 11/3 (ALL) session
+//CITE: TA Eugene for pseudo code and structure of decode (ALL) during 11/4 & 11/2 section
+//CITE: Tutor Eric for pseudo code of decode during 11/3 (ALL) session 
 
 int main(int argc, char **argv) {
     int infile = STDIN_FILENO;
@@ -70,7 +70,7 @@ int main(int argc, char **argv) {
         }
     }
     //file permissions
-    Header header = { 0, 0, 0, 0 }; //CITE: TUTOR Eric -- initialize header
+    Header header; //CITE: TUTOR Eric -- initialize header
 
     read_bytes(infile, (uint8_t *) &header, sizeof(header)); //read file
     
