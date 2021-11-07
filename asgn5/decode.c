@@ -66,13 +66,13 @@ int main(int argc, char **argv) {
         }
     }
     //file permissions
-    Header header = { 0, 0, 0, 0 };
+    Header header = { 0, 0, 0, 0 }; //CITE: TUTOR Eric -- initialize header
 
     read_bytes(infile, (uint8_t *) &header, sizeof(header)); //read file
     
-    if (header.magic != MAGIC) { //if permissions magic reaches to MAGIC
+    if (header.magic != MAGIC) { //if permissions magic reaches to MAGIC, verify the magic number
         fprintf(stderr, "Bad magic"); //print the error message
-        close(infile); //close file
+        close(infile); //close file 
         close(outfile); //close outfile
     	return 0;
     }
@@ -80,33 +80,34 @@ int main(int argc, char **argv) {
     fchmod(outfile, header.permissions); //file permissions
     read_bytes(infile, tree, header.tree_size); //reading the tree
     
-    Node *root = rebuild_tree(header.tree_size, tree);
+    Node *root = rebuild_tree(header.tree_size, tree); //rebuild the tree - reconstruct the tree (asgn doc)
 
-    Node *n = root; // this will be our current nose
-    uint64_t i = 0;
-    uint8_t buf[BLOCK];
+    Node *n = root; // this will be our current node
+    uint64_t i = 0; //this is our index
+    uint8_t buf[BLOCK]; //buffer with 256
     n = root; //current node
 
-    while(i < header.file_size){
-                uint8_t bit;
-                if(n->left == NULL && n->right == NULL){
-                        buf[i % BLOCK] = n->symbol;
-                        n = root;
-                        i+= 1;
-                        if (i % BLOCK == 0 && i != 0){
-                                write_bytes(outfile, buf, sizeof(buf));
+    while(i < header.file_size){ //while loop CITE: Tutor Jason for the while loop idea
+                uint8_t bit; //check if bit is 1 or 0
+		read_bit(infile, &bit); //read each bit (called)
+		if(bit == 0 && n->left != NULL){ //check the left interior node when bit is 0
+			n = n->left; //assign n to the left node
+		}
+		if(bit == 1 && n->right != NULL){ //check the right interior node when bit is 1
+			n = n->right; //assign n to the right node
+		}
+		if(n->left == NULL && n->right == NULL){ //checking the leaf node first
+                        buf[i % BLOCK] = n->symbol; //buffer the symbol
+                        n = root; //n will start back to the root
+                        i+= 1; //increment the index
+                        if (i == BLOCK && i != 0){ //if the buffer is filled
+                                write_bytes(outfile, buf, sizeof(buf)); //write out the bytes (called)
                         }
                 }
-		read_bit(infile, &bit);
-		if(bit == 0 && n->left != NULL){
-			n = n->left;
-		}
-		if(bit == 1 && n->right != NULL){
-			n = n->right;
-		}
         }
-	if(i % BLOCK != 0 && i != 0){
-		write_bytes(outfile, buf, (i % BLOCK));
+        //CITE: Tutor Jason for the tip
+	if(i % BLOCK != 0 && i != 0){ //checking the rest of the bytes 
+		write_bytes(outfile, buf, (i % BLOCK)); //write out the rest of the bytes
 	}
 
 	//if verbose is true (print stats)
