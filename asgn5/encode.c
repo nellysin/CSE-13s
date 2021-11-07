@@ -7,14 +7,13 @@
 #include "code.h"
 
 #include <stdio.h>
-#include <stdbool.h>
-#include <sys/stat.h>
-#include <stdint.h>
-#include <fcntl.h>
-#include <string.h>
-#include <stdlib.h>
 #include <inttypes.h>
+#include <stdlib.h>
 #include <unistd.h>
+#include <stdbool.h>
+#include <string.h>
+#include <fcntl.h>
+#include <sys/stat.h>
 
 #define OPTIONS "hvi:o:"
 
@@ -56,7 +55,7 @@ void help(void) { //printing out the menu
 int main(int argc, char **argv) {
     int infile = STDIN_FILENO;
     int outfile = STDOUT_FILENO;
-    
+
     uint64_t uncompressed = 0;
     uint64_t compressed = 0;
 
