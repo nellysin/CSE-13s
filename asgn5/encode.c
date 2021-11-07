@@ -99,13 +99,13 @@ int main(int argc, char **argv) {
     fstat(infile, &sbuffer);
     fchmod(outfile, sbuffer.st_mode);
 
-    Header header;  //construct header
-    header.magic = MAGIC;
+    Header header = {0,0,0,0}; //construct header CITE: Tutor Eric
+    header.magic = MAGIC; //set to magic number
     header.permissions = sbuffer.st_mode;
-    header.tree_size = (3 * symbols) - 1;
+    header.tree_size = (3 * symbols) - 1; 
     header.file_size = sbuffer.st_size;
 
-    write_bytes(outfile, (uint8_t *) &header, sizeof(header));
+    write_bytes(outfile, (uint8_t *) &header, sizeof(header)); //writing the bytes
 
     //dump tree
     dump_tree(outfile, root);
