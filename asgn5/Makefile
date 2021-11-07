@@ -10,7 +10,7 @@ encode: encode.o node.o stack.o pq.o io.o huffman.o code.o
 decode: decode.o node.o stack.o pq.o io.o huffman.o code.o
 	$(CC) -o decode decode.o node.o stack.o pq.o io.o huffman.o code.o
 
-huffman.o: huffman.c huffman.c huffman.h code.h defines.h node.h pq.h io.h stack.h
+huffman.o:  huffman.c huffman.h code.h defines.h node.h pq.h io.h stack.h
 	$(CC) $(CFLAGS) -c huffman.c
 
 encode.o: encode.c defines.h huffman.h code.h node.h pq.h io.h stack.h header.h
@@ -36,6 +36,8 @@ io.o: io.c io.h defines.h code.h
 
 clean:
 	rm -f *.o
+	rm -f encode encode.o
+	rm -f decode decode.o
 
 format:
 	clang-format -i -style=file *.[ch]
