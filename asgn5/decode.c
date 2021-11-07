@@ -70,19 +70,49 @@ int main(int argc, char **argv){
                                 exit(1);
                 }
         }
-
 	//file permissions
-	Header h = {0,0,0,0};
-	
-	read_bytes(infile, (uint8_t *)&h, sizeof(h));
-	if(h.magic != MAGIC){
-		fprintf(stderr, "Bad magic");
-		close(infile);
-		close(outfile);
-		return 0;
-	}
-	fchmod(outfile, h.permissions);
+	Header header = {0,0,0,0};	
 
+	read_bytes(infile, (uint8_t *)&header, sizeof(header)); //read file
+	if(header.magic != MAGIC){		//if permissions magic reaches to MAGIC
+		fprintf(stderr, "Bad magic"); //print the error message
+		close(infile);		//close file
+		close(outfile); 	//close outfile
+	}
+	uint8_t tree[header.tree_size];
+	fchmod(outfile, header.permissions);
+	read_bytes(infile, tree, header.tree_size);
+
+	Node *root = rebuild_tree(header.tree_size, tree);
+
+//	uint64_t i = 0;
+//        uint8_t buf[BLOCK];
+	/*Node *tem;
+
+        while(i < header.file_size){
+                uint8_t bit;
+                if(tem->left == NULL && tem->right == NULL){
+                        buf[i % BLOCK] = tem->symbol;
+                        tem = root;
+                        i+= 1;
+                        if (i == BLOCK){
+                                write_bytes(outfile, buf, sizeof(buf));
+                        }
+                }
+                read_bit(infile, &bit);
+                if(bit == 0){
+                        tem = tem->left;
+                }
+                if(bit == 1){
+                        tem = tem->right;
+                }
+        }
+        if(i != BLOCK && i != 0){
+                write_bytes(outfile, buf, (i % BLOCK));
+        }*/
+        delete_tree(&root);
+	close(infile);
+	close(outfile);
 	return 0;
 }
 
