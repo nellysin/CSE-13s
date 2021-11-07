@@ -15,7 +15,6 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <inttypes.h>
-#include <errno.h>
 
 #define OPTIONS "hvi:o:"
 
@@ -47,6 +46,7 @@ int main(int argc, char **argv) {
     }
     bool verbose = false;
 
+    //the command lines with switch cases
     int opt = 0;
     while ((opt = getopt(argc, argv, OPTIONS)) != -1) {
         switch (opt) {
@@ -75,13 +75,13 @@ int main(int argc, char **argv) {
     histogram[0] += 1; // histogram will have two elements present
     histogram[ALPHABET - 1] += 1; //increment the count element 0 and 255
 
-    uint32_t symbols = 0;
+    uint32_t s_symbols = 0;
     uint8_t buffer[BLOCK] = { 0 };
     //bytes_read = read_bytes(infile, buffer, BLOCK);
     while ((bytes_read = read_bytes(infile, buffer, BLOCK)) > 0) {
         for (uint64_t i = 0; i < bytes_read; i += 1) {
             if (histogram[buffer[i]] == 0) {
-                symbols += 1;
+                s_symbols += 1;
             }
             histogram[buffer[i]] += 1;
         }
@@ -99,15 +99,15 @@ int main(int argc, char **argv) {
     fstat(infile, &sbuffer);
     fchmod(outfile, sbuffer.st_mode);
 
-    Header header = {0,0,0,0}; //construct header CITE: Tutor Eric
+    Header header = { 0, 0, 0, 0 }; //construct header CITE: Tutor Eric
     header.magic = MAGIC; //set to magic number
     header.permissions = sbuffer.st_mode;
-    header.tree_size = (3 * symbols) - 1; 
+    header.tree_size = (3 * s_symbols) - 1;
     header.file_size = sbuffer.st_size;
 
     write_bytes(outfile, (uint8_t *) &header, sizeof(header)); //writing the bytes
 
-    //dump tree
+    //dump tree (arrangement)
     dump_tree(outfile, root);
 
     //get the infile stats
