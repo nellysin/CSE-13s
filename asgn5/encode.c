@@ -18,11 +18,11 @@
 
 #define OPTIONS "hvi:o:"
 
-//CITE: Professor Long for steps of encode
-//CITE: TA Eugene for pseudo code and structure of encode
-//CITE: Tutor Eric for pseudo code of encode
+//CITE: Professor Long for steps of encode in assignment doc
+//CITE: TA Eugene for pseudo code and structure of encode (whole) during 11/4 section
+//CITE: Tutor Eric for pseudo code of encode during 11/3 (whole) session
 
-void help(){ //printing out the menu
+void help(void){ //printing out the menu
 	printf("SYNOPSIS\n");
 	printf("  A Huffman encoder.\n");
 	printf("  Compresses a file using the Huffman coding algorithm.\n");
@@ -41,8 +41,11 @@ void help(){ //printing out the menu
 int main(int argc, char **argv){ 
 	int infile = STDIN_FILENO;
 	int outfile = STDOUT_FILENO;
+	if(outfile != STDOUT_FILENO){
+		close(outfile);
+	}
 	bool verbose = false;
-	
+
 	int opt = 0;
 	while((opt = getopt(argc, argv, OPTIONS)) != -1){
 		switch(opt){
@@ -65,13 +68,14 @@ int main(int argc, char **argv){
 					fprintf(stderr, "Error: Unable to write file.\n");
 					exit(1);
 				}
+				break;
 			default:
 				help();
 				exit(1);
 		}
 	}			
 
-	//histogram
+	//creating the histogram
 	uint64_t histogram[ALPHABET] = {0};
 	histogram[0] += 1; // histogram will have two elements present
 	histogram[ALPHABET-1] += 1; //increment the count element 0 and 255
@@ -89,17 +93,18 @@ int main(int argc, char **argv){
 	}
 	
 	//build the tree
-	Node *root = build_tree(histogram);
-	Code table[ALPHABET] = {0};
-	build_codes(root, table);
+	Node *root = build_tree(histogram); //using build tree to use pq 
+	Code table[ALPHABET] = {0}; //set the table for build codes
+	build_codes(root, table); 
 
 	//file permissions
 	//creating the header
+	//this is to initialize the header
 	struct stat sbuffer;
-	Header header = {0,0,0,0}; //construct header
 	fstat(infile, &sbuffer);
 	fchmod(outfile, sbuffer.st_mode);
-
+	
+	Header header = {0,0,0,0}; //construct header
 	header.magic = MAGIC; 
 	header.permissions = sbuffer.st_mode;
 	header.tree_size = (3 * symbols) - 1;
@@ -111,14 +116,16 @@ int main(int argc, char **argv){
 	dump_tree(outfile, root);
 
 	//get the infile stats
-	lseek(infile, 0, SEEK_SET);
+	lseek(infile, 0, SEEK_SET); //allows the file offset to be set beyond the end of the file
 	//bytes_read = read_bytes(infile, buffer, BLOCK);
+	//this is where we will be writing
 	while((bytes_read = read_bytes(infile, buffer, BLOCK)) > 0){
 			for(uint64_t i = 0; i < bytes_read; i += 1){
 				write_code(outfile, &table[buffer[i]]);
 			}
 	}
 	flush_codes(outfile);
+	
 	if(verbose == true){
 		//printing stats
 		fstat(infile, &sbuffer);
@@ -127,7 +134,6 @@ int main(int argc, char **argv){
 		fprintf(stderr, "Compressed file size: %" PRId64 "bytes\n", bytes_written - header.file_size);
 		// space saving
 	}
-
 	delete_tree(&root);
 	close(infile);
 	close(outfile);
