@@ -18,9 +18,9 @@
 
 #define OPTIONS "hvi:o:"
 
-//CITE: Professor Long for steps of encode in assignment doc
-//CITE: TA Eugene for pseudo code and structure of encode (whole) during 11/4 section
-//CITE: Tutor Eric for pseudo code of encode during 11/3 (whole) session
+//CITE: Professor Long for steps of encode in assignment doc (ALL)
+//CITE: TA Eugene for pseudo code and structure of encode (ALL) during 11/4 section
+//CITE: Tutor Eric for pseudo code of encode during 11/3 (ALL) session
 
 void help(void){ //printing out the menu
 	printf("SYNOPSIS\n");
