@@ -74,14 +74,13 @@ bool enqueue(PriorityQueue *q,
         q->items[parent] = n; //assign items[parent] to the node
         q->tail += 1; //increment tail by 1
         while (
-            q->tail > 1
+            q->tail > 0
             && q->items[parent]->frequency
                    < q->items[parent / 2]
                          ->frequency) { //while k > 1 <- this will be the index and comparing the frequency
             Node *temp = q->items[parent]; // place the [parent / 2] into the temp
             q->items[parent] = q->items[parent / 2]; //the [parent] will be assigned to [parent / 2]
             q->items[parent / 2] = temp; // then assign temp to [parent]
-            parent = (parent / 2); //parent = floor(k/2)
         }
         return true;
     }
@@ -130,9 +129,3 @@ bool dequeue(PriorityQueue *q, Node **n) { //CITE Ben for help on fix heap and d
     fix_heap(q, 0);
     return true;
 }
-
-//void pq_print(PriorityQueue *q) {
-//    for (uint32_t i = 0; i < q->tail; i += 1) {
-//        printf("%lu", q->items[i]->frequency);
-//    }
-//}
