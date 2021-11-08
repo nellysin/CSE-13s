@@ -54,7 +54,7 @@ int write_bytes(int outfile, uint8_t *buf,
 
 bool read_bit(int infile,
     uint8_t *bit) { // CITE: TA Eugene during 10/28 Section & Tutor Eric in 11/3 session for readbit
-    static int index = 0; // tracking the bit in the buffer
+    index = 0;
     static int end = -1; // checking the last valid bit
     int bit_block = (BLOCK * 8);
     if (index == 0) { //if the buf is empty, fill it
