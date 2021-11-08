@@ -28,9 +28,10 @@ int read_bytes(int infile, uint8_t *buf,
     do {
         bytes = read(infile, buf + total_read, nbytes - total_read); //read bytes
         total_read += bytes; // increment read bytes
-        bytes_read += bytes; //this is for for stats -- bytes_read (checking doc to include this)
 
     } while (bytes > 0); // this is a do while loop, as long as bytes is > 0
+
+    bytes_read += total_read; //this is for for stats -- bytes_read (checking doc to include this)
 
     return total_read; //returning te total read
 }
@@ -43,9 +44,11 @@ int write_bytes(int outfile, uint8_t *buf,
     do {
         bytes = write(outfile, buf + total_write, nbytes - total_write); //do while loop
         total_write += bytes; //increment total write
-        bytes_written += bytes; // this is for stats -- bytes_write (checking doc to include this)
 
     } while (bytes > 0); // this is a do while loop, as long as bytes is > 0
+
+    bytes_written
+        += bytes_written; // this is for stats -- bytes_write (checking doc to include this)
 
     return total_write; //returning total write
 }
