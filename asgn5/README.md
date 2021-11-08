@@ -56,7 +56,7 @@ $./decode [-hvui:o:] [-i infile] [-o outfile]
 '''
 
 ## Bugs
-
-NOTE:
-I have included and initialize my permission files, in my encode but it still does not pass the pipeline.
-I have also checked with some tutors can't seem to find what is wrong with it. 
+1.
+	I have checked valgrind for my encode and there is no memory leaks (checked with multiple text files), but pipeline says there is.
+2.
+	My encode works halfway but, not fully.
