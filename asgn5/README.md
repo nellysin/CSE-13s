@@ -51,6 +51,7 @@ This program is designed to run on Ubuntu, Linux in C program with:
 '''
 $./encode [-h] [-i infile] [-o outfile]
 '''
+
 '''
 $./decode [-hvui:o:] [-i infile] [-o outfile]
 '''
