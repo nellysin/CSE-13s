@@ -25,7 +25,7 @@ uint64_t bytes_written = 0;
 
 struct stat sbuffer;
 //a constructor for the header
-Header construct_header(int infile, int outfile, uint32_t s_symbols) {
+/*Header construct_header(int infile, int outfile, uint32_t s_symbols) {
     Header header = { 0, 0, 0, 0 };
     fstat(infile, &sbuffer);
     fchmod(outfile, sbuffer.st_mode);
@@ -34,7 +34,7 @@ Header construct_header(int infile, int outfile, uint32_t s_symbols) {
     header.tree_size = (3 * s_symbols) - 1;
     header.file_size = sbuffer.st_size;
     return header;
-}
+}*/
 
 void help(void) { //printing out the menu
     printf("SYNOPSIS\n");
@@ -110,7 +110,16 @@ int main(int argc, char **argv) {
     build_codes(root, table);
 
     //Calling for my file permissions and initialize the header
-    Header header = construct_header(infile, outfile, s_symbol);
+    //    Header header = construct_header(infile, outfile, s_symbol);
+
+    Header header = { 0, 0, 0, 0 };
+    fstat(infile, &sbuffer);
+    fchmod(outfile, sbuffer.st_mode);
+    header.magic = MAGIC;
+    header.permissions = sbuffer.st_mode;
+    header.tree_size = (3 * s_symbol) - 1;
+    header.file_size = sbuffer.st_size;
+    //return header;
 
     write_bytes(outfile, (uint8_t *) &header, sizeof(header)); //writing the bytes
 
