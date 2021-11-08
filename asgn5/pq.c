@@ -78,8 +78,6 @@ bool enqueue(PriorityQueue *q,
             && q->items[parent]->frequency
                    < q->items[parent / 2]
                          ->frequency) { //while k > 1 <- this will be the index and comparing the frequency
-            //Node *temp = node_create(
-            //    0, 0); //if the parent frequency is smaller then swap by creating a temporary node
             Node *temp = q->items[parent]; // place the [parent / 2] into the temp
             q->items[parent] = q->items[parent / 2]; //the [parent] will be assigned to [parent / 2]
             q->items[parent / 2] = temp; // then assign temp to [parent]
@@ -112,7 +110,6 @@ void fix_heap(PriorityQueue *q,
         min = parent; //min will stay as parent
     }
     if (min != parent) { //when the min isn't parent
-        //Node *temp = node_create(0, 0); //this is swapping using a new Node *temp
         Node *temp = q->items[min]; //assign [parent] to temp
         q->items[min] = q->items[parent]; // assign the parent frequency to min
         q->items[parent] = temp; //assign the parent node to the temp
