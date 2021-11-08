@@ -130,14 +130,14 @@ int main(int argc, char **argv) {
     flush_codes(outfile); //flush out the codes
 
     //CITE: Tutor Eric for printing the stats
-    if(verbose == true){
-    	fstat(infile, &sbuffer); // printing out the statistics
-    double stat
-        = 100 * (1 - (((double) bytes_written) - header.file_size) / (double) header.file_size);
-    fprintf(stderr, "Uncompressed file size: %" PRId64 " bytes\n", header.file_size);
-    fprintf(
-        stderr, "Compressed file size: %" PRId64 " bytes\n", (bytes_written - header.file_size));
-    fprintf(stderr, "Space saving: %0.2lf%c\n", stat, '%');
+    if (verbose == true) {
+        fstat(infile, &sbuffer); // printing out the statistics
+        double stat
+            = 100 * (1 - (((double) bytes_written) - header.file_size) / (double) header.file_size);
+        fprintf(stderr, "Uncompressed file size: %" PRId64 " bytes\n", header.file_size);
+        fprintf(stderr, "Compressed file size: %" PRId64 " bytes\n",
+            (bytes_written - header.file_size));
+        fprintf(stderr, "Space saving: %0.2lf%c\n", stat, '%');
     }
 
     delete_tree(&root);

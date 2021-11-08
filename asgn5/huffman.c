@@ -11,6 +11,8 @@
 #include <inttypes.h>
 #include <stdlib.h>
 
+bool init_c;
+
 Node *build_tree(uint64_t hist
         [static ALPHABET]) { //CITE: TA Eugene 10/26 section & Tutor Eric 11/3 sessioin for build tree sudo code
     Node *left; //create a new node for left
@@ -44,20 +46,25 @@ void build_codes(Node *root, Code table[static ALPHABET]) {
     //CITE: TA Eugene 10/26 section & Tutor Eric 11/3 session four BUILD_CODES
     //CITE: Professor Long for pseudocode in assgment doc
     //walk the huffman tree to construct the corresponding code for each symbol
-    c = code_init(); //initialize code c
-    uint8_t i; //a variable to where the bit is popped
-    if (root->left == NULL && root->right == NULL) { //letters can only be leaf nodes!!
-        table[root->symbol] = c;
-    } else {
-        if (root->left != NULL) { //everytime we go to the left tree
-            code_push_bit(&c, 0); //we add a 0 to the code stack
-            build_codes(root->left, table); //each symbol will have one code
-            code_pop_bit(&c, &i); //going back up -- pop the last bit
-        }
-        if (root->right != NULL) { //everytime we go to the right path
-            code_push_bit(&c, 1); //we push a 1
-            build_codes(root->right, table); //each symbol will have one code
-            code_pop_bit(&c, &i); //going back up -- pop the last bit
+    if (init_c == false) {
+        c = code_init();
+        init_c = true;
+    }
+    if (root) { //if root exists
+        uint8_t i; //a variable to where the bit is popped
+        if (root->left == NULL && root->right == NULL) { //letters can only be leaf nodes!!
+            table[root->symbol] = c;
+        } else {
+            if (root->left != NULL) { //everytime we go to the left tree
+                code_push_bit(&c, 0); //we add a 0 to the code stack
+                build_codes(root->left, table); //each symbol will have one code
+                code_pop_bit(&c, &i); //going back up -- pop the last bit
+            }
+            if (root->right != NULL) { //everytime we go to the right path
+                code_push_bit(&c, 1); //we push a 1
+                build_codes(root->right, table); //each symbol will have one code
+                code_pop_bit(&c, &i); //going back up -- pop the last bit
+            }
         }
     }
     return;
