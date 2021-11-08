@@ -7,9 +7,11 @@
 //CITE: TA Eugene for structure
 
 Node *node_create(uint8_t symbol, uint64_t frequency) {
-    Node *n = (Node *) calloc(1, sizeof(Node)); //initalizing the calloc
+    Node *n = (Node *) malloc(sizeof(Node)); //initalizing the calloc
     n->symbol = symbol; //initiliazing the symbol and frequency in node
     n->frequency = frequency;
+    n->left = NULL;
+    n->right = NULL;
     return n;
 }
 
@@ -20,14 +22,9 @@ void node_delete(Node **n) {
 }
 
 Node *node_join(Node *left, Node *right) {
-    uint64_t parent_Node
-        = (left->frequency
-            + right->frequency); //node is the addition of the left and right frequency
-    Node *parent = node_create('$', parent_Node); //creating the parent node from node create
+    Node *parent = node_create(
+        '$', left->frequency + right->frequency); //creating the parent node from node create
     parent->left = left; //initializing left and right
     parent->right = right;
     return parent; //returning parent
 }
-
-//void node_print(Node *n){
-//}

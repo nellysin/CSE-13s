@@ -15,7 +15,6 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <inttypes.h>
-#include <errno.h>
 
 #define OPTIONS "hvi:o:"
 
@@ -115,10 +114,13 @@ int main(int argc, char **argv) {
         write_bytes(outfile, buf, (i % BLOCK)); //write out the rest of the bytes
     }
 
-    //if verbose is true (print stats)
-    /*if(verbose == true){
-		double space = 0;
-		fprintf(stderr, "Compressed file size:")*/
+    if (verbose == true) {
+        double stat
+            = 100 * (1 - (((double) bytes_written) - header.file_size) / (double) header.file_size);
+        fprintf(stderr, "Compressed file size: %" PRId64 " bytes\n", bytes_read);
+        fprintf(stderr, "Decompressed file size: %" PRId64 " bytes\n", (header.file_size));
+        fprintf(stderr, "Space saving: %0.2lf%c\n", stat, '%');
+    }
 
     delete_tree(&root); //MUST DELETE AND CLOSE FILES
     close(infile);
