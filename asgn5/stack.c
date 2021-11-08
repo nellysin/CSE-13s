@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <inttypes.h>
 
+//Almost all my code is referenced to asgn 4 stack.c
 //CITE: Professor Long for additional sudo code
 //CITE: TA Eugene (structure)
 
@@ -16,8 +17,8 @@ struct Stack {
     Node **items;
 };
 
-Stack *stack_create(uint32_t capacity) {
-    Stack *s = (Stack *) malloc(sizeof(Stack));
+Stack *stack_create(uint32_t capacity) { //creating new stack
+    Stack *s = (Stack *) malloc(sizeof(Stack)); //create new malloc
     if (s) {
         s->capacity = capacity;
         s->top = 0;
@@ -40,7 +41,7 @@ void stack_delete(Stack **s) {
 }
 
 bool stack_empty(Stack *s) {
-    return s->top == 0; //CITE: Professor Long: stack empty
+    return s->top == 0; //CITE: Professor Long: Stack empty (lecture )
         //return statament if the top == 0
 }
 
@@ -72,9 +73,3 @@ bool stack_pop(Stack *s, Node **n) {
         return true;
     }
 }
-
-//void stack_print(Stack *s){
-//	for(uint32_t i = 0; i < s-> top; i += 1){
-//		printf("%"PRIu32"\n", s->top);
-//	}
-//}
