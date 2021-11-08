@@ -94,11 +94,3 @@ bool code_pop_bit(Code *c, uint8_t *bit) { //similar to stack.c (CITE: Eugene) d
         return true;
     }
 }
-
-/*void code_print(Code *c) {
-    for (uint i = 0; i < c->top; i += 1) {
-        printf("%d", (0x1 & (c->bits[i / 8] >> (i % 8))));
-        printf("\n");
-    }
-    return;
-}*/
