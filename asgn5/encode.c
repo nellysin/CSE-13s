@@ -87,7 +87,7 @@ int main(int argc, char **argv) {
 
     //creating the histogram
     uint64_t histogram[ALPHABET] = { 0 };
-    uint32_t s_symbol = 0;
+    uint32_t s_symbol = 2;
     uint8_t buffer[BLOCK] = { 0 };
 
     histogram[0] += 1; // histogram will have two elements present
@@ -130,13 +130,15 @@ int main(int argc, char **argv) {
     flush_codes(outfile); //flush out the codes
 
     //CITE: Tutor Eric for printing the stats
-    fstat(infile, &sbuffer); // printing out the statistics
+    if(verbose == true){
+    	fstat(infile, &sbuffer); // printing out the statistics
     double stat
         = 100 * (1 - (((double) bytes_written) - header.file_size) / (double) header.file_size);
     fprintf(stderr, "Uncompressed file size: %" PRId64 " bytes\n", header.file_size);
     fprintf(
         stderr, "Compressed file size: %" PRId64 " bytes\n", (bytes_written - header.file_size));
     fprintf(stderr, "Space saving: %0.2lf%c\n", stat, '%');
+    }
 
     delete_tree(&root);
     close(infile);
