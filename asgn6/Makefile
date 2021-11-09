@@ -14,8 +14,23 @@ encrypt: encrypt.o numtheory.o randstate.o
 decrypt: decrypt.o numtheory.o randstate.o
 	$(CC) $(CFLAGS) -o decrypt decrypt.o numtheory.o randstate.o rsa.o $(CFLAGS)
 
-%i: %.c
-	$(CC) $(CFLAGS) -c $c -o $@
+keygen.o: keygen.c
+	$(CC) $(CFLAGS) -c keygen.c
+
+encrypt.o: encrypt.c
+	$(CC) $(CFLAGS) -c encrypt.c
+
+decript.o: decrypt.c
+	$(CC) $(CFLAGS) -c decrypt.c
+
+randstate.o: randstate.c randstate.h
+	$(CC) $(CFLAGS) -c randstate.c
+
+numtheory.o: numtheory.c numtheory.h
+	$(CC) $(CFLAGS) -c numtheory.c
+
+rsa.o: rsa.c rsa.h
+	$(CC) $(CFLAGS) -c rsa.c
 
 #CLEANING
 clean:
