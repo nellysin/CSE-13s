@@ -36,12 +36,12 @@ bool is_prime(mpz_t n, uint64_t iters) {
     mpz_sub_ui(n_minus, n, 1);
     mpz_set_ui(two, 2);
     //such that r is odd
-    while (mpz_divisible_2exp_p(n_minus, s)) { // n-1 / 2^s = r 
-        	s += 1; //then increment the s
+    while (mpz_divisible_2exp_p(n_minus, s)) { // n-1 / 2^s = r
+        s += 1; //then increment the s
     }
-    
+
     mpz_tdiv_q_2exp(r, n_minus, s); //storing it to r = (n-1)/ 2^s
-    
+
     s -= 1; // b/c 0 < r < s - 1
 
     mpz_t a, bound, y, j; //we need a bound because we want a to be between 2 to n - 1
@@ -53,7 +53,8 @@ bool is_prime(mpz_t n, uint64_t iters) {
             bound); //this returns 0 to n - 1 (this is not inclusive, therefore it's n - 2)
         mpz_add_ui(a, a, 2);
         pow_mod(y, a, r, n);
-        if ((mpz_cmp_ui(y, 1) != 0) && (mpz_cmp(n_minus, y) != 0)) {// comparing if y != 1 and y != n-1
+        if ((mpz_cmp_ui(y, 1) != 0)
+            && (mpz_cmp(n_minus, y) != 0)) { // comparing if y != 1 and y != n-1
 
             mpz_set_ui(j, 1);
 
@@ -92,26 +93,26 @@ void mod_inverse(mpz_t o, mpz_t a, mpz_t n) {
         mpz_fdiv_q(q, r, r1);
         mpz_set(tempr, r);
         mpz_set(r, r1);
-	//mpz_submul(tempr, q, r1);
-	//mpz_set(r1, tempr);
+        //mpz_submul(tempr, q, r1);
+        //mpz_set(r1, tempr);
         mpz_mul(r1, q, r1);
         mpz_sub(r1, tempr, r1);
 
         //this is t and t1
         mpz_set(tempt, t);
         mpz_set(t, t1);
-	//mpz_submul(tempt, q, t1);
+        //mpz_submul(tempt, q, t1);
         //mpz_set(t1, tempt);
         mpz_mul(t1, q, t1);
         mpz_sub(t1, tempt, t1);
     }
     if (mpz_cmp_ui(r, 1) > 0) {
         mpz_set_ui(o, 0);
-	return;
+        return;
     }
     if (mpz_cmp_ui(t, 0) < 0) {
         mpz_add(t, t, n);
-	//mpz_set(o,t);
+        //mpz_set(o,t);
     }
     mpz_set(o, t);
     mpz_clears(r, r1, t, t1, q, tempr, tempt, NULL);
@@ -125,7 +126,6 @@ void gcd(mpz_t g, mpz_t a, mpz_t b) {
         mpz_init_set(t, b);
         mpz_mod(b, a, b);
         mpz_set(a, t);
-
     }
     mpz_set(g, a);
     mpz_clear(t);

@@ -2,7 +2,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <gmp.h>
-#include "rsa.h"
+//#include "rsa.h"
 
 //CITE: Professor Long (assgn doc)
 //CITE: TA Eugene (structure) (11/9 section)
@@ -19,9 +19,9 @@
 //    mpz_mul(n, p_min, q_min); // the computed totient
 //    do {
 //        mpz_urandom(e, state, nbits);
-        //gcd(gcd_e_tn, e, n) //the totient
+//gcd(gcd_e_tn, e, n) //the totient
 //    } while (mpz_cmp_ui(gcd_e_tn, 1));
-    //clearing the memory
+//clearing the memory
 //}
 
 //the user name is passed in -- rsa pub
