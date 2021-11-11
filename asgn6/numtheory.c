@@ -22,9 +22,9 @@ void pow_mod(mpz_t o, mpz_t a, mpz_t d, mpz_t n) {
         }
         mpz_mul(p, p, p); //multiply the p with itself
         mpz_mod(p, p, n); //and assgn it to the modulus of n
-        mpz_divexact_ui(d, d, 2); //divide d by 2
+        mpz_fdiv_q_ui(d, d, 2); //divide d by 2
     }
-    mpz_set(o, v); //store the computed result in out.
+    mpz_init_set(o, v); //store the computed result in out.
     mpz_clears(v, p, NULL); //no memory leak
 }
 
