@@ -17,7 +17,7 @@ void pow_mod(mpz_t o, mpz_t a, mpz_t d, mpz_t n) {
     mpz_init_set_ui(v, 1); //initialize the set of v with 1
     mpz_init_set(p, a); //initialize the set with the base
     while (mpz_cmp_ui(d, 0) > 0) { //compare the exponent to be greater than 0
-        if (1 == mpz_mod_ui(odd, d, 2)) { //if the exponent is odd
+        if (mpz_odd_p(d) != 0) { //if the exponent is odd
             mpz_mul(v, v, p); //do operation v = v x p
             mpz_mod(v, v, n); //and find the modulus of that
         }
@@ -35,15 +35,16 @@ bool is_prime(mpz_t n, uint64_t iters) {
     mpz_inits(n_minus, r, two, NULL);
     mpz_sub_ui(n_minus, n, 1);
     mpz_set_ui(two, 2);
-
-    while (mpz_divisible_2exp_p(n_minus, s)) { //break until it is not divisible by 2
-        s += 1;
+    if(mpz_odd_p(r) == != 0){
+    	while (mpz_divisible_2exp_p(n_minus, s)) { //break until it is not divisible by 2
+        	s += 1;
+    	}
+    	s -= 1;
     }
-    s -= 1;
 
     mpz_tdiv_q_2exp(r, n_minus, s); //storing it to r = (n-1)/ 2^s
     
-    mp_bitcnt_t s_minus = s;
+//    mp_bitcnt_t s_minus = s;
 
     mpz_t a, bound, y, j; //we need a bound because we want a to be between 2 to n - 1
     mpz_inits(a, bound, y, j, NULL);
@@ -58,7 +59,7 @@ bool is_prime(mpz_t n, uint64_t iters) {
 
             mpz_set_ui(j, 1);
 
-            while ((mpz_cmp_ui(j, (s_minus-= 1)) <= 0) && (mpz_cmp(y, n_minus) != 0)) {
+            while ((mpz_cmp_ui(j, (s - 1)) <= 0) && (mpz_cmp(y, n_minus) != 0)) {
                 pow_mod(y, y, two, n);
                 if (mpz_cmp_ui(y, 1) == 0) {
                     return false;
@@ -70,8 +71,8 @@ bool is_prime(mpz_t n, uint64_t iters) {
             }
         }
     }
-    return true;
     mpz_clears(n_minus, r, two, a, bound, y, j, NULL); //no memory leak
+    return true;
 }
 
 void make_prime(mpz_t p, uint64_t bits, uint64_t iters) {
