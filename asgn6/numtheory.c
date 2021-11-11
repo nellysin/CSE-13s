@@ -12,11 +12,12 @@
 //CITE: Tutor Eric (is_prime & make prime) (11/10 session)
 
 void pow_mod(mpz_t o, mpz_t a, mpz_t d, mpz_t n) {
-    mpz_t v, p; //initialize v and p
+    mpz_t v, p, odd; //initialize v and p
+    mpz_init(odd);
     mpz_init_set_ui(v, 1); //initialize the set of v with 1
     mpz_init_set(p, a); //initialize the set with the base
-    while (mpz_cmp_ui(d, 0) > 0) { //compare the exponent to be greater than 0
-        if (1 == mpz_mod_ui(d, d, 2)) { //if the exponent is odd
+    while (mpz_cmp_ui(d, 0) == 1) { //compare the exponent to be greater than 0
+        if (1 == mpz_mod_ui(odd, d, 2)) { //if the exponent is odd
             mpz_mul(v, v, p); //do operation v = v x p
             mpz_mod(v, v, n); //and find the modulus of that
         }
@@ -25,7 +26,7 @@ void pow_mod(mpz_t o, mpz_t a, mpz_t d, mpz_t n) {
         mpz_fdiv_q_ui(d, d, 2); //divide d by 2
     }
     mpz_set(o, v); //store the computed result in out.
-    mpz_clears(v, p, NULL); //no memory leak
+    mpz_clears(v, p, odd, NULL); //no memory leak
 }
 
 bool is_prime(mpz_t n, uint64_t iters) {
