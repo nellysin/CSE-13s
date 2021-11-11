@@ -17,7 +17,7 @@ void pow_mod(mpz_t o, mpz_t a, mpz_t d, mpz_t n) {
     mpz_init_set_ui(v, 1); //initialize the set of v with 1
     mpz_init_set(p, a); //initialize the set with the base
     while (mpz_cmp_ui(d, 0) > 0) { //compare the exponent to be greater than 0
-        if (mpz_odd_p(d) != 0) { //if the exponent is odd
+        if (1 == mpz_mod_ui(odd, d, 2)) { //if the exponent is odd
             mpz_mul(v, v, p); //do operation v = v x p
             mpz_mod(v, v, n); //and find the modulus of that
         }
