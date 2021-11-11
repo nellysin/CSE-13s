@@ -16,7 +16,7 @@ void pow_mod(mpz_t o, mpz_t a, mpz_t d, mpz_t n) {
     mpz_init(odd);
     mpz_init_set_ui(v, 1); //initialize the set of v with 1
     mpz_init_set(p, a); //initialize the set with the base
-    while (mpz_cmp_ui(d, 0) == 1) { //compare the exponent to be greater than 0
+    while (mpz_cmp_ui(d, 0) > 0) { //compare the exponent to be greater than 0
         if (1 == mpz_mod_ui(odd, d, 2)) { //if the exponent is odd
             mpz_mul(v, v, p); //do operation v = v x p
             mpz_mod(v, v, n); //and find the modulus of that
@@ -102,13 +102,14 @@ void mod_inverse(mpz_t o, mpz_t a, mpz_t n) {
         mpz_mul(t1, q, t1);
         mpz_sub(t1, tempt, t1);
     }
-    if (mpz_cmp_ui(r, 1) == 1) {
+    if (mpz_cmp_ui(r, 1) > 0) {
         mpz_set_ui(o, 0);
     }
-    if (mpz_cmp_ui(t, 0) == -1) {
+    if (mpz_cmp_ui(t, 0) < 0) {
         mpz_add(t, t, n);
+	//mpz_set(o,t);
     }
-    //mpz_set(o, t);
+    mpz_set(o, t);
     mpz_clears(r, r1, t, t1, q, tempr, tempt, NULL);
 }
 
