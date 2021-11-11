@@ -35,7 +35,7 @@ bool is_prime(mpz_t n, uint64_t iters) {
     mpz_inits(n_minus, r, two, NULL);
     mpz_sub_ui(n_minus, n, 1);
     mpz_set_ui(two, 2);
-    if(mpz_odd_p(r) == != 0){
+    if(mpz_odd_p(r) != 0){
     	while (mpz_divisible_2exp_p(n_minus, s)) { //break until it is not divisible by 2
         	s += 1;
     	}
