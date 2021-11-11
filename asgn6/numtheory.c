@@ -24,7 +24,7 @@ void pow_mod(mpz_t o, mpz_t a, mpz_t d, mpz_t n) {
         mpz_mod(p, p, n); //and assgn it to the modulus of n
         mpz_fdiv_q_ui(d, d, 2); //divide d by 2
     }
-    mpz_init_set(o, v); //store the computed result in out.
+    mpz_set(o, v); //store the computed result in out.
     mpz_clears(v, p, NULL); //no memory leak
 }
 
@@ -108,10 +108,13 @@ void mod_inverse(mpz_t o, mpz_t a, mpz_t n) {
 
 void gcd(mpz_t g, mpz_t a, mpz_t b) {
     mpz_t t;
-    mpz_init_set(t, b);
-    mpz_mod(b, a, b);
-    mpz_set(a, t);
+    mpz_init(t);
+    while (mpz_cmp_ui(b, 0) != 0) {
+        mpz_init_set(t, b);
+        mpz_mod(t, a, b);
+        mpz_set(a, t);
 
-    mpz_set(g, a);
+        mpz_set(g, a);
+    }
     mpz_clear(t);
 }

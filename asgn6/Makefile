@@ -30,8 +30,8 @@ randstate.o: randstate.c randstate.h
 numtheory.o: numtheory.c numtheory.h
 	$(CC) $(CFLAGS) -c numtheory.c
 
-rsa.o: rsa.c rsa.h
-	$(CC) $(CFLAGS) -c rsa.c
+#rsa.o: rsa.c rsa.h
+#	$(CC) $(CFLAGS) -c rsa.c
 
 #CLEANING
 clean:
