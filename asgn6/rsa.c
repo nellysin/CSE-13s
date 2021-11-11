@@ -2,7 +2,6 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <gmp.h>
-//#include "rsa.h"
 
 //CITE: Professor Long (assgn doc)
 //CITE: TA Eugene (structure) (11/9 section)
@@ -24,12 +23,48 @@
 //clearing the memory
 //}
 
-//void rsa_make_pub(){
+//void rsa_make_pub(mpz_t p, mpz_t q, mpz_t n, mpz_t e, uint64_t nbits, uint64_t iters){
 //	return;
 //}
 
-//void rsa_write_pub(){
+//void rsa_write_pub(mpz_t n, mpz_t e, mpz_t s, char username[], FILE *pbfile){
 //	return;
+//}
+
+//void rsa_read_pub(mpz_t n, mpz_t e, mpz_t s, char username[], FILE *pbfile){
+//	return;
+//}
+
+//void rsa_write_priv(mpz_t n, mpz_t d, FILE *pvfile){
+//	return;
+//}
+
+//void rsa_read_priv(mpz_t n, mpz_t d, FILE *pvfile){
+//	return;
+//}
+
+//void rsa_encrypt(mpz_t c, mpz_t m, mpz_t e, mpz_t n){
+//	return;
+//}
+
+//void rsa_encrypt_file(FILE *infile, FILE *outfile, mpz_t n, mpz_t e){
+//	return;
+//}
+
+//void rsa_decrypt(mpz_t m, mpz_t c, mpz_t d, mpz_t n){
+//	return;
+//}
+
+//void rsa_decrypt_file(FILE *infile, FILE *outfile, mpz_t n, mpz_t d){
+//	return;
+//}
+
+//void rsa_sign(mpz_t s, mpz_t m, mpz_t d, mpz_t n){
+//	return;
+//}
+
+//bool rsa_verify(mpz_t m, mpz_t s, mpz_t e, mpz_t n){
+//	return true
 //}
 
 
