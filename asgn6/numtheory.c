@@ -111,7 +111,7 @@ void gcd(mpz_t g, mpz_t a, mpz_t b) {
     mpz_init(t);
     while (mpz_cmp_ui(b, 0) != 0) {
         mpz_init_set(t, b);
-        mpz_mod(t, a, b);
+        mpz_mod(b, a, b);
         mpz_set(a, t);
 
     }
