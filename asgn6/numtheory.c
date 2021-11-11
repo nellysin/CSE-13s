@@ -89,25 +89,26 @@ void mod_inverse(mpz_t o, mpz_t a, mpz_t n) {
         mpz_fdiv_q(q, r, r1);
         mpz_set(tempr, r);
         mpz_set(r, r1);
-	mpz_submul(tempr, q, r1);
-	mpz_set(r1, tempr);
-        //mpz_mul(r1, q, r1);
-        //mpz_sub(r1, tempr, r1);
+	//mpz_submul(tempr, q, r1);
+	//mpz_set(r1, tempr);
+        mpz_mul(r1, q, r1);
+        mpz_sub(r1, tempr, r1);
 
         //this is t and t1
         mpz_set(tempt, t);
         mpz_set(t, t1);
-	mpz_submul(tempt, q, t1);
-        mpz_set(t1, tempt);
-        //mpz_mul(t1, q, t1);
-        //mpz_sub(t1, tempt, t1);
+	//mpz_submul(tempt, q, t1);
+        //mpz_set(t1, tempt);
+        mpz_mul(t1, q, t1);
+        mpz_sub(t1, tempt, t1);
     }
     if (mpz_cmp_ui(r, 1) == 1) {
         mpz_set(o, 0);
     }
-    else if (mpz_cmp_ui(t, 0) == -1) {
-        mpz_add(o, t, n);
+    if (mpz_cmp_ui(t, 0) == -1) {
+        mpz_add(t, t, n);
     }
+    mpz_set(o, t);
     mpz_clears(r, r1, t, t1, q, tempr, tempt, NULL);
 }
 
