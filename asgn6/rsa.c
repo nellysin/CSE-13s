@@ -24,6 +24,15 @@
 //clearing the memory
 //}
 
+//void rsa_make_pub(){
+//	return;
+//}
+
+//void rsa_write_pub(){
+//	return;
+//}
+
+
 //the user name is passed in -- rsa pub
 //getenv()
 //$USER
