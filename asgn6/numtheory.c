@@ -42,20 +42,23 @@ bool is_prime(mpz_t n, uint64_t iters) {
     s -= 1;
 
     mpz_tdiv_q_2exp(r, n_minus, s); //storing it to r = (n-1)/ 2^s
+    
+    mp_bitcnt_t s_minus = s;
 
     mpz_t a, bound, y, j; //we need a bound because we want a to be between 2 to n - 1
     mpz_inits(a, bound, y, j, NULL);
-    for (uint64_t i = 0; i < iters; i += 1) {
+
+    for (uint64_t i = 0; i < iters; i += 1) { //iterating through the number of iters
         mpz_sub_ui(bound, n, 3);
         mpz_urandomm(a, state,
             bound); //this returns 0 to n - 1 (this is not inclusive, therefore it's n - 2)
         mpz_add_ui(a, a, 2);
         pow_mod(y, a, r, n);
-        if ((mpz_cmp_ui(y, 1) != 0) && (mpz_cmp(n_minus, y) != 0)) {
+        if ((mpz_cmp_ui(y, 1) != 0) && (mpz_cmp(n_minus, y) != 0)) {// comparing if y != 1 and y != n-1
 
             mpz_set_ui(j, 1);
 
-            while ((mpz_cmp_ui(j, (s-1)) <= 0) && (mpz_cmp(y, n_minus) != 0)) {
+            while ((mpz_cmp_ui(j, (s_minus-1)) <= 0) && (mpz_cmp(y, n_minus) != 0)) {
                 pow_mod(y, y, two, n);
                 if (mpz_cmp_ui(y, 1) == 0) {
                     return false;
