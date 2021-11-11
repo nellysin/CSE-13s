@@ -105,3 +105,13 @@ void mod_inverse(mpz_t o, mpz_t a, mpz_t n) {
     }
     mpz_clears(r, r1, t, t1, q, tempr, tempt, NULL);
 }
+
+void gcd(mpz_t g, mpz_t a, mpz_t b) {
+    mpz_t t;
+    mpz_init_set(t, b);
+    mpz_mod(b, a, b);
+    mpz_set(a, t);
+
+    mpz_set(g, a);
+    mpz_clear(t);
+}
