@@ -2,7 +2,7 @@ CC = clang
 CFLAGS = -g -Wall -Werror -Wextra -Wpedantic $(shell pkg-config -- cflags gmp)
 LFLAGS = $(shell pkg-config --libs gmp)
 
-all: keygen encrypt decrypt
+all: keygen encrypt decrypt numtheory
 
 #LINKING
 keygen: keygen.o numtheory.o randstate.o
@@ -13,6 +13,9 @@ encrypt: encrypt.o numtheory.o randstate.o
 
 decrypt: decrypt.o numtheory.o randstate.o
 	$(CC) $(CFLAGS) -o decrypt decrypt.o numtheory.o randstate.o $(LFLAGS)
+
+numtheory: numtheory.o randstate.o
+	$(CC) $(CFLAGS) -o numtheory numtheory.o randstate.o $(LFLAGS)
 
 #OBJECT FILES
 keygen.o: keygen.c
@@ -36,6 +39,9 @@ numtheory.o: numtheory.c numtheory.h
 #CLEANING
 clean:
 	rm -f *o
+	rm -f keygen keygen.o
+	rm -f encrypt encrypt.o
+	rm -f decrypt decrypt.o
 
 #FORMATING
 format:
