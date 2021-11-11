@@ -5,14 +5,14 @@ LFLAGS = $(shell pkg-config --libs gmp)
 all: keygen encrypt decrypt
 
 #LINKING
-keygen: keygen.o numtheory.o randstate.o rsa.o
-	$(CC) $(CFLAGS) -o keygen keygen.o numtheory.o randstate.o rsa.o $(LFLAGS)
+keygen: keygen.o numtheory.o randstate.o
+	$(CC) $(CFLAGS) -o keygen keygen.o numtheory.o randstate.o $(LFLAGS)
 
-encrypt: encrypt.o numtheory.o randstate.o rsa.o
-	$(CC) $(CFLAGS) -o encrypt encrypt.o numtheory.o randstate.o rsa.o $(LFLAGS)
+encrypt: encrypt.o numtheory.o randstate.o
+	$(CC) $(CFLAGS) -o encrypt encrypt.o numtheory.o randstate.o $(LFLAGS)
 
-decrypt: decrypt.o numtheory.o randstate.o rsa.o
-	$(CC) $(CFLAGS) -o decrypt decrypt.o numtheory.o randstate.o rsa.o $(LFLAGS)
+decrypt: decrypt.o numtheory.o randstate.o
+	$(CC) $(CFLAGS) -o decrypt decrypt.o numtheory.o randstate.o $(LFLAGS)
 
 #OBJECT FILES
 keygen.o: keygen.c
