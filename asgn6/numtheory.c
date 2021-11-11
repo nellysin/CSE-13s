@@ -106,9 +106,9 @@ void mod_inverse(mpz_t o, mpz_t a, mpz_t n) {
         mpz_set_ui(o, 0);
     }
     if (mpz_cmp_ui(t, 0) == -1) {
-        mpz_add(t, t, n);
+        mpz_add(o, o, n);
     }
-    mpz_set(o, t);
+    //mpz_set(o, t);
     mpz_clears(r, r1, t, t1, q, tempr, tempt, NULL);
 }
 
