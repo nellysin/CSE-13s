@@ -114,7 +114,7 @@ void gcd(mpz_t g, mpz_t a, mpz_t b) {
         mpz_mod(t, a, b);
         mpz_set(a, t);
 
-        mpz_set(g, a);
     }
+    mpz_set(g, a);
     mpz_clear(t);
 }
