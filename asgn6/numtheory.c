@@ -35,16 +35,14 @@ bool is_prime(mpz_t n, uint64_t iters) {
     mpz_inits(n_minus, r, two, NULL);
     mpz_sub_ui(n_minus, n, 1);
     mpz_set_ui(two, 2);
-    if(mpz_odd_p(r) != 0){
-    	while (mpz_divisible_2exp_p(n_minus, s)) { //break until it is not divisible by 2
-        	s += 1;
-    	}
-    	s -= 1;
+    //such that r is odd
+    while (mpz_divisible_2exp_p(n_minus, s)) { // n-1 / 2^s = r 
+        	s += 1; //then increment the s
     }
-
+    
     mpz_tdiv_q_2exp(r, n_minus, s); //storing it to r = (n-1)/ 2^s
     
-//    mp_bitcnt_t s_minus = s;
+    s -= 1; // b/c 0 < r < s - 1
 
     mpz_t a, bound, y, j; //we need a bound because we want a to be between 2 to n - 1
     mpz_inits(a, bound, y, j, NULL);
