@@ -55,7 +55,7 @@ bool is_prime(mpz_t n, uint64_t iters) {
 
             while ((mpz_cmp_ui(j, s) <= 0) && (mpz_cmp(y, n_minus) != 0)) {
                 pow_mod(y, y, two, n);
-                if (mpz_cmp_ui(y, 0) == 0) {
+                if (mpz_cmp_ui(y, 1) == 0) {
                     return false;
                 }
                 mpz_add_ui(j, j, 1);
