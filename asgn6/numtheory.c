@@ -103,7 +103,7 @@ void mod_inverse(mpz_t o, mpz_t a, mpz_t n) {
         mpz_sub(t1, tempt, t1);
     }
     if (mpz_cmp_ui(r, 1) == 1) {
-        mpz_set(o, 0);
+        mpz_set_ui(o, 0);
     }
     if (mpz_cmp_ui(t, 0) == -1) {
         mpz_add(t, t, n);
