@@ -1,18 +1,25 @@
 CC = clang
-CFLAGS = -Wall -Werror -Wextra -Wpedantic $(shell pkg-config -- cflags gmp)
+CFLAGS = -g -Wall -Werror -Wextra -Wpedantic $(shell pkg-config -- cflags gmp)
 LFLAGS = $(shell pkg-config --libs gmp)
 
-all: keygen encrypt decrypt
+all: numtheorytest
+
+#TESTING
+numtheorytest: numtheorytest.o numtheory.o randstate.o
+	$(CC) $(CFLAGS) -o numtheorytest numtheorytest.o numtheory.o randstate.o $(LFLAGS)
+
+numtheorytest.o: numtheorytest.c
+	$(CC) $(CFLAGS) -c numtheorytest.c
 
 #LINKING
-keygen: keygen.o numtheory.o randstate.o
-	$(CC) $(CFLAGS) -o keygen keygen.o numtheory.o randstate.o $(LFLAGS)
+keygen: keygen.o numtheory.o randstate.o rsa.o
+	$(CC) $(CFLAGS) -o keygen keygen.o numtheory.o randstate.o rsa.o $(LFLAGS)
 
-encrypt: encrypt.o numtheory.o randstate.o
-	$(CC) $(CFLAGS) -o encrypt encrypt.o numtheory.o randstate.o $(LFLAGS)
+encrypt: encrypt.o numtheory.o randstate.o rsa.o
+	$(CC) $(CFLAGS) -o encrypt encrypt.o numtheory.o randstate.o rsa.o $(LFLAGS)
 
-decrypt: decrypt.o numtheory.o randstate.o
-	$(CC) $(CFLAGS) -o decrypt decrypt.o numtheory.o randstate.o $(LFLAGS)
+decrypt: decrypt.o numtheory.o randstate.o rsa.o
+	$(CC) $(CFLAGS) -o decrypt decrypt.o numtheory.o randstate.o rsa.o $(LFLAGS)
 
 #OBJECT FILES
 keygen.o: keygen.c
@@ -29,6 +36,9 @@ randstate.o: randstate.c randstate.h
 
 numtheory.o: numtheory.c numtheory.h
 	$(CC) $(CFLAGS) -c numtheory.c
+
+rsa.o: rsa.c rsa.h
+	$(CC) $(CFLAGS) -c rsa.c
 
 #CLEANING
 clean:
