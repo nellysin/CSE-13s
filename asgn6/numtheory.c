@@ -40,23 +40,32 @@ bool is_prime(mpz_t n, uint64_t iters) {
 
     mpz_sub_ui(n_minus, n, 1); //this will be n - 1
 
-    mp_bitcnt_t s = 2; //this is just a bit counter -- in 2^s
+    mp_bitcnt_t s = 0; //this is just a bit counter -- in 2^s
     mpz_set_ui(two, 2); //setting an mpz_t dedicated to 2
-    //such that r is odd
-    
-    if(mpz_cmp_ui(n, 2) < 0 || (mpz_cmp_ui(n, 4) == 0)){ //M Rambin only works for n > 2 and 4 fails 
-        return false;
-    }
-    if(mpz_cmp_ui(n, 4) < 0){ // 3 is prime but it would still fail (considering range is {2 ... n - 2})
-        return true;
-    }
-
-    while (mpz_divisible_2exp_p(n_minus, s)) { // n-1 / 2^s = r
-        s += 1; //then increment the s
-    }
-    s -= 1; // b/c 0 < r < s - 1
 
     mpz_tdiv_q_2exp(r, n_minus, s); //storing it to r = (n-1)/ 2^s
+    
+    //base cases
+    if(mpz_cmp_ui(n, 2) < 0 || (mpz_cmp_ui(n, 4) == 0)){ //M Rambin only works for n > 2 and 4 fails 
+        
+	mpz_clears(n_minus, r, two, NULL); //no memory leak
+	return false;
+    }
+    if(mpz_cmp_ui(n, 4) < 0){ // 3 is prime but it would still fail (considering range is {2 ... n - 2})
+         
+	 mpz_clears(n_minus, r, two, NULL); //no memory leak
+         return true;
+    }
+    
+    //such that r is odd
+    while(mpz_even_p(r)){ //CITE: Professor Long
+    	s += 1;
+	mpz_fdiv_q_ui(r, r, 2);
+    }
+
+//    gmp_printf("r: %Zd \n", r);
+//    printf("s: %lu \n", s);
+//    printf("iters: %lu \n", iters);
 
     mpz_t a, bound, y, j; //we need a bound because we want a to be between 2 to n - 1
     mpz_inits(a, bound, y, j, NULL); // another set of initialization
@@ -72,7 +81,7 @@ bool is_prime(mpz_t n, uint64_t iters) {
 
             mpz_set_ui(j, 1);
 
-            while ((mpz_cmp_ui(j, s) <= 0) && (mpz_cmp(y, n_minus) != 0)) {
+            while ((mpz_cmp_ui(j, (s-1)) <= 0) && (mpz_cmp(y, (n_minus)) != 0)) {
                 pow_mod(y, y, two, n);
                 if (mpz_cmp_ui(y, 1) == 0) {
                     // printf("not prime"); //testing
@@ -96,6 +105,7 @@ void make_prime(mpz_t p, uint64_t bits, uint64_t iters) {
     do {
         mpz_urandomb(p, state, bits); //keep generating a random number when its not prime
     } while (!is_prime(p, iters));
+
 }
 
 void mod_inverse(mpz_t o, mpz_t a, mpz_t n) {
