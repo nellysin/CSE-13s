@@ -8,7 +8,7 @@
 
 //gmp_randstate_t state;
 
-//CITE: Professor Long (pseudo for number theory)
+//CITE: Professor Long (pseudo for number theory) and referencing off public key cryptography and python (linked from him) prime.py (specifically miller rabin)
 //CITE: TA Eugene (structure) (11/9 section)
 //CITE: Tutor Miles (is_prime & make prime) (11/10 session) (pow_mod) (11/12 session)
 //CITE: Tutor Eric (is_prime & make prime) (11/10 session)
@@ -38,7 +38,6 @@ void pow_mod(mpz_t o, mpz_t a, mpz_t d, mpz_t n) {
 bool is_prime(mpz_t n, uint64_t iters) {
     mpz_t n_minus, r, two; //initialize the mpz
 
-    //mpz_init(n); //initializing
     //this is for writing n - 1 = 2^s(r) such that r is odd
     mpz_inits(n_minus, r, two, NULL);
 
@@ -53,24 +52,20 @@ bool is_prime(mpz_t n, uint64_t iters) {
     if(mpz_cmp_ui(n, 2) < 0 || (mpz_cmp_ui(n, 4) == 0)){ //M Rambin only works for n > 2 and 4 fails 
         
 	mpz_clears(n_minus, r, two, s, NULL); //no memory leak
-	return false;
+	return false; //not a prime
     }
     if(mpz_cmp_ui(n, 4) < 0){ // 3 is prime but it would still fail (considering range is {2 ... n - 2})
          
 	 mpz_clears(n_minus, r, two, s, NULL); //no memory leak
-         return true;
+         return true; //is a prime
     }
     
     //such that r is odd
     while(mpz_even_p(r)){ //CITE: Professor Long is_prime
         mpz_tdiv_q_2exp(r, n_minus, s); //storing it to r = (n-1)/ 2^s
-	mpz_fdiv_q_ui(r, r, 2);
-	s += 1;
+	mpz_fdiv_q_ui(r, r, 2); //r / 2
+	s += 1; // increment s
     }
-
-    //gmp_printf("r: %Zd \n", r);
-    //printf("s: %lu \n", s);
-
 
     mp_bitcnt_t s_minus = s - 1;
     mpz_t a, bound, y, j; //we need a bound because we want a to be between 2 to n - 1
@@ -82,32 +77,33 @@ bool is_prime(mpz_t n, uint64_t iters) {
 	mpz_urandomm(a, state,
             bound); //this returns 0 to n - 1 (this is not inclusive, therefore it's n - 2)
 
-	mpz_add_ui(a, a, 2);  
-	pow_mod(y, a, r, n);
+	mpz_add_ui(a, a, 2);  //a += 2
+	pow_mod(y, a, r, n);  //calling pow mod
         
 	if ((mpz_cmp_ui(y, 1) != 0)
             && (mpz_cmp(y, n_minus) != 0)) { // comparing if y != 1 and y != n-1
 
-            mpz_set_ui(j, 1);
+            mpz_set_ui(j, 1); // j = 1
 
             while ((mpz_cmp_ui(j, s_minus) <= 0) && (mpz_cmp(y, (n_minus)) != 0)) {
                 pow_mod(y, y, two, n);
-                if (mpz_cmp_ui(y, 1) == 0) {
+                if (mpz_cmp_ui(y, 1) == 0) { //y == 1
 
 		    mpz_clears(n_minus, r, two, a, bound, y, j, NULL); //no memory leak 
-		    return false;
+		    return false; //not a prime
                 }
-                mpz_add_ui(j, j, 1);
+                mpz_add_ui(j, j, 1); // j += 1
             }
-            if (mpz_cmp(y, n_minus) != 0) {
+            if (mpz_cmp(y, n_minus) != 0) { //if y != n_minus
+		 
 		 mpz_clears(n_minus, r, two, a, bound, y, j, NULL); //no memory leak
-		 return false;
+		 return false; //not a prime
             }
 
         }
     }
     mpz_clears(n_minus, r, two, a, bound, y, j, NULL); //no memory leak
-    return true;
+    return true; //it's a prime
 }
 
 void make_prime(mpz_t p, uint64_t bits, uint64_t iters) {
