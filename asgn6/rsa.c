@@ -44,17 +44,22 @@ void rsa_make_pub(mpz_t p, mpz_t q, mpz_t n, mpz_t e, uint64_t nbits, uint64_t i
 }
 
 void rsa_write_pub(mpz_t n, mpz_t e, mpz_t s, char username[], FILE *pbfile){
-	gmp_vfprintf(pbfile, "%Zd", username[0]); //write to a public file
+	gmp_fprintf(pbfile, "%Zx\n", n); //write to a public file
+	gmp_fprintf(pbfile, "%Zx\n", e); 
+	gmp_fprintf(pbfile, "%Zx\n", s);
+
+	fprintf(pbfile, "%Zs\n" username);
 }
 
 void rsa_read_pub(mpz_t n, mpz_t e, mpz_t s, char username[], FILE *pbfile){
-	for(int i = 0; i <)
-	gmp_vscanf(pbfile, n, username[0]); //read from the public file
-	gmp_vscanf(pbfile, e, username[1]);
-	gmp_vscanf(pbfile, s, username[2]);
+	gmp_fscanf(pbfile, "%Zx\n", n); //read from the public file
+	gmp_fscanf(pbfile, "%Zx\n", e);
+	gmp_fscanf(pbfile, "%Zx\n", s);
+
+	fscanf(pbfile,"%Zs\n", username);
 }
 
-void rsa_make_priv(mpz_t d, mpz_t e, mpz_t p, mpz_t q){
+/*void rsa_make_priv(mpz_t d, mpz_t e, mpz_t p, mpz_t q){
 	mpz_t totient, p_min, q_min;
 	mpz_inits(totient, p_min, q_min, NULL);
 
@@ -69,7 +74,7 @@ void rsa_make_priv(mpz_t d, mpz_t e, mpz_t p, mpz_t q){
 	
 	mpz_clears(totient, p_min, q_min, NULL);
 }
-void rsa_write_priv(mpz_t n, mpz_t d, FILE *pvfile);/*{
+void rsa_write_priv(mpz_t n, mpz_t d, FILE *pvfile);{
 	gmp_fprintf(pvfile, n, d);
 	gmp_fprintf(pvfile, n, d);
 }*/
