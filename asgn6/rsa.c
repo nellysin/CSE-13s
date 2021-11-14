@@ -43,14 +43,13 @@ void rsa_make_pub(mpz_t p, mpz_t q, mpz_t n, mpz_t e, uint64_t nbits, uint64_t i
     mpz_clears(p_min, q_min, gcd_totient, totient, NULL); //clearing the memory
 }
 
-void rsa_write_pub(mpz_t n, mpz_t e, mpz_t s, char username[], FILE *pbfile); /*{
-	gmp_vfprintf(pbfile, n, username[0]);
-	gmp_vfprintf(pbfile, e, username[1]);
-	gmp_vfprintf(pbfile, s, username[2]);
+void rsa_write_pub(mpz_t n, mpz_t e, mpz_t s, char username[], FILE *pbfile){
+	gmp_vfprintf(pbfile, "%Zd", username[0]); //write to a public file
 }
 
 void rsa_read_pub(mpz_t n, mpz_t e, mpz_t s, char username[], FILE *pbfile){
-	gmp_vscanf(pbfile, n, username[0]);
+	for(int i = 0; i <)
+	gmp_vscanf(pbfile, n, username[0]); //read from the public file
 	gmp_vscanf(pbfile, e, username[1]);
 	gmp_vscanf(pbfile, s, username[2]);
 }
@@ -59,7 +58,6 @@ void rsa_make_priv(mpz_t d, mpz_t e, mpz_t p, mpz_t q){
 	mpz_t totient, p_min, q_min;
 	mpz_inits(totient, p_min, q_min, NULL);
 
-
 	make_prime(p, e, iters); //generate a prime number for p
         make_prime(q, e, iters); //generate a prime number for q
 	
@@ -67,14 +65,14 @@ void rsa_make_priv(mpz_t d, mpz_t e, mpz_t p, mpz_t q){
 	mpz_sub_ui(p_min, p, 1);
 	mpz_sub_ui(q_min, q, 1);
 	mpz_mul(totient, p_min, q_min);
-	mod_inverse(d, e, totient) //public exponenet e 
+	mod_inverse(d, e, totient); //public exponenet e 
 	
 	mpz_clears(totient, p_min, q_min, NULL);
 }
-void rsa_write_priv(mpz_t n, mpz_t d, FILE *pvfile){
+void rsa_write_priv(mpz_t n, mpz_t d, FILE *pvfile);/*{
 	gmp_fprintf(pvfile, n, d);
 	gmp_fprintf(pvfile, n, d);
-}
+}*/
 void rsa_read_priv(mpz_t n, mpz_t d, FILE *pvfile);
 
 void rsa_encrypt(mpz_t c, mpz_t m, mpz_t e, mpz_t n);
@@ -88,7 +86,7 @@ void rsa_decrypt_file(FILE *infile, FILE *outfile, mpz_t n, mpz_t d);
 void rsa_sign(mpz_t s, mpz_t m, mpz_t d, mpz_t n);
 
 bool rsa_verify(mpz_t m, mpz_t s, mpz_t e, mpz_t n);
-*/
+
 //the user name is passed in -- rsa pub
 //getenv()
 //$USER
