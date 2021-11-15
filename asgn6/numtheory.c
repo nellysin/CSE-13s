@@ -116,10 +116,6 @@ void mod_inverse(mpz_t o, mpz_t a, mpz_t n) {
     mpz_t r, r1, t, t1, q, tempr, tempt; //initialize
     mpz_inits(r, r1, t, t1, q, tempr, tempt, NULL);
 
-    //mpz_init(o);
-    //mpz_init(a);
-    //mpz_init(n);
-
     mpz_set(r, n); //(r,r′) ←(n,a)
     mpz_set(r1, a);
     mpz_set_ui(t, 0); //(t,t′) ←(0,1)
