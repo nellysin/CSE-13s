@@ -51,7 +51,7 @@ void rsa_write_pub(mpz_t n, mpz_t e, mpz_t s, char username[], FILE *pbfile) {
 }
 
 void rsa_read_pub(mpz_t n, mpz_t e, mpz_t s, char username[], FILE *pbfile) {
-    gmp_fscanf(pbfile, "%Zx\n %Zx\n %Zx\n %Zx\n", n, e, s, username);
+    gmp_fscanf(pbfile, "%Zx\n %Zx\n %Zx\n %Zx\n", n, e, s, &username);
 }
 
 void rsa_make_priv(mpz_t d, mpz_t e, mpz_t p, mpz_t q) {
