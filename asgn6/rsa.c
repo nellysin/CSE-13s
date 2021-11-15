@@ -81,7 +81,7 @@ void rsa_encrypt(mpz_t c, mpz_t m, mpz_t e, mpz_t n) {
     pow_mod(c, m, e, n);
 }
 
-/*void rsa_encrypt_file(FILE *infile, FILE *outfile, mpz_t n, mpz_t e); {
+void rsa_encrypt_file(FILE *infile, FILE *outfile, mpz_t n, mpz_t e);/* {
         mpz_t k, temp_n, div_eight, one, k_bytes; //calculate the block size k
         mpz_t inits(k, temp_n, c, div_eight,one,k_bytes, NULL);
 
@@ -105,14 +105,18 @@ void rsa_encrypt(mpz_t c, mpz_t m, mpz_t e, mpz_t n) {
 
         uint8_t k_bytes[0] = 0xFF; // setting the zeroth byte of the block to 0xFF
 
-}
+}*/
 
-void rsa_decrypt(mpz_t m, mpz_t c, mpz_t d, mpz_t n);
+void rsa_decrypt(mpz_t m, mpz_t c, mpz_t d, mpz_t n){
+	pow_mod(m, c, d, n);
+}
 
 void rsa_decrypt_file(FILE *infile, FILE *outfile, mpz_t n, mpz_t d);
 
-void rsa_sign(mpz_t s, mpz_t m, mpz_t d, mpz_t n);
-*/
+void rsa_sign(mpz_t s, mpz_t m, mpz_t d, mpz_t n){
+	pow_mod(s, m, d, n);
+}
+
 bool rsa_verify(mpz_t m, mpz_t s, mpz_t e, mpz_t n) {
     mpz_t t;
     mpz_init(t);
