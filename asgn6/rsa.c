@@ -54,11 +54,12 @@ void rsa_read_pub(mpz_t n, mpz_t e, mpz_t s, char username[], FILE *pbfile) {
     gmp_fscanf(pbfile, "%Zx\n %Zx\n %Zx\n %Zx\n", n, e, s, username);
 }
 
-void rsa_make_priv(mpz_t d, mpz_t e, mpz_t p, mpz_t q) {
+void rsa_make_priv(mpz_t d, mpz_t e, mpz_t p, mpz_t q); // {
     //compute the inverse of e modulo
     //totient(n) = (p-1)(q-1)
-    mod_inverse(d, e, p, q);
-}
+
+//mod_inverse(d, e, p, q);
+//}
 
 void rsa_write_priv(mpz_t n, mpz_t d, FILE *pvfile);
 {
@@ -71,7 +72,7 @@ void rsa_read_priv(mpz_t n, mpz_t d, FILE *pvfile) {
 }
 
 void rsa_encrypt(mpz_t c, mpz_t m, mpz_t e, mpz_t n) {
-    pow_mod(mpz_t c, mpz_t m, mpz_t e, mpz_t n);
+    pow_mod(c, m, e, n);
 }
 
 void rsa_encrypt_file(FILE *infile, FILE *outfile, mpz_t n, mpz_t e); /*{
