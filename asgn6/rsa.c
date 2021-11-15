@@ -61,8 +61,7 @@ void rsa_make_priv(mpz_t d, mpz_t e, mpz_t p, mpz_t q); // {
 //mod_inverse(d, e, p, q);
 //}
 
-void rsa_write_priv(mpz_t n, mpz_t d, FILE *pvfile);
-{
+void rsa_write_priv(mpz_t n, mpz_t d, FILE *pvfile){
     gmp_fprintf(pvfile, "%Zx\n", n); //write to a public file
     gmp_fprintf(pvfile, "%Zx\n", d);
 }
