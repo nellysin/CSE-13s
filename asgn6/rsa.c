@@ -43,46 +43,62 @@ void rsa_make_pub(mpz_t p, mpz_t q, mpz_t n, mpz_t e, uint64_t nbits, uint64_t i
     mpz_clears(p_min, q_min, gcd_totient, totient, NULL); //clearing the memory
 }
 
-void rsa_write_pub(mpz_t n, mpz_t e, mpz_t s, char username[], FILE *pbfile){
+/*void rsa_write_pub(mpz_t n, mpz_t e, mpz_t s, char username[], FILE *pbfile){
 	gmp_fprintf(pbfile, "%Zx\n", n); //write to a public file
 	gmp_fprintf(pbfile, "%Zx\n", e); 
 	gmp_fprintf(pbfile, "%Zx\n", s);
 
-	fprintf(pbfile, "%Zs\n" username);
-}
+//	fprintf(pbfile, "%Zx\n", username);
+}*/
 
 void rsa_read_pub(mpz_t n, mpz_t e, mpz_t s, char username[], FILE *pbfile){
-	gmp_fscanf(pbfile, "%Zx\n", n); //read from the public file
-	gmp_fscanf(pbfile, "%Zx\n", e);
-	gmp_fscanf(pbfile, "%Zx\n", s);
-
-	fscanf(pbfile,"%Zs\n", username);
+	gmp_fscanf(pbfile, "%Zx\n", n, e, s);
+	gmp_fscanf(pbfile, username);
 }
 
 /*void rsa_make_priv(mpz_t d, mpz_t e, mpz_t p, mpz_t q){
-	mpz_t totient, p_min, q_min;
-	mpz_inits(totient, p_min, q_min, NULL);
-
-	make_prime(p, e, iters); //generate a prime number for p
-        make_prime(q, e, iters); //generate a prime number for q
-	
-	//compute d with the inverse of e modulo totient(n) = (p - 1)(q - 1)
-	mpz_sub_ui(p_min, p, 1);
-	mpz_sub_ui(q_min, q, 1);
-	mpz_mul(totient, p_min, q_min);
-	mod_inverse(d, e, totient); //public exponenet e 
-	
-	mpz_clears(totient, p_min, q_min, NULL);
+	//compute the inverse of e modulo
+	//totient(n) = (p-1)(q-1)
+	mod_inverse(d, e, p, q);	
 }
+
 void rsa_write_priv(mpz_t n, mpz_t d, FILE *pvfile);{
-	gmp_fprintf(pvfile, n, d);
-	gmp_fprintf(pvfile, n, d);
-}*/
-void rsa_read_priv(mpz_t n, mpz_t d, FILE *pvfile);
+	gmp_fprintf(pvfile, "%Zx\n", n); //write to a public file
+        gmp_fprintf(pvfile, "%Zx\n", d);
+}
 
-void rsa_encrypt(mpz_t c, mpz_t m, mpz_t e, mpz_t n);
+void rsa_read_priv(mpz_t n, mpz_t d, FILE *pvfile){
+	gmp_fscanf(pbfile, "%Zx\n", n, d);
+}
 
-void rsa_encrypt_file(FILE *infile, FILE *outfile, mpz_t n, mpz_t e);
+void rsa_encrypt(mpz_t c, mpz_t m, mpz_t e, mpz_t n){
+	pow_mod(mpz_t c, mpz_t m, mpz_t e, mpz_t n);
+}
+
+void rsa_encrypt_file(FILE *infile, FILE *outfile, mpz_t n, mpz_t e){
+        mpz_t k, temp_n, div_eight, one, k_bytes; //calculate the block size k
+        mpz_t inits(k, temp_n, c, div_eight,one,k_bytes, NULL);
+
+        //k = floor((log_2 (n) - 1) - (1 / 8))
+        mpz_set_ui(k, 0);
+        mpz_set_ui(one, 1);
+        mpz_set(temp_n, n);
+
+        mpz_cdiv_q_ui(k, one, 8);
+
+        //log_2 (n)
+        while(temp_n > 0){
+                mpz_add_ui(k, 1);
+                mpz_fdiv_q_ui(temp_n, 2);
+        }
+        mpz_sub_ui(k, 1); // log_2(n) - 1
+
+        mpz_sub(k, div_eight); // k - (1/8)
+
+        uint8_t *k_bytes[k]; //dynamically allocate an array that can hold k bytes
+
+        uint8_t k_bytes[0] = 0xFF; // setting the zeroth byte of the block to 0xFF
+}
 
 void rsa_decrypt(mpz_t m, mpz_t c, mpz_t d, mpz_t n);
 
@@ -91,7 +107,7 @@ void rsa_decrypt_file(FILE *infile, FILE *outfile, mpz_t n, mpz_t d);
 void rsa_sign(mpz_t s, mpz_t m, mpz_t d, mpz_t n);
 
 bool rsa_verify(mpz_t m, mpz_t s, mpz_t e, mpz_t n);
-
+*/
 //the user name is passed in -- rsa pub
 //getenv()
 //$USER
