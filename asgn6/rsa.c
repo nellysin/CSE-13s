@@ -1,8 +1,8 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
-#include <gmp.h>
 #include <stdlib.h>
+#include <gmp.h>
 
 #include "rsa.h"
 #include "randstate.h"
@@ -20,6 +20,7 @@ void rsa_make_pub(mpz_t p, mpz_t q, mpz_t n, mpz_t e, uint64_t nbits, uint64_t i
 
     uint64_t pbits = (random() % (temp_nbits / 2)) + (temp_nbits / 4); //CITE: Tutor Jason
 		    //calculating the num of bits we will be passing (asgn doc)
+    pbits += 1; //adding 1 to the bits when calling make prime
 
     printf("pbits: %lu\n", pbits);
 
