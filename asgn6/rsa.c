@@ -16,7 +16,9 @@ void rsa_make_pub(mpz_t p, mpz_t q, mpz_t n, mpz_t e, uint64_t nbits, uint64_t i
     mpz_t p_min, q_min, gcd_totient, totient; //initializing
     mpz_inits(p_min, q_min, gcd_totient, totient, NULL);
 
-    uint64_t pbits = (random() % ((3 * nbits / 4) - (nbits / 4) + 1)) //CITE: Tutor Jason
+    uint64_t temp_nbits = nbits;
+
+    uint64_t pbits = ((random() % (temp_nbits / 2)) + (temp_nbits / 4)); //CITE: Tutor Jason
                      + (nbits / 4); //calculating the num of bits we will be passing (asgn doc)
 
     printf("pbits: %lu\n", pbits);
