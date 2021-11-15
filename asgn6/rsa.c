@@ -20,13 +20,14 @@ void rsa_make_pub(mpz_t p, mpz_t q, mpz_t n, mpz_t e, uint64_t nbits, uint64_t i
 
     uint64_t pbits = (random() % (temp_nbits / 2)) + (temp_nbits / 4); //CITE: Tutor Jason
 		    //calculating the num of bits we will be passing (asgn doc)
-    pbits += 1; //adding 1 to the bits when calling make prime
 
-    printf("pbits: %lu\n", pbits);
+    //printf("pbits: %lu\n", pbits);
 
     uint64_t qbits = nbits - pbits; // you cannot stop to a lower bound and end in upper bound
 
-    printf("qbits: %lu\n", qbits);
+    //printf("qbits: %lu\n", qbits);
+    pbits += 1; //adding 1 to the bits when calling make prime
+    qbits += 1;
 
     make_prime(q, qbits, iters); //generate a prime number for q
     make_prime(p, pbits, iters); //generate a prime number for p
