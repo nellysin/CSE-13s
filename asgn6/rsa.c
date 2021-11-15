@@ -58,12 +58,14 @@ void rsa_make_priv(mpz_t d, mpz_t e, mpz_t p, mpz_t q) {
     //compute the inverse of e modulo
     //totient(n) = (p-1)(q-1)
     mpz_t p_min, q_min, totient;
-    mpz_t inits(p_min, q_min, totient, NULL);
+    mpz_inits(p_min, q_min, totient, NULL);
 
     mpz_sub_ui(p_min, p, 1);
     mpz_sub_ui(q_min, q, 1);
     mpz_mul(totient, p_min, q_min);
     mod_inverse(d, e, totient);
+
+    mpz_clears(p_min, q_min, totient, NULL);
 }
 
 void rsa_write_priv(mpz_t n, mpz_t d, FILE *pvfile) {
