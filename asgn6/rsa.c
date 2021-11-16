@@ -13,7 +13,7 @@
 //CITE: Tutor Eric (rsa_make_pub) (11/10 session)
 
 //log base 2 function
-void lg(mpz_t o, mpz_t n) {
+/*void lg(mpz_t o, mpz_t n) {
     mpz_t temp_n, c;
     mpz_inits(temp_n, c);
 
@@ -26,7 +26,7 @@ void lg(mpz_t o, mpz_t n) {
     mpz_sub_ui(c, c, 1);
     mpz_set(o, c);
     mpz_clears(temp_n, c);
-}
+}*/
 
 void rsa_make_pub(mpz_t p, mpz_t q, mpz_t n, mpz_t e, uint64_t nbits, uint64_t iters) {
     mpz_t p_min, q_min, gcd_totient, totient, temp_n; //initializing
@@ -44,7 +44,7 @@ void rsa_make_pub(mpz_t p, mpz_t q, mpz_t n, mpz_t e, uint64_t nbits, uint64_t i
     //pbits += 1; //adding 1 to the bits when calling make prime
     //qbits += 1;
 
-    lg(temp_n, n);
+//    lg(temp_n, n);
 
     make_prime(q, qbits, iters); //generate a prime number for q
     make_prime(p, pbits, iters); //generate a prime number for p
