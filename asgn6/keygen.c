@@ -99,9 +99,9 @@ int main(int argc, char **argv) {
     mpz_t p, q, n, e, d, s, m; //initilizing P Q N E D (steps 4 - 6 asgn doc)
     mpz_inits(p, q, n, e, d, s, m, NULL);
 
-/*    randstate_init(seed); //initialize random state (4)
+    randstate_init(seed); //initialize random state (4)
 
-    rsa_make_pub(p, q, n, e, bits, itersMR); //rsa make pub and priv (5)
+/*    rsa_make_pub(p, q, n, e, bits, itersMR); //rsa make pub and priv (5)
     rsa_make_priv(d, e, p, q);
 
     char *user[sizeof(getenv("USER"))]; //get user's name as string (6)
@@ -148,9 +148,9 @@ int main(int argc, char **argv) {
         gmp_printf("d (%Zd bits) = %Zd", bits, d);
 */    }
 
-mpz_clears(p, q, n, e, d, s, m, NULL);
 fclose(privfile);
 fclose(pubfile);
 randstate_clear();
+mpz_clears(p, q, n, e, d, s, m, NULL);
 return 0;
 }
