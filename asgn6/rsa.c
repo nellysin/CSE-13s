@@ -12,21 +12,39 @@
 //CITE: TA Eugene (structure) (11/9 section)
 //CITE: Tutor Eric (rsa_make_pub) (11/10 session)
 
+//log base 2 function
+void lg(mpz_t o, mpz_t n) {
+    mpz_t temp_n, c;
+    mpz_inits(temp_n, c);
+
+    mpz_set(temp_n, n);
+
+    while (mpz_cmp(n, 0) > 0) {
+        mpz_add_ui(c, c, 1);
+        mpz_fdiv_q_ui(temp_n, temp_n, 2);
+    }
+    mpz_sub_ui(c, c, 1);
+    mpz_set(o, c);
+    mpz_clears(temp_n, c);
+}
+
 void rsa_make_pub(mpz_t p, mpz_t q, mpz_t n, mpz_t e, uint64_t nbits, uint64_t iters) {
-    mpz_t p_min, q_min, gcd_totient, totient; //initializing
-    mpz_inits(p_min, q_min, gcd_totient, totient, NULL);
+    mpz_t p_min, q_min, gcd_totient, totient, temp_n; //initializing
+    mpz_inits(p_min, q_min, gcd_totient, totient, temp_n, NULL);
 
     uint64_t temp_nbits = nbits;
 
-    //uint64_t pbits = (random() % ((3 * temp_nbits) / 4) - (temp_nbits / 4) + 1) + (temp_nbits / 4); //CITE: Tutor Jason
+    uint64_t pbits = (random() % ((3 * temp_nbits) / 4) - (temp_nbits / 4) + 1) + (temp_nbits / 4); //CITE: Tutor Jason
     //calculating the num of bits we will be passing (asgn doc)
 
-    uint64_t pbits = (random() % (temp_nbits / 2) + 1) + (temp_nbits / 4);
+    //uint64_t pbits = (random() % (temp_nbits / 2) + 1) + (temp_nbits / 4);
 
     uint64_t qbits = nbits - pbits; // you cannot stop to a lower bound and end in upper bound
 
     //pbits += 1; //adding 1 to the bits when calling make prime
     //qbits += 1;
+
+    lg(temp_n, n);
 
     make_prime(q, qbits, iters); //generate a prime number for q
     make_prime(p, pbits, iters); //generate a prime number for p
@@ -46,7 +64,7 @@ void rsa_make_pub(mpz_t p, mpz_t q, mpz_t n, mpz_t e, uint64_t nbits, uint64_t i
 }
 
 //log base 2 function
-void lg(mpz_t o, mpz_t n) {
+/*void lg(mpz_t o, mpz_t n) {
     mpz_t temp_n, c;
     mpz_inits(n, c);
     while (mpz_cmp(n, 0) > 0) {
@@ -56,7 +74,7 @@ void lg(mpz_t o, mpz_t n) {
     mpz_sub_ui(c, c, 1);
     mpz_set(o, c);
     mpz_clears(temp_n, c);
-}
+}*/
 
 void rsa_write_pub(mpz_t n, mpz_t e, mpz_t s, char username[], FILE *pbfile) {
     gmp_fprintf(pbfile, "%Zx\n", n); //write to a public file
