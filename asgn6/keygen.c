@@ -119,7 +119,7 @@ int main(int argc, char **argv) {
 				fprintf(stderr, "Error: unable to write file.\n");
                         	fclose(pubfile);
                         	fclose(privfile);
-				mpz_clears(p,q,n,e,d,s,NULL);
+				mpz_clears(p,q,n,e,d,s,m,NULL);
 				randstate_clear();
 				return 0;
 			}
@@ -131,7 +131,7 @@ int main(int argc, char **argv) {
 			fprintf(stderr, "Error: unable to write file.\n");
 			fclose(pubfile);
 			fclose(privfile);
-			mpz_clears(p,q,n,e,d,s,NULL);
+			mpz_clears(p,q,n,e,d,s,m,NULL);
                         randstate_clear();
 			return 0;
 		}
