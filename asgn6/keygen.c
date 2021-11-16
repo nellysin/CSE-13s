@@ -101,7 +101,7 @@ int main(int argc, char **argv) {
 
     randstate_init(seed); //initialize random state (4)
 
-/*    rsa_make_pub(p, q, n, e, bits, itersMR); //rsa make pub and priv (5)
+    rsa_make_pub(p, q, n, e, bits, itersMR); //rsa make pub and priv (5)
     rsa_make_priv(d, e, p, q);
 
     char *user[sizeof(getenv("USER"))]; //get user's name as string (6)
@@ -140,17 +140,17 @@ int main(int argc, char **argv) {
 
     if (verbose == true) { //if verbose is true
         printf("user = %s\n", *user);
-        gmp_printf("s (%Zd bits) = %Zd", bits, itersMR);
-        gmp_printf("p (%Zd bits) = %Zd", bits, p);
-        gmp_printf("q (%Zd bits) = %Zd", bits, q);
-        gmp_printf("n (%Zd bits) = %Zd", bits, n);
-        gmp_printf("e (%Zd bits) = %Zd", bits, e);
-        gmp_printf("d (%Zd bits) = %Zd", bits, d);
-*/    }
+        gmp_printf("s (%lu bits) = %Zd", bits, itersMR);
+        gmp_printf("p (%lu bits) = %Zd", bits, p);
+        gmp_printf("q (%lu bits) = %Zd", bits, q);
+        gmp_printf("n (%lu bits) = %Zd", bits, n);
+        gmp_printf("e (%lu bits) = %Zd", bits, e);
+        gmp_printf("d (%lu bits) = %Zd", bits, d);
+    }
 
-fclose(privfile);
-fclose(pubfile);
-randstate_clear();
-mpz_clears(p, q, n, e, d, s, m, NULL);
-return 0;
+    fclose(privfile);
+    fclose(pubfile);
+    randstate_clear();
+    mpz_clears(p, q, n, e, d, s, m, NULL);
+    return 0;
 }
