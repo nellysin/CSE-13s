@@ -107,7 +107,7 @@ int main(int argc, char **argv) {
     char *user[sizeof(getenv("USER"))]; //get user's name as string (6)
     *user = getenv("USER");
 
-    mpz_set_str(m, *user, 0);
+    mpz_set_str(m, *user, 62);
     rsa_sign(s, m, d, n);
 
     if (stdpub == false) { //writing to the rsa.pub
@@ -136,15 +136,15 @@ int main(int argc, char **argv) {
 
     rsa_write_pub(n, e, s, *user, pubfile); //writing to the pubfile
     rsa_write_priv(n, d, privfile); //writing to the privfile
-
+    
     if (verbose == true) { //if verbose is true
-        printf("user = %s\n", *user);
-        gmp_printf("s (%lu bits) = %Zd\n", bits, itersMR);
-        gmp_printf("p (%lu bits) = %Zd\n", bits, p);
-        gmp_printf("q (%lu bits) = %Zd\n", bits, q);
-        gmp_printf("n (%lu bits) = %Zd\n", bits, n);
-        gmp_printf("e (%lu bits) = %Zd\n", bits, e);
-        gmp_printf("d (%lu bits) = %Zd\n", bits, d);
+        gmp_fprintf(stdout, "user = %s\n", *user);
+        gmp_fprintf(stdout, "s (%lu bits) = %lu\n", bits, s);
+        gmp_fprintf(stdout, "p (%lu bits) = %Zd\n", bits, p);
+        gmp_fprintf(stdout, "q (%lu bits) = %Zd\n", bits, q);
+        gmp_fprintf(stdout, "n (%lu bits) = %Zd\n", bits, n);
+        gmp_fprintf(stdout, "e (%lu bits) = %Zd\n", bits, e);
+        gmp_fprintf(stdout, "d (%lu bits) = %Zd\n", bits, d);
     }
 
     randstate_clear();
