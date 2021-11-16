@@ -96,10 +96,10 @@ int main(int argc, char **argv) {
     int pvkey = fileno(privfile); //permission files
     fchmod(pvkey, 0600);
 
-    mpz_t p, q, n, e, d; //initilizing P Q N E D (steps 4 - 6 asgn doc)
-    mpz_inits(p, q, n, e, d, NULL);
+    mpz_t p, q, n, e, d, s, m; //initilizing P Q N E D (steps 4 - 6 asgn doc)
+    mpz_inits(p, q, n, e, d, s, m, NULL);
 
-    randstate_init(seed); //initialize random state (4)
+/*    randstate_init(seed); //initialize random state (4)
 
     rsa_make_pub(p, q, n, e, bits, itersMR); //rsa make pub and priv (5)
     rsa_make_priv(d, e, p, q);
@@ -107,12 +107,8 @@ int main(int argc, char **argv) {
     char *user[sizeof(getenv("USER"))]; //get user's name as string (6)
     *user = getenv("USER");
 
-    mpz_t m; //setting username (M) to an mpz_t with mpz_set_str() (7)
-    mpz_init(m);
     mpz_set_str(m, *user, 0);
 
-    mpz_t s; //using rsa_sign (7)
-    mpz_init(s); //initialize (S)
     rsa_sign(s, m, d, n);
 
     if (stdpub == false) { //writing to the rsa.pub
@@ -150,11 +146,11 @@ int main(int argc, char **argv) {
         gmp_printf("n (%Zd bits) = %Zd", bits, n);
         gmp_printf("e (%Zd bits) = %Zd", bits, e);
         gmp_printf("d (%Zd bits) = %Zd", bits, d);
-    }
+*/    }
 
-    mpz_clears(p, q, n, e, d, m, s, NULL);
-    fclose(privfile);
-    fclose(pubfile);
-    randstate_clear();
-    return 0;
+mpz_clears(p, q, n, e, d, s, m, NULL);
+fclose(privfile);
+fclose(pubfile);
+randstate_clear();
+return 0;
 }
