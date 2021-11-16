@@ -16,7 +16,9 @@
 
 #define OPTIONS "hvb:c:n:d:s:"
 
-void menu(void) {
+gmp_randstate_t state;
+
+void menu(void) { //printing out the menu
     printf("SYNOPSIS\n");
     printf("   Generates an RSA public/private key pair.\n");
     printf("\n");
@@ -69,7 +71,6 @@ int main(int argc, char **argv) {
                 fprintf(stderr, "Error: unable to write file.\n"); //error if pubfile does not exist
                 fclose(pubfile);
                 fclose(privfile);
-                randstate_clear();
                 return 0;
             }
             break;
@@ -80,7 +81,6 @@ int main(int argc, char **argv) {
                 fprintf(stderr, "Error: unable to write file.\n");
                 fclose(privfile);
                 fclose(pubfile);
-                randstate_clear();
                 return 0;
             }
             break;
@@ -108,7 +108,6 @@ int main(int argc, char **argv) {
     *user = getenv("USER");
 
     mpz_set_str(m, *user, 0);
-
     rsa_sign(s, m, d, n);
 
     if (stdpub == false) { //writing to the rsa.pub
@@ -117,8 +116,8 @@ int main(int argc, char **argv) {
             fprintf(stderr, "Error: unable to write file.\n");
             fclose(pubfile);
             fclose(privfile);
-            mpz_clears(p, q, n, e, d, s, m, NULL);
             randstate_clear();
+            mpz_clears(p, q, n, e, d, s, m, NULL);
             return 0;
         }
     }
@@ -129,8 +128,8 @@ int main(int argc, char **argv) {
             fprintf(stderr, "Error: unable to write file.\n");
             fclose(pubfile);
             fclose(privfile);
-            mpz_clears(p, q, n, e, d, s, m, NULL);
             randstate_clear();
+            mpz_clears(p, q, n, e, d, s, m, NULL);
             return 0;
         }
     }
@@ -140,17 +139,17 @@ int main(int argc, char **argv) {
 
     if (verbose == true) { //if verbose is true
         printf("user = %s\n", *user);
-        gmp_printf("s (%lu bits) = %Zd", bits, itersMR);
-        gmp_printf("p (%lu bits) = %Zd", bits, p);
-        gmp_printf("q (%lu bits) = %Zd", bits, q);
-        gmp_printf("n (%lu bits) = %Zd", bits, n);
-        gmp_printf("e (%lu bits) = %Zd", bits, e);
-        gmp_printf("d (%lu bits) = %Zd", bits, d);
+        gmp_printf("s (%lu bits) = %Zd\n", bits, itersMR);
+        gmp_printf("p (%lu bits) = %Zd\n", bits, p);
+        gmp_printf("q (%lu bits) = %Zd\n", bits, q);
+        gmp_printf("n (%lu bits) = %Zd\n", bits, n);
+        gmp_printf("e (%lu bits) = %Zd\n", bits, e);
+        gmp_printf("d (%lu bits) = %Zd\n", bits, d);
     }
 
-    fclose(privfile);
-    fclose(pubfile);
     randstate_clear();
     mpz_clears(p, q, n, e, d, s, m, NULL);
+    fclose(privfile);
+    fclose(pubfile);
     return 0;
 }
