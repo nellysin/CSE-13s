@@ -14,7 +14,7 @@
 #include "randstate.h"
 #include "rsa.h"
 
-#define OPTIONS "hvb:c:n:d:s"
+#define OPTIONS "hvb:c:n:d:s:"
 
 void menu(void) {
     printf("SYNOPSIS\n");
@@ -42,6 +42,7 @@ int main(int argc, char **argv) {
 	bool stdpriv = true;
 
 	bool verbose = false;
+
 	uint64_t bits = 256;
 	uint64_t itersMR = 50;
 	uint64_t seed = time(NULL);
@@ -61,7 +62,7 @@ int main(int argc, char **argv) {
 			case 'c':
 				itersMR = atoi(optarg); //amount of iterattions for MR
 				break;
-			case 'i':
+			case 'n':
 				stdpub = false;
 				pubfile = fopen(optarg, "w");
 				if(!pubfile){
@@ -112,9 +113,6 @@ int main(int argc, char **argv) {
 	mpz_init(s);
 	rsa_sign(s, m, d, n);
 
-	rsa_write_pub(n, e, s, *user, pubfile);
-	rsa_write_priv(n, d, privfile);
-
 	if(stdpub == true){ //writing to the rsa.pub 
                 pubfile = fopen("rsa.pub", "w");
 			if(!pubfile){
@@ -125,7 +123,7 @@ int main(int argc, char **argv) {
 				randstate_clear();
 				return 0;
 			}
-		}
+	}
 	
 	if(stdpriv == true){ //writing to the rsa.priv
 		privfile = fopen("rsa.priv", "w");
@@ -139,15 +137,18 @@ int main(int argc, char **argv) {
 		}
 	}
 
-	/*if(verbose == true){
-                printf("user = %s\n", *username);
-                gmp_printf("s (%Zd bits) = %Zd");
-                gmp_printf("p (%Zd bits) = %Zd");
-                gmp_printf("q (%Zd bits) = %Zd");
-                gmp_printf("n (%Zd bits) = %Zd");
-                gmp_printf("e (%Zd bits) = %Zd");
-                gmp_printf("d (%Zd bits) = %Zd");
-        }*/
+	rsa_write_pub(n, e, s, *user, pubfile);
+	rsa_write_priv(n, d, privfile);
+
+	if(verbose == true){ //if verbose is true
+                printf("user = %s\n", *user);
+                gmp_printf("s (%Zd bits) = %Zd", bits, itersMR);
+                gmp_printf("p (%Zd bits) = %Zd", bits, p);
+                gmp_printf("q (%Zd bits) = %Zd", bits, q);
+                gmp_printf("n (%Zd bits) = %Zd", bits, n);
+                gmp_printf("e (%Zd bits) = %Zd", bits, e);
+                gmp_printf("d (%Zd bits) = %Zd", bits, d);
+        }
 
     mpz_clears(p, q, n, e, d, m, s, NULL);
     randstate_clear();
