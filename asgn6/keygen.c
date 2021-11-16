@@ -35,124 +35,126 @@ void menu(void) {
 }
 
 int main(int argc, char **argv) {
-	FILE *pubfile = stdout;
-	FILE *privfile = stdout;
+    FILE *pubfile = stdout; //pubfile set to stdout
+    FILE *privfile = stdout; //privfile set to stdout
 
-	bool stdpub = true;
-	bool stdpriv = true;
+    bool stdpub = false; //this is to set to default or not
+    bool stdpriv = false; //set to default or not
 
-	bool verbose = false;
+    bool verbose = false; //setting verbose printing
 
-	uint64_t bits = 256;
-	uint64_t itersMR = 50;
-	uint64_t seed = time(NULL);
-	
-	int opt = 0;
-	while((opt = getopt(argc, argv, OPTIONS)) != -1){
-		switch (opt){
-			case 'h':
-				menu();
-				return 0;
-			case 'v': 
-				verbose = true; //for verbose printing
-				break;
-			case 'b':
-				bits = atoi(optarg); //minimum bits if 256
-				break;
-			case 'c':
-				itersMR = atoi(optarg); //amount of iterattions for MR
-				break;
-			case 'n':
-				stdpub = false;
-				pubfile = fopen(optarg, "w");
-				if(!pubfile){
-					fprintf(stderr, "Error: unable to write file.\n");
-					fclose(pubfile);
-					fclose(privfile);
-					return 0;
-				}
-				break;
-			case 'd':
-				stdpriv = false;
-				privfile = fopen(optarg, "w");
-				if(!privfile){
-					fprintf(stderr, "Error: unable to write file.\n");
-					fclose(pubfile);
-					fclose(privfile);
-					return 0;
-				}
-				break;
-			case 's':
-				seed = atoi(optarg);
-				break;
-			default:
-				menu();
-				return 0;
-		}
-	}
-	
-	int pvkey = fileno(privfile);
-	fchmod(pvkey, 0600);
+    uint64_t bits = 256; //setting the minimum bits
+    uint64_t itersMR = 50; //setting the default iterations
+    uint64_t seed = time(NULL); //setting the seed to time
 
-	mpz_t p, q, n, e, d; //d = priv
-	mpz_inits(p, q, n ,e, d, NULL);
-
-        randstate_init(seed); //initialize random state (4)
-
-        rsa_make_pub(p, q, n, e, bits, itersMR); //rsa make pub and priv (5)
-	rsa_make_priv(d, e, p, q);
-
-	char *user[sizeof(getenv("USER"))]; //get user's name as string (6)
-	*user = getenv("USER");
-
-	mpz_t m; //setting username to an mpz_t with mpz_set_str() (7)
-	mpz_init(m);
-	mpz_set_str(m, *user, 0);
-
-	mpz_t s;   //using rsa_sign (7)
-	mpz_init(s);
-	rsa_sign(s, m, d, n);
-
-	if(stdpub == true){ //writing to the rsa.pub 
-                pubfile = fopen("rsa.pub", "w");
-			if(!pubfile){
-				fprintf(stderr, "Error: unable to write file.\n");
-                        	fclose(pubfile);
-                        	fclose(privfile);
-				mpz_clears(p,q,n,e,d,s,m,NULL);
-				randstate_clear();
-				return 0;
-			}
-	}
-	
-	if(stdpriv == true){ //writing to the rsa.priv
-		privfile = fopen("rsa.priv", "w");
-		if(!privfile){
-			fprintf(stderr, "Error: unable to write file.\n");
-			fclose(pubfile);
-			fclose(privfile);
-			mpz_clears(p,q,n,e,d,s,m,NULL);
-                        randstate_clear();
-			return 0;
-		}
-	}
-
-	rsa_write_pub(n, e, s, *user, pubfile);
-	rsa_write_priv(n, d, privfile);
-
-	if(verbose == true){ //if verbose is true
-                printf("user = %s\n", *user);
-                gmp_printf("s (%Zd bits) = %Zd", bits, itersMR);
-                gmp_printf("p (%Zd bits) = %Zd", bits, p);
-                gmp_printf("q (%Zd bits) = %Zd", bits, q);
-                gmp_printf("n (%Zd bits) = %Zd", bits, n);
-                gmp_printf("e (%Zd bits) = %Zd", bits, e);
-                gmp_printf("d (%Zd bits) = %Zd", bits, d);
+    int opt = 0; //this is opt targs
+    while ((opt = getopt(argc, argv, OPTIONS)) != -1) {
+        switch (opt) { //switch cases for each
+        case 'h':
+            menu(); //help menu
+            return 0;
+        case 'v':
+            verbose = true; //for verbose printing
+            break;
+        case 'b':
+            bits = atoi(optarg); //minimum bits if 256
+            break;
+        case 'c':
+            itersMR = atoi(optarg); //amount of iterattions for MR
+            break;
+        case 'n':
+            stdpub = true; //setting the stdpub to true (setting the file name to optarg)
+            pubfile = fopen(optarg, "w");
+            if (!pubfile) {
+                fprintf(stderr, "Error: unable to write file.\n"); //error if pubfile does not exist
+                fclose(pubfile);
+                fclose(privfile);
+                randstate_clear();
+                return 0;
+            }
+            break;
+        case 'd':
+            stdpriv = true; //setting the stdpriv as true (set the file name to optarg)
+            privfile = fopen(optarg, "w"); //error if the privfile does not exist
+            if (!privfile) { //if the privfile does not exist
+                fprintf(stderr, "Error: unable to write file.\n");
+                fclose(privfile);
+                fclose(pubfile);
+                randstate_clear();
+                return 0;
+            }
+            break;
+        case 's':
+            seed = atoi(optarg); //set the seed to what the user inputs
+            break;
+        default:
+            menu(); //else call the menu again
+            return 0;
         }
+    }
+
+    int pvkey = fileno(privfile); //permission files
+    fchmod(pvkey, 0600);
+
+    mpz_t p, q, n, e, d; //initilizing P Q N E D (steps 4 - 6 asgn doc)
+    mpz_inits(p, q, n, e, d, NULL);
+
+    randstate_init(seed); //initialize random state (4)
+
+    rsa_make_pub(p, q, n, e, bits, itersMR); //rsa make pub and priv (5)
+    rsa_make_priv(d, e, p, q);
+
+    char *user[sizeof(getenv("USER"))]; //get user's name as string (6)
+    *user = getenv("USER");
+
+    mpz_t m; //setting username (M) to an mpz_t with mpz_set_str() (7)
+    mpz_init(m);
+    mpz_set_str(m, *user, 0);
+
+    mpz_t s; //using rsa_sign (7)
+    mpz_init(s); //initialize (S)
+    rsa_sign(s, m, d, n);
+
+    if (stdpub == false) { //writing to the rsa.pub
+        pubfile = fopen("rsa.pub", "w");
+        if (!pubfile) {
+            fprintf(stderr, "Error: unable to write file.\n");
+            fclose(pubfile);
+            fclose(privfile);
+            mpz_clears(p, q, n, e, d, s, m, NULL);
+            randstate_clear();
+            return 0;
+        }
+    }
+
+    if (stdpriv == false) { //writing to the rsa.priv
+        privfile = fopen("rsa.priv", "w");
+        if (!privfile) {
+            fprintf(stderr, "Error: unable to write file.\n");
+            fclose(pubfile);
+            fclose(privfile);
+            mpz_clears(p, q, n, e, d, s, m, NULL);
+            randstate_clear();
+            return 0;
+        }
+    }
+
+    rsa_write_pub(n, e, s, *user, pubfile); //writing to the pubfile
+    rsa_write_priv(n, d, privfile); //writing to the privfile
+
+    if (verbose == true) { //if verbose is true
+        printf("user = %s\n", *user);
+        gmp_printf("s (%Zd bits) = %Zd", bits, itersMR);
+        gmp_printf("p (%Zd bits) = %Zd", bits, p);
+        gmp_printf("q (%Zd bits) = %Zd", bits, q);
+        gmp_printf("n (%Zd bits) = %Zd", bits, n);
+        gmp_printf("e (%Zd bits) = %Zd", bits, e);
+        gmp_printf("d (%Zd bits) = %Zd", bits, d);
+    }
 
     mpz_clears(p, q, n, e, d, m, s, NULL);
-    randstate_clear();
     fclose(privfile);
     fclose(pubfile);
+    randstate_clear();
     return 0;
 }
