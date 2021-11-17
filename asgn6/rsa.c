@@ -37,7 +37,7 @@ void rsa_make_pub(mpz_t p, mpz_t q, mpz_t n, mpz_t e, uint64_t nbits, uint64_t i
     } while (mpz_cmp_ui(gcd_totient, 1) != 0);
 
     mpz_clears(p_min, q_min, gcd_totient, totient, NULL); //clearing the memory
-	return 0;
+	return;
 }
 
 //log base 2 function
