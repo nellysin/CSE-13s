@@ -30,15 +30,15 @@ void rsa_make_pub(mpz_t p, mpz_t q, mpz_t n, mpz_t e, uint64_t nbits, uint64_t i
 
     //uint64_t pbits = (random() % (temp_nbits / 2) + 1) + (temp_nbits / 4);
 
-    uint64_t qbits = nbits - pbits; // you cannot stop to a lower bound and end in upper bound
+//    uint64_t qbits = nbits - pbits; // you cannot stop to a lower bound and end in upper bound
 
     //pbits += 1; //adding 1 to the bits when calling make prime
     //qbits += 1;
 
 //    lg(temp_n, n);
 
-    make_prime(q, qbits, iters); //generate a prime number for q
-    make_prime(p, pbits, iters); //generate a prime number for p
+//    make_prime(q, qbits, iters); //generate a prime number for q
+//    make_prime(p, pbits, iters); //generate a prime number for p
 
     mpz_sub_ui(p_min, p, 1); //p_min = p - 1
     mpz_sub_ui(q_min, q, 1); //q_min = q - 1
