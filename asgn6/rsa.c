@@ -17,7 +17,7 @@ void rsa_make_pub(mpz_t p, mpz_t q, mpz_t n, mpz_t e, uint64_t nbits, uint64_t i
     mpz_inits(p_min, q_min, gcd_totient, totient, temp_n, NULL);
     uint64_t temp_nbits = nbits;
 
-    do {
+    do{
         uint64_t pbits = (random() % ((3 * temp_nbits) / 4) - (temp_nbits / 4) + 1)
                          + (temp_nbits / 4); //CITE: Tutor Jason
         uint64_t qbits = nbits - pbits; // you cannot stop to a lower bound and end in upper bound
@@ -25,7 +25,7 @@ void rsa_make_pub(mpz_t p, mpz_t q, mpz_t n, mpz_t e, uint64_t nbits, uint64_t i
         make_prime(p, pbits, iters); //generate a prime number for p
         mpz_mul(n, p, q); // the product of p and q
 
-    } while (mpz_sizeinbase(temp_n, 2) != nbits);
+    }while(mpz_sizeinbase(temp_n, 2) != nbits);
 
     //calculating the num of bits we will be passing (asgn doc)
 

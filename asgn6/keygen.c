@@ -137,6 +137,8 @@ int main(int argc, char **argv) {
     rsa_write_pub(n, e, s, *user, pubfile); //writing to the pubfile
     rsa_write_priv(n, d, privfile); //writing to the privfile
 
+    //size_t pribits;
+
     if (verbose == true) { //if verbose is true
         gmp_fprintf(stdout, "user = %s\n", *user);
         size_t prbits = mpz_sizeinbase(s, 2);
