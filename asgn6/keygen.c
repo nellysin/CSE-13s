@@ -136,15 +136,16 @@ int main(int argc, char **argv) {
 
     rsa_write_pub(n, e, s, *user, pubfile); //writing to the pubfile
     rsa_write_priv(n, d, privfile); //writing to the privfile
-    
+
     if (verbose == true) { //if verbose is true
         gmp_fprintf(stdout, "user = %s\n", *user);
-        gmp_fprintf(stdout, "s (%lu bits) = %lu\n", bits, s);
-        gmp_fprintf(stdout, "p (%lu bits) = %Zd\n", bits, p);
-        gmp_fprintf(stdout, "q (%lu bits) = %Zd\n", bits, q);
-        gmp_fprintf(stdout, "n (%lu bits) = %Zd\n", bits, n);
-        gmp_fprintf(stdout, "e (%lu bits) = %Zd\n", bits, e);
-        gmp_fprintf(stdout, "d (%lu bits) = %Zd\n", bits, d);
+        size_t prbits = mpz_sizeinbase(s, 2);
+        gmp_fprintf(stdout, "s (%zu bits) = %Zd\n", prbits, s);
+        gmp_fprintf(stdout, "p (%zu bits) = %Zd\n", prbits, p);
+        gmp_fprintf(stdout, "q (%zu bits) = %Zd\n", prbits, q);
+        gmp_fprintf(stdout, "n (%zu bits) = %Zd\n", prbits, n);
+        gmp_fprintf(stdout, "e (%zu bits) = %Zd\n", prbits, e);
+        gmp_fprintf(stdout, "d (%zu bits) = %Zd\n", prbits, d);
     }
 
     randstate_clear();
