@@ -16,6 +16,9 @@
 
 #define OPTIONS "hvb:c:n:d:s:"
 
+//CITE: Professor Long (assign doc)
+//CITE: TA Eugene for files & vebosing (11/16 session)
+
 gmp_randstate_t state;
 
 void menu(void) { //printing out the menu
@@ -107,12 +110,12 @@ int main(int argc, char **argv) {
     char *user[sizeof(getenv("USER"))]; //get user's name as string (6)
     *user = getenv("USER");
 
-    mpz_set_str(m, *user, 62);
-    rsa_sign(s, m, d, n);
+    mpz_set_str(m, *user, 62); //specified in the assignment doc
+    rsa_sign(s, m, d, n); //call rsa sign
 
     if (stdpub == false) { //writing to the rsa.pub
         pubfile = fopen("rsa.pub", "w");
-        if (!pubfile) {
+        if (!pubfile) { //if this file does not exist
             fprintf(stderr, "Error: unable to write file.\n");
             fclose(pubfile);
             fclose(privfile);
@@ -124,7 +127,7 @@ int main(int argc, char **argv) {
 
     if (stdpriv == false) { //writing to the rsa.priv
         privfile = fopen("rsa.priv", "w");
-        if (!privfile) {
+        if (!privfile) { //if this file does not exist
             fprintf(stderr, "Error: unable to write file.\n");
             fclose(pubfile);
             fclose(privfile);
@@ -137,17 +140,28 @@ int main(int argc, char **argv) {
     rsa_write_pub(n, e, s, *user, pubfile); //writing to the pubfile
     rsa_write_priv(n, d, privfile); //writing to the privfile
 
-    //size_t pribits;
+    size_t pribits; //where to store the bits
 
     if (verbose == true) { //if verbose is true
         gmp_fprintf(stdout, "user = %s\n", *user);
-        size_t prbits = mpz_sizeinbase(s, 2);
-        gmp_fprintf(stdout, "s (%zu bits) = %Zd\n", prbits, s);
-        gmp_fprintf(stdout, "p (%zu bits) = %Zd\n", prbits, p);
-        gmp_fprintf(stdout, "q (%zu bits) = %Zd\n", prbits, q);
-        gmp_fprintf(stdout, "n (%zu bits) = %Zd\n", prbits, n);
-        gmp_fprintf(stdout, "e (%zu bits) = %Zd\n", prbits, e);
-        gmp_fprintf(stdout, "d (%zu bits) = %Zd\n", prbits, d);
+
+        pribits = mpz_sizeinbase(s, 2);
+        gmp_fprintf(stdout, "s (%zu bits) = %Zd\n", pribits, s);
+
+        pribits = mpz_sizeinbase(p, 2);
+        gmp_fprintf(stdout, "p (%zu bits) = %Zd\n", pribits, p);
+
+        pribits = mpz_sizeinbase(q, 2);
+        gmp_fprintf(stdout, "q (%zu bits) = %Zd\n", pribits, q);
+
+        pribits = mpz_sizeinbase(n, 2);
+        gmp_fprintf(stdout, "n (%zu bits) = %Zd\n", pribits, n);
+
+        pribits = mpz_sizeinbase(e, 2);
+        gmp_fprintf(stdout, "e (%zu bits) = %Zd\n", pribits, e);
+
+        pribits = mpz_sizeinbase(d, 2);
+        gmp_fprintf(stdout, "d (%zu bits) = %Zd\n", pribits, d);
     }
 
     randstate_clear();
