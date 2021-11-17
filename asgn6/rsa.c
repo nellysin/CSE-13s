@@ -40,19 +40,6 @@ void rsa_make_pub(mpz_t p, mpz_t q, mpz_t n, mpz_t e, uint64_t nbits, uint64_t i
 	return;
 }
 
-//log base 2 function
-/*void lg(mpz_t o, mpz_t n) {
-    mpz_t temp_n, c;
-    mpz_inits(n, c);
-    while (mpz_cmp(n, 0) > 0) {
-        mpz_add_ui(c, c, 1);
-        mpz_fdiv_q_ui(temp_n, temp_n, 2);
-    }
-    mpz_sub_ui(c, c, 1);
-    mpz_set(o, c);
-    mpz_clears(temp_n, c);
-}*/
-
 void rsa_write_pub(mpz_t n, mpz_t e, mpz_t s, char username[], FILE *pbfile) {
     gmp_fprintf(pbfile, "%Zx\n", n); //write to a public file
     gmp_fprintf(pbfile, "%Zx\n", e);
