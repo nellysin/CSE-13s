@@ -13,8 +13,8 @@
 //CITE: Tutor Eric (rsa_make_pub) (11/10 session)
 
 void rsa_make_pub(mpz_t p, mpz_t q, mpz_t n, mpz_t e, uint64_t nbits, uint64_t iters) {
-    mpz_t p_min, q_min, gcd_totient, totient, temp_n; //initializing
-    mpz_inits(p_min, q_min, gcd_totient, totient, temp_n, NULL);
+    mpz_t p_min, q_min, gcd_totient, totient; //initializing
+    mpz_inits(p_min, q_min, gcd_totient, totient, NULL);
 
 
     do{
@@ -23,7 +23,7 @@ void rsa_make_pub(mpz_t p, mpz_t q, mpz_t n, mpz_t e, uint64_t nbits, uint64_t i
         make_prime(q, qbits, iters); //generate a prime number for q
         make_prime(p, pbits, iters); //generate a prime number for p
         mpz_mul(n, p, q); // the product of p and q
-    }while((!mpz_sizeinbase(n, 2)) == nbits);
+    }while(!(mpz_sizeinbase(n, 2) == nbits));
 
    
     mpz_sub_ui(p_min, p, 1); //p_min = p - 1
