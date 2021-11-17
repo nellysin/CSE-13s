@@ -25,6 +25,8 @@ void rsa_make_pub(mpz_t p, mpz_t q, mpz_t n, mpz_t e, uint64_t nbits, uint64_t i
         mpz_mul(n, p, q); // the product of p and q
     }while((!mpz_sizeinbase(n, 2)) == nbits);
 
+   
+    mpz_sub_ui(p_min, p, 1); //p_min = p - 1
     mpz_sub_ui(q_min, q, 1); //q_min = q - 1
     mpz_mul(totient, p_min, q_min); // the computed totient
 
@@ -35,6 +37,7 @@ void rsa_make_pub(mpz_t p, mpz_t q, mpz_t n, mpz_t e, uint64_t nbits, uint64_t i
     } while (mpz_cmp_ui(gcd_totient, 1) != 0);
 
     mpz_clears(p_min, q_min, gcd_totient, totient, NULL); //clearing the memory
+	return 0;
 }
 
 //log base 2 function
