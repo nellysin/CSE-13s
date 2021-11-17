@@ -30,9 +30,9 @@ void menu(void) { //printing out the menu
     printf("\n");
     printf("OPTIONS\n");
     printf("   -h              Display program help and usage.\n");
-    printf("   -v	       Display verbose program output.\n");
-    printf("   -b bits         Minimum bits needed for public key n.\n");
-    printf("   -c confidence   Miller-Rabin iterations for testing primes (default: 50).\n");
+    printf("   -v	           Display verbose program output.\n");
+    printf("   -b bits         Minimum bits needed for public key n (default: 256).\n");
+    printf("   -i confidence   Miller-Rabin iterations for testing primes (default: 50).\n");
     printf("   -n pbfile       Public key file (default: rsa.pub).\n");
     printf("   -d pvfile       Private key file (default: rsa.priv).\n");
     printf("   -s seed         Random seed for testing.\n");
