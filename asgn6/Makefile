@@ -8,8 +8,8 @@ all: keygen encrypt decrypt
 keygen: keygen.o rsa.o randstate.o numtheory.o
 	$(CC) -o keygen keygen.o rsa.o randstate.o numtheory.o $(LFLAGS)
 
-encrypt: encrypt.o
-	$(CC) -o encrypt encrypt.o $(LFLAGS)
+encrypt: encrypt.o rsa.o randstate.o numtheory.o
+	$(CC) -o encrypt encrypt.o rsa.o randstate.o numtheory.o $(LFLAGS)
 
 decrypt: decrypt.o
 	$(CC) -o decrypt decrypt.o $(LFLAGS)
@@ -35,6 +35,7 @@ rsa.o: rsa.c rsa.h
 
 #CLEANING
 clean:
+	rm -f *.{pub,priv}
 	rm -f keygen *.o
 	rm -f decrypt *.o
 	rm -f encrypt *.o
