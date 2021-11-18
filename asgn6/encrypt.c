@@ -95,8 +95,8 @@ int main(int argc, char **argv) {
         }
     }
 
-    mpz_t n, e, s, m, d; //initialize
-    mpz_inits(n, e, s, m, d, NULL);
+    mpz_t n, e, s, m; //initialize
+    mpz_inits(n, e, s, m, NULL);
 
     //read the public key from the opened public key file
 
@@ -120,7 +120,7 @@ int main(int argc, char **argv) {
     mpz_set_str(m, user, 62); //specified in the assignment doc
 
     if (!rsa_verify(m, s, e, n)) {
-        mpz_clears(n, e, s, m, d, NULL);
+        mpz_clears(n, e, s, m, NULL);
         fclose(inpub);
         fclose(outpub);
         fclose(pubkey);
@@ -144,7 +144,7 @@ int main(int argc, char **argv) {
         gmp_fprintf(stdout, "e (%zu bits) = %Zd\n", pribits, e);
     }
 
-    mpz_clears(n, e, s, m, d, NULL);
+    mpz_clears(n, e, s, m, NULL);
     fclose(inpub);
     fclose(outpub);
     fclose(pubkey);
