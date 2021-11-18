@@ -9,6 +9,7 @@
 #include <time.h>
 #include <unistd.h>
 #include <sys/stat.h>
+#include <limits.h>
 
 #include "numtheory.h"
 #include "randstate.h"
@@ -16,13 +17,17 @@
 
 #define OPTIONS "i:o:n:vh"
 
+//CITE: Professor Long
+//CITE: TA Eugene
+//CITE: TA Sloan (size of the user array)
+
 void menu(void) {
     printf("SYNOPSIS\n");
     printf("   Encrypts data using RSA encryption.\n");
     printf("   Encrypted data is decrypted by the decrypt program.\n");
     printf("\n");
     printf("USAGE\n");
-    printf("   ./encrypt [-hv] [-i infile] [-o outfile] -n pubkey -d privkey\n");
+    printf("   ./encrypt [-hv] [-i infile] [-o outfile] -n pubkey\n");
     printf("\n");
     printf("OPTIONS\n");
     printf("   -h              Display program help and usage.\n");
@@ -33,10 +38,12 @@ void menu(void) {
     return;
 }
 
-int main(int argc, char **argv){
+int main(int argc, char **argv) {
     FILE *inpub = stdin;
     FILE *outpub = stdin;
     FILE *pubkey = stdin;
+
+    //    char *path = "rsa.pub";
 
     bool pub = false;
     bool verbose = false;
@@ -52,35 +59,36 @@ int main(int argc, char **argv){
             break;
         case 'n':
             pub = true; //setting the stdpub to true (setting the file name to optarg)
+            //path = optarg;
             pubkey = fopen(optarg, "r");
             if (!pubkey) {
                 fprintf(stderr, "Error: unable to read file.\n"); //error if pubfile does not exist
                 fclose(inpub);
                 fclose(outpub);
-		fclose(pubkey);
+                fclose(pubkey);
                 return 0;
             }
             break;
         case 'i':
-	    inpub = fopen(optarg, "r");
-	    if(!inpub){
-		    fprintf(stderr, "Error: unable to read file.\n");
-		    fclose(inpub);
-		    fclose(outpub);
-		    fclose(pubkey);
-		    return 0;
-	    }
-	    break;
-	case 'o':
-	    outpub = fopen(optarg, "w");
-	    if(!outpub){
-		    fprintf(stderr, "Error: unable to write file.\n");
-		    fclose(inpub);
-		    fclose(outpub);
-		    fclose(pubkey);
-		    return 0;
-	    }
-	    break;
+            inpub = fopen(optarg, "r");
+            if (!inpub) {
+                fprintf(stderr, "Error: unable to read file.\n");
+                fclose(inpub);
+                fclose(outpub);
+                fclose(pubkey);
+                return 0;
+            }
+            break;
+        case 'o':
+            outpub = fopen(optarg, "w");
+            if (!outpub) {
+                fprintf(stderr, "Error: unable to write file.\n");
+                fclose(inpub);
+                fclose(outpub);
+                fclose(pubkey);
+                return 0;
+            }
+            break;
         default:
             menu(); //else call the menu again
             return 0;
@@ -89,29 +97,42 @@ int main(int argc, char **argv){
 
     mpz_t n, e, s, m, d; //initialize
     mpz_inits(n, e, s, m, d, NULL);
-    
+
     //read the public key from the opened public key file
 
     if (pub == false) { //writing to the rsa.pub
-        pubkey = fopen("rsa.pub", "w");
+        pubkey = fopen("rsa.pub", "r");
         if (!pubkey) {
             fprintf(stderr, "Error: unable to write file.\n");
             fclose(inpub);
             fclose(outpub);
-	    fclose(pubkey);
+            fclose(pubkey);
             return 0;
         }
     }
 
-    char *user[sizeof(getenv("USER"))]; //define username for reading
-    
-    rsa_read_pub(n, e, s, *user, pubkey);
+    char user[256]; //define username for reading
+
+    //    printf("entering read pub"); //testing
+    rsa_read_pub(n, e, s, user, pubkey); //reading public key
+
+    //    printf("setting user to string"); //testing
+    mpz_set_str(m, user, 62); //specified in the assignment doc
+
+    if (!rsa_verify(m, s, e, n)) {
+        mpz_clears(n, e, s, m, d, NULL);
+        fclose(inpub);
+        fclose(outpub);
+        fclose(pubkey);
+        return 0;
+    }
+    //    printf("entering encrypt file"); //testing
+    rsa_encrypt_file(inpub, outpub, n, e); //rsa encrypt file
 
     size_t pribits; //where to store the bits
-
     //verbose is true
-    if(verbose == true){
-	gmp_fprintf(stdout, "user = %s\n", *user);
+    if (verbose == true) {
+        gmp_fprintf(stdout, "user = %s\n", user);
 
         pribits = mpz_sizeinbase(s, 2);
         gmp_fprintf(stdout, "s (%zu bits) = %Zd\n", pribits, s);
@@ -122,8 +143,6 @@ int main(int argc, char **argv){
         pribits = mpz_sizeinbase(e, 2);
         gmp_fprintf(stdout, "e (%zu bits) = %Zd\n", pribits, e);
     }
-
-    rsa_verify(m, s, e, n);
 
     mpz_clears(n, e, s, m, d, NULL);
     fclose(inpub);
