@@ -43,11 +43,11 @@ void rsa_write_pub(mpz_t n, mpz_t e, mpz_t s, char username[], FILE *pbfile) {
     gmp_fprintf(pbfile, "%Zx\n", e);
     gmp_fprintf(pbfile, "%Zx\n", s);
 
-    gmp_fprintf(pbfile, username);
+    gmp_fprintf(pbfile,"%s\n", username);
 }
 
 void rsa_read_pub(mpz_t n, mpz_t e, mpz_t s, char username[], FILE *pbfile) {
-    gmp_fscanf(pbfile, "%Zx\n %Zx\n %Zx\n %s\n", n, e, s, username); //reading the public file
+    gmp_fscanf(pbfile, "%Zx\n%Zx\n%Zx\n%s\n", n, e, s, username); //reading the public file
 }
 
 void rsa_make_priv(mpz_t d, mpz_t e, mpz_t p, mpz_t q) {
@@ -137,12 +137,13 @@ bool rsa_verify(mpz_t m, mpz_t s, mpz_t e, mpz_t n) {
     pow_mod(t, s, e, n); //call pow mod
 
     if (mpz_cmp(t, m) == 0) { //if username and t is equal set to true else false
-        return true;
+        mpz_clear(t);
+	return true;
     } else {
+        mpz_clear(t); //clearing
         return false;
     }
 
-    mpz_clear(t); //clearing
 }
 //the user name is passed in -- rsa pub
 //getenv()
