@@ -39,8 +39,6 @@ void menu(void) {
     return;
 }
 
-//int argc, char **argv
-
 int main(int argc, char **argv) {
     FILE *infile = stdin;
     FILE *outfile = stdin;
@@ -95,8 +93,8 @@ int main(int argc, char **argv) {
         }
     }
 
-    mpz_t n, e, s, m, d; //initialize
-    mpz_inits(n, e, s, m, d, NULL);
+    mpz_t n, m, s, d; //initialize
+    mpz_inits(n, m, s, d, NULL);
 
     //read the public key from the opened public key file
 
@@ -112,6 +110,7 @@ int main(int argc, char **argv) {
     }
 
     char user[256]; //define username for reading
+    mpz_set_str(m, user, 62);
 
     rsa_read_priv(n, d, privkey);
 
@@ -129,11 +128,11 @@ int main(int argc, char **argv) {
         pribits = mpz_sizeinbase(n, 2);
         gmp_fprintf(stdout, "n (%zu bits) = %Zd\n", pribits, n);
 
-        pribits = mpz_sizeinbase(e, 2);
-        gmp_fprintf(stdout, "e (%zu bits) = %Zd\n", pribits, e);
+        pribits = mpz_sizeinbase(d, 2);
+        gmp_fprintf(stdout, "e (%zu bits) = %Zd\n", pribits, d);
     }
 
-    mpz_clears(n, e, s, m, d, NULL);
+    mpz_clears(n, m, s, d, NULL);
     fclose(infile);
     fclose(outfile);
     fclose(privkey);
