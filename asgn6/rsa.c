@@ -107,24 +107,23 @@ void rsa_decrypt(mpz_t m, mpz_t c, mpz_t d, mpz_t n) {
 void rsa_decrypt_file(FILE *infile, FILE *outfile, mpz_t n, mpz_t d) {
     mpz_t c, m;
     mpz_inits(c, m, NULL);
-    size_t k;
-    size_t j;
 
-    k = (mpz_sizeinbase(n, 2) - 1); //k = log_2(n)
-    k = (k / 8);
+    uint64_t k = 0;
+    uint64_t j = 1;
+
+    k = (mpz_sizeinbase(n, 2) - 1) / 8; //k = log_2(n)
 
     uint8_t *blocke = (uint8_t *) calloc(k, sizeof(uint8_t));
 
-    gmp_fscanf(infile, "%Zx\n", c); //printing to the outfile
-    while (!feof(infile)) {
+    while ((j = gmp_fscanf(infile, "%Zx\n", c)) != EOF){
         rsa_decrypt(m, c, d, n);
         mpz_export(blocke, &j, 1, sizeof(blocke[0]), 1, 0, m); //from assignment doc
-        j = fwrite(blocke + 1, sizeof(uint8_t), j - 1, outfile); //passing fread to j
-        gmp_fscanf(infile, "%Zx\n", c); //printing to the outfile
+        fwrite(blocke + 1, sizeof(uint8_t), j - 1, outfile); //passing fread to j
     }
 
     mpz_clears(c, m, NULL);
     free(blocke);
+    return;
 }
 
 void rsa_sign(mpz_t s, mpz_t m, mpz_t d, mpz_t n) {
