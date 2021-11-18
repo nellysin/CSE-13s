@@ -11,8 +11,8 @@ keygen: keygen.o rsa.o randstate.o numtheory.o
 encrypt: encrypt.o rsa.o randstate.o numtheory.o
 	$(CC) -o encrypt encrypt.o rsa.o randstate.o numtheory.o $(LFLAGS)
 
-decrypt: decrypt.o
-	$(CC) -o decrypt decrypt.o $(LFLAGS)
+decrypt: decrypt.o rsa.o randstate.o numtheory.o
+	$(CC) -o decrypt decrypt.o rsa.o randstate.o numtheory.o $(LFLAGS)
 
 #OBJECT FILES
 keygen.o: keygen.c
