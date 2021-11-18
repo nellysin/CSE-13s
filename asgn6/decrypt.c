@@ -41,7 +41,7 @@ void menu(void) {
 
 //int argc, char **argv
 
-int main(int argc, char **argv) { 
+int main(int argc, char **argv) {
     FILE *infile = stdin;
     FILE *outfile = stdin;
     FILE *privkey = stdin;
@@ -114,7 +114,7 @@ int main(int argc, char **argv) {
     char user[256]; //define username for reading
 
     rsa_read_priv(n, d, privkey);
-  
+
     rsa_decrypt_file(infile, outfile, n, d);
 
     size_t pribits; //where to store the bits
@@ -132,7 +132,6 @@ int main(int argc, char **argv) {
         pribits = mpz_sizeinbase(e, 2);
         gmp_fprintf(stdout, "e (%zu bits) = %Zd\n", pribits, e);
     }
-
 
     mpz_clears(n, e, s, m, d, NULL);
     fclose(infile);
