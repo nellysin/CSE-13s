@@ -111,7 +111,7 @@ int main(int argc, char **argv) {
         }
     }
 
-    char user[256]; //define username for reading
+    char user[_POSIX_LOGIN_NAME_MAX]; //define username for reading
 
     //    printf("entering read pub"); //testing
     rsa_read_pub(n, e, s, user, pubkey); //reading public key

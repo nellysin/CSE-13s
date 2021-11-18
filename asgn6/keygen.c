@@ -46,6 +46,8 @@ int main(int argc, char **argv) {
     bool stdpub = false; //this is to set to default or not
     bool stdpriv = false; //set to default or not
 
+    // privpath = "rsa.pub";
+
     bool verbose = false; //setting verbose printing
 
     uint64_t bits = 256; //setting the minimum bits

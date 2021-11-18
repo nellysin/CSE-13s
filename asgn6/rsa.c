@@ -9,7 +9,7 @@
 #include "numtheory.h"
 
 //CITE: Professor Long (assgn doc)
-//CITE: TA Eugene (structure) (11/9 section)
+//CITE: TA Eugene (structure encrypt_file & decrypt_file) (11/9 section)
 //CITE: Tutor Eric (rsa_make_pub) (11/10 session)
 
 void rsa_make_pub(mpz_t p, mpz_t q, mpz_t n, mpz_t e, uint64_t nbits, uint64_t iters) {
