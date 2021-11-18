@@ -18,7 +18,7 @@
 #define OPTIONS "i:o:n:vh"
 
 //CITE: Professor Long
-//CITE: TA Eugene
+//CITE: TA Eugene making files
 //CITE: TA Sloan (size of the user array)
 
 void menu(void) {
@@ -43,7 +43,7 @@ int main(int argc, char **argv) {
     FILE *outpub = stdin;
     FILE *pubkey = stdin;
 
-    //    char *path = "rsa.pub";
+    //char *path = "rsa.pub";
 
     bool pub = false;
     bool verbose = false;
@@ -73,7 +73,6 @@ int main(int argc, char **argv) {
             inpub = fopen(optarg, "r");
             if (!inpub) {
                 fprintf(stderr, "Error: unable to read file.\n");
-                fclose(inpub);
                 fclose(outpub);
                 fclose(pubkey);
                 return 0;
@@ -84,7 +83,6 @@ int main(int argc, char **argv) {
             if (!outpub) {
                 fprintf(stderr, "Error: unable to write file.\n");
                 fclose(inpub);
-                fclose(outpub);
                 fclose(pubkey);
                 return 0;
             }
@@ -106,7 +104,6 @@ int main(int argc, char **argv) {
             fprintf(stderr, "Error: unable to write file.\n");
             fclose(inpub);
             fclose(outpub);
-            fclose(pubkey);
             return 0;
         }
     }
