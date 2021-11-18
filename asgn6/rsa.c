@@ -115,7 +115,7 @@ void rsa_decrypt_file(FILE *infile, FILE *outfile, mpz_t n, mpz_t d) {
 
     uint8_t *blocke = (uint8_t *) calloc(k, sizeof(uint8_t));
 
-    while ((j = gmp_fscanf(infile, "%Zx\n", c)) != EOF){
+    while ((j = gmp_fscanf(infile, "%Zx\n", c)) != EOF) {
         rsa_decrypt(m, c, d, n);
         mpz_export(blocke, &j, 1, sizeof(blocke[0]), 1, 0, m); //from assignment doc
         fwrite(blocke + 1, sizeof(uint8_t), j - 1, outfile); //passing fread to j
