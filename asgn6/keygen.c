@@ -43,11 +43,8 @@ int main(int argc, char **argv) {
     FILE *pubfile = stdout; //pubfile set to stdout
     FILE *privfile = stdout; //privfile set to stdout
 
-    //bool stdpub = false; //this is to set to default or not
-    //bool stdpriv = false; //set to default or not
-
-    char *privpath = "rsa.pub";
-    char *pubpath = "rsa.priv";
+    bool stdpub = false; //this is to set to default or not
+    bool stdpriv = false; //set to default or not
 
     bool verbose = false; //setting verbose printing
 
@@ -71,26 +68,24 @@ int main(int argc, char **argv) {
             itersMR = atoi(optarg); //amount of iterattions for MR
             break;
         case 'n':
-            pubpath = optarg;
-            /*stdpub = true; //setting the stdpub to true (setting the file name to optarg)
+            stdpub = true; //setting the stdpub to true (setting the file name to optarg)
             pubfile = fopen(optarg, "w");
             if (!pubfile) {
                 fprintf(stderr, "Error: unable to write file.\n"); //error if pubfile does not exist
                 fclose(pubfile);
                 fclose(privfile);
                 return 0;
-            }*/
+            }
             break;
         case 'd':
-            privpath = optarg;
-            /*stdpriv = true; //setting the stdpriv as true (set the file name to optarg)
+            stdpriv = true; //setting the stdpriv as true (set the file name to optarg)
             privfile = fopen(optarg, "w"); //error if the privfile does not exist
             if (!privfile) { //if the privfile does not exist
                 fprintf(stderr, "Error: unable to write file.\n");
                 fclose(privfile);
                 fclose(pubfile);
                 return 0;
-            }*/
+            }
             break;
         case 's':
             seed = atoi(optarg); //set the seed to what the user inputs
@@ -118,29 +113,29 @@ int main(int argc, char **argv) {
     mpz_set_str(m, *user, 62); //specified in the assignment doc
     rsa_sign(s, m, d, n); //call rsa sign
 
-    //if (stdpub == false) { //writing to the rsa.pub
-    pubfile = fopen(pubpath, "w");
-    if (!pubfile) { //if this file does not exist
-        fprintf(stderr, "Error: unable to write file.\n");
-        fclose(pubfile);
-        fclose(privfile);
-        randstate_clear();
-        mpz_clears(p, q, n, e, d, s, m, NULL);
-        return 0;
+    if (stdpub == false) { //writing to the rsa.pub
+        pubfile = fopen("rsa.pub", "w");
+        if (!pubfile) { //if this file does not exist
+            fprintf(stderr, "Error: unable to write file.\n");
+            fclose(pubfile);
+            fclose(privfile);
+            randstate_clear();
+            mpz_clears(p, q, n, e, d, s, m, NULL);
+            return 0;
+        }
     }
-    //}
 
-    //if (stdpriv == false) { //writing to the rsa.priv
-    privfile = fopen(privpath, "w");
-    if (!privfile) { //if this file does not exist
-        fprintf(stderr, "Error: unable to write file.\n");
-        fclose(pubfile);
-        fclose(privfile);
-        randstate_clear();
-        mpz_clears(p, q, n, e, d, s, m, NULL);
-        return 0;
+    if (stdpriv == false) { //writing to the rsa.priv
+        privfile = fopen("rsa.priv", "w");
+        if (!privfile) { //if this file does not exist
+            fprintf(stderr, "Error: unable to write file.\n");
+            fclose(pubfile);
+            fclose(privfile);
+            randstate_clear();
+            mpz_clears(p, q, n, e, d, s, m, NULL);
+            return 0;
+        }
     }
-    //}
 
     rsa_write_pub(n, e, s, *user, pubfile); //writing to the pubfile
     rsa_write_priv(n, d, privfile); //writing to the privfile
