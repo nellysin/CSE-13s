@@ -18,10 +18,10 @@
 #define OPTIONS "i:o:n:vh"
 
 //CITE: Professor Long
-//CITE: TA Eugene making files
+//CITE: TA Eugene making files & debugging
 //CITE: TA Sloan (size of the user array)
 
-void menu(void) {
+void menu(void) { //helper function to print the command lines
     printf("SYNOPSIS\n");
     printf("   Encrypts data using RSA encryption.\n");
     printf("   Encrypted data is decrypted by the decrypt program.\n");
@@ -66,7 +66,7 @@ int main(int argc, char **argv) {
                 return 0;
             }
             break;
-        case 'i':
+        case 'i': //this is for infile
             inpub = fopen(optarg, "r");
             if (!inpub) {
                 fprintf(stderr, "Error: unable to read file.\n");
@@ -75,7 +75,7 @@ int main(int argc, char **argv) {
                 return 0;
             }
             break;
-        case 'o':
+        case 'o': //this is for outfile
             outpub = fopen(optarg, "w");
             if (!outpub) {
                 fprintf(stderr, "Error: unable to write file.\n");
@@ -109,9 +109,9 @@ int main(int argc, char **argv) {
 
     rsa_read_pub(n, e, s, user, pubkey); //reading public key
 
-    mpz_set_str(m, user, 62); //specified in the assignment doc
+    mpz_set_str(m, user, 62); // setting user to string (specified in the assignment doc)
 
-    if (!rsa_verify(m, s, e, n)) {
+    if (!rsa_verify(m, s, e, n)) { //if it is not verified then exit and print error (assgn doc)
         fprintf(stderr, "Signature not verified.\n");
         mpz_clears(n, e, s, m, NULL);
         fclose(inpub);
@@ -137,7 +137,7 @@ int main(int argc, char **argv) {
 
     rsa_encrypt_file(inpub, outpub, n, e); //rsa encrypt file
 
-    mpz_clears(n, e, s, m, NULL);
+    mpz_clears(n, e, s, m, NULL); //clearing and closing for no memory leak
     fclose(inpub);
     fclose(outpub);
     fclose(pubkey);
