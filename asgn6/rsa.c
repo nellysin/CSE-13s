@@ -76,16 +76,16 @@ void rsa_encrypt(mpz_t c, mpz_t m, mpz_t e, mpz_t n) {
 }
 
 void rsa_encrypt_file(FILE *infile, FILE *outfile, mpz_t n, mpz_t e) {
-    mpz_t c, m;
+    mpz_t c, m; //initialize
     mpz_inits(c, m, NULL);
-    size_t k;
-    size_t j = 1;
+    size_t k; //setting k
+    size_t j = 1; //setting j to 1
 
-    k = (mpz_sizeinbase(n, 2) - 1); //k = log_2(n)
+    k = (mpz_sizeinbase(n, 2) - 1); //k = log_2(n) //doing the mathematics equation
     k = (k / 8);
 
-    uint8_t *blocke = (uint8_t *) calloc(k, sizeof(uint8_t));
-    blocke[0] = 0xFF;
+    uint8_t *blocke = (uint8_t *) calloc(k, sizeof(uint8_t)); //allocating block
+    blocke[0] = 0xFF; //storing the 0th index to 0xFF
 
     //size_t j = fread(blocke + 1, sizeof(uint8_t), k - 1, infile);
 
@@ -96,7 +96,7 @@ void rsa_encrypt_file(FILE *infile, FILE *outfile, mpz_t n, mpz_t e) {
         gmp_fprintf(outfile, "%Zx\n", c); //printing to the outfile
     }
 
-    mpz_clears(c, m, NULL);
+    mpz_clears(c, m, NULL); //free and clear for no memory leak
     free(blocke);
 }
 
@@ -105,24 +105,25 @@ void rsa_decrypt(mpz_t m, mpz_t c, mpz_t d, mpz_t n) {
 }
 
 void rsa_decrypt_file(FILE *infile, FILE *outfile, mpz_t n, mpz_t d) {
-    mpz_t c, m;
+    mpz_t c, m; //initialize c and m
     mpz_inits(c, m, NULL);
 
-    uint64_t k = 0;
+    uint64_t k = 0; //set k and j
     uint64_t j = 1;
 
     k = (mpz_sizeinbase(n, 2) - 1) / 8; //k = log_2(n)
 
     uint8_t *blocke = (uint8_t *) calloc(k, sizeof(uint8_t));
 
-    while ((j = gmp_fscanf(infile, "%Zx\n", c)) != EOF) {
-        rsa_decrypt(m, c, d, n);
+    while ((j = gmp_fscanf(infile, "%Zx\n", c))
+           != EOF) { //while fscanf is not end of file (similar to asgn 4)
+        rsa_decrypt(m, c, d, n); //calling rsa_decrypt
         mpz_export(blocke, &j, 1, sizeof(blocke[0]), 1, 0, m); //from assignment doc
         fwrite(blocke + 1, sizeof(uint8_t), j - 1, outfile); //passing fread to j
     }
 
-    mpz_clears(c, m, NULL);
-    free(blocke);
+    mpz_clears(c, m, NULL); //clearing for no leakage
+    free(blocke); //free for no leakage
     return;
 }
 
@@ -144,6 +145,3 @@ bool rsa_verify(mpz_t m, mpz_t s, mpz_t e, mpz_t n) {
         return false;
     }
 }
-//the user name is passed in -- rsa pub
-//getenv()
-//$USER
