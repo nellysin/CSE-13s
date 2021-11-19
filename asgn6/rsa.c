@@ -107,14 +107,14 @@ void rsa_decrypt_file(FILE *infile, FILE *outfile, mpz_t n, mpz_t d) {
     mpz_inits(c, m, NULL);
 
     uint64_t k = 0; //set k and j
-    uint64_t j = 1;
+    size_t j = 1;
 
     k = (mpz_sizeinbase(n, 2) - 1) / 8; //k = log_2(n)
 
     uint8_t *blocke = (uint8_t *) calloc(k, sizeof(uint8_t));
 
-    while ((j = gmp_fscanf(infile, "%Zx\n", c))
-           != EOF) { //while fscanf is not end of file (similar to asgn 4)
+    while (!feof(infile)) { //while fscanf is not end of file (similar to asgn 4)
+        j = gmp_fscanf(infile, "%Zx\n", c);
         rsa_decrypt(m, c, d, n); //calling rsa_decrypt
         mpz_export(blocke, &j, 1, sizeof(blocke[0]), 1, 0, m); //from assignment doc
         fwrite(blocke + 1, sizeof(uint8_t), j - 1, outfile); //passing fread to j
