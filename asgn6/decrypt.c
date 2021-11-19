@@ -17,12 +17,11 @@
 
 #define OPTIONS "i:o:n:vh"
 
-//_POSIX_LOGIN_NAME_MAX
-//CITE: Professor Long
+//CITE: Professor Long for assignment doc
 //CITE: TA Eugene for opening files
 //CITE: TA Sloan (size of the user array)
 
-void menu(void) {
+void menu(void) { //helper function
     printf("SYNOPSIS\n");
     printf("   Decrypts data using RSA decryption.\n");
     printf("   Encrypted data is encrypted by the encrypt program.\n");
@@ -44,10 +43,8 @@ int main(int argc, char **argv) {
     FILE *outfile = stdin;
     FILE *privkey = stdin;
 
-    bool priv = false;
-    bool verbose = false;
-
-    //char *path = "rsa.priv";
+    bool priv = false; //for boolean
+    bool verbose = false; //for verbose
 
     int opt = 0; //the following are command lines
     while ((opt = getopt(argc, argv, OPTIONS)) != -1) {
@@ -60,7 +57,6 @@ int main(int argc, char **argv) {
             break;
         case 'n':
             priv = true; //setting the stdpub to true (setting the file name to optarg)
-            //path = optarg;
             privkey = fopen(optarg, "r");
             if (!privkey) {
                 fprintf(stderr, "Error: unable to read file.\n"); //error if pubfile does not exist
@@ -70,7 +66,7 @@ int main(int argc, char **argv) {
                 return 0;
             }
             break;
-        case 'i':
+        case 'i': //this is for infile
             infile = fopen(optarg, "r");
             if (!infile) {
                 fprintf(stderr, "Error: unable to read file.\n");
@@ -80,7 +76,7 @@ int main(int argc, char **argv) {
                 return 0;
             }
             break;
-        case 'o':
+        case 'o': //this is for outfile
             outfile = fopen(optarg, "w");
             if (!outfile) {
                 fprintf(stderr, "Error: unable to write file.\n");
@@ -102,7 +98,7 @@ int main(int argc, char **argv) {
     //read the public key from the opened public key file
 
     if (priv == false) { //writing to the rsa.pub
-        privkey = fopen("rsa.priv", "r");
+        privkey = fopen("rsa.priv", "r"); //if it doesn't exist then print error and exit
         if (!privkey) {
             fprintf(stderr, "Error: unable to write file.\n");
             fclose(infile);
@@ -118,16 +114,16 @@ int main(int argc, char **argv) {
 
     //verbose is true
     if (verbose == true) {
-        pribits = mpz_sizeinbase(n, 2);
-        gmp_fprintf(stdout, "n (%zu bits) = %Zd\n", pribits, n);
+        pribits = mpz_sizeinbase(n, 2); //printing the bits
+        gmp_fprintf(stdout, "n (%zu bits) = %Zd\n", pribits, n); //printing out n
 
-        pribits = mpz_sizeinbase(d, 2);
-        gmp_fprintf(stdout, "d (%zu bits) = %Zd\n", pribits, d);
+        pribits = mpz_sizeinbase(d, 2); //printing out the bits
+        gmp_fprintf(stdout, "d (%zu bits) = %Zd\n", pribits, d); //printing out d
     }
 
     rsa_decrypt_file(infile, outfile, n, d);
 
-    mpz_clears(n, s, d, NULL);
+    mpz_clears(n, s, d, NULL); //clear and close for no memory leaks
     fclose(infile);
     fclose(outfile);
     fclose(privkey);

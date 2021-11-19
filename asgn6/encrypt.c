@@ -17,7 +17,7 @@
 
 #define OPTIONS "i:o:n:vh"
 
-//CITE: Professor Long
+//CITE: Professor Long for assignment doc
 //CITE: TA Eugene making files & debugging
 //CITE: TA Sloan (size of the user array)
 
