@@ -134,7 +134,7 @@ int main(int argc, char **argv) {
         pribits = mpz_sizeinbase(e, 2);
         gmp_fprintf(stdout, "e (%zu bits) = %Zd\n", pribits, e);
     }
-    
+
     rsa_encrypt_file(inpub, outpub, n, e); //rsa encrypt file
 
     mpz_clears(n, e, s, m, NULL);
