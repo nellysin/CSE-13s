@@ -143,28 +143,28 @@ int main(int argc, char **argv) {
     size_t pribits; //where to store the bits
 
     if (verbose == true) { //if verbose is true
-        gmp_fprintf(stdout, "user = %s\n", *user);
+        gmp_fprintf(stdout, "user = %s\n", *user); //print username
 
-        pribits = mpz_sizeinbase(s, 2);
-        gmp_fprintf(stdout, "s (%zu bits) = %Zd\n", pribits, s);
+        pribits = mpz_sizeinbase(s, 2); //for bits
+        gmp_fprintf(stdout, "s (%zu bits) = %Zd\n", pribits, s); //print s
 
-        pribits = mpz_sizeinbase(p, 2);
-        gmp_fprintf(stdout, "p (%zu bits) = %Zd\n", pribits, p);
+        pribits = mpz_sizeinbase(p, 2); //for bits
+        gmp_fprintf(stdout, "p (%zu bits) = %Zd\n", pribits, p); //print p
 
-        pribits = mpz_sizeinbase(q, 2);
-        gmp_fprintf(stdout, "q (%zu bits) = %Zd\n", pribits, q);
+        pribits = mpz_sizeinbase(q, 2); //for bits
+        gmp_fprintf(stdout, "q (%zu bits) = %Zd\n", pribits, q); //print q
 
-        pribits = mpz_sizeinbase(n, 2);
-        gmp_fprintf(stdout, "n (%zu bits) = %Zd\n", pribits, n);
+        pribits = mpz_sizeinbase(n, 2); //for bits
+        gmp_fprintf(stdout, "n (%zu bits) = %Zd\n", pribits, n); //print n
 
-        pribits = mpz_sizeinbase(e, 2);
-        gmp_fprintf(stdout, "e (%zu bits) = %Zd\n", pribits, e);
+        pribits = mpz_sizeinbase(e, 2); //for bits
+        gmp_fprintf(stdout, "e (%zu bits) = %Zd\n", pribits, e); //print e
 
-        pribits = mpz_sizeinbase(d, 2);
-        gmp_fprintf(stdout, "d (%zu bits) = %Zd\n", pribits, d);
+        pribits = mpz_sizeinbase(d, 2); //for bits
+        gmp_fprintf(stdout, "d (%zu bits) = %Zd\n", pribits, d); //print d
     }
 
-    randstate_clear();
+    randstate_clear(); //clears and close for no memory leak
     mpz_clears(p, q, n, e, d, s, m, NULL);
     fclose(privfile);
     fclose(pubfile);
