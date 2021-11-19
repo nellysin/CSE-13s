@@ -114,7 +114,6 @@ int main(int argc, char **argv) {
 
     rsa_read_priv(n, d, privkey);
 
-    rsa_decrypt_file(infile, outfile, n, d);
 
     size_t pribits; //where to store the bits
 
@@ -126,6 +125,8 @@ int main(int argc, char **argv) {
         pribits = mpz_sizeinbase(d, 2);
         gmp_fprintf(stdout, "d (%zu bits) = %Zd\n", pribits, d);
     }
+    
+    rsa_decrypt_file(infile, outfile, n, d);
 
     mpz_clears(n, s, d, NULL);
     fclose(infile);

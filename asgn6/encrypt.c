@@ -119,7 +119,6 @@ int main(int argc, char **argv) {
         fclose(pubkey);
         return 0;
     }
-    rsa_encrypt_file(inpub, outpub, n, e); //rsa encrypt file
 
     size_t pribits; //where to store the bits
     //verbose is true
@@ -135,6 +134,8 @@ int main(int argc, char **argv) {
         pribits = mpz_sizeinbase(e, 2);
         gmp_fprintf(stdout, "e (%zu bits) = %Zd\n", pribits, e);
     }
+    
+    rsa_encrypt_file(inpub, outpub, n, e); //rsa encrypt file
 
     mpz_clears(n, e, s, m, NULL);
     fclose(inpub);
