@@ -19,7 +19,7 @@
 
 //_POSIX_LOGIN_NAME_MAX
 //CITE: Professor Long
-//CITE: TA Eugene
+//CITE: TA Eugene for opening files
 //CITE: TA Sloan (size of the user array)
 
 void menu(void) {
@@ -47,6 +47,8 @@ int main(int argc, char **argv) {
     bool priv = false;
     bool verbose = false;
 
+    //char *path = "rsa.priv";
+
     int opt = 0; //the following are command lines
     while ((opt = getopt(argc, argv, OPTIONS)) != -1) {
         switch (opt) { //switch cases for each
@@ -58,6 +60,7 @@ int main(int argc, char **argv) {
             break;
         case 'n':
             priv = true; //setting the stdpub to true (setting the file name to optarg)
+            //path = optarg;
             privkey = fopen(optarg, "r");
             if (!privkey) {
                 fprintf(stderr, "Error: unable to read file.\n"); //error if pubfile does not exist
@@ -117,14 +120,11 @@ int main(int argc, char **argv) {
 
     //verbose is true
     if (verbose == true) {
-        pribits = mpz_sizeinbase(s, 2);
-        gmp_fprintf(stdout, "s (%zu bits) = %Zd\n", pribits, s);
-
         pribits = mpz_sizeinbase(n, 2);
         gmp_fprintf(stdout, "n (%zu bits) = %Zd\n", pribits, n);
 
         pribits = mpz_sizeinbase(d, 2);
-        gmp_fprintf(stdout, "e (%zu bits) = %Zd\n", pribits, d);
+        gmp_fprintf(stdout, "d (%zu bits) = %Zd\n", pribits, d);
     }
 
     mpz_clears(n, s, d, NULL);

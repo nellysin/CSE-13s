@@ -40,10 +40,8 @@ void menu(void) {
 
 int main(int argc, char **argv) {
     FILE *inpub = stdin;
-    FILE *outpub = stdin;
+    FILE *outpub = stdout;
     FILE *pubkey = stdin;
-
-    //char *path = "rsa.pub";
 
     bool pub = false;
     bool verbose = false;
@@ -59,7 +57,6 @@ int main(int argc, char **argv) {
             break;
         case 'n':
             pub = true; //setting the stdpub to true (setting the file name to optarg)
-            //path = optarg;
             pubkey = fopen(optarg, "r");
             if (!pubkey) {
                 fprintf(stderr, "Error: unable to read file.\n"); //error if pubfile does not exist
@@ -101,29 +98,27 @@ int main(int argc, char **argv) {
     if (pub == false) { //writing to the rsa.pub
         pubkey = fopen("rsa.pub", "r");
         if (!pubkey) {
-            fprintf(stderr, "Error: unable to write file.\n");
+            fprintf(stderr, "Error: unable to read public key.\n");
             fclose(inpub);
             fclose(outpub);
             return 0;
         }
     }
 
-    char user[_POSIX_LOGIN_NAME_MAX]; //define username for reading
+    char user[256]; //define username for reading
 
-    //    printf("entering read pub"); //testing
     rsa_read_pub(n, e, s, user, pubkey); //reading public key
 
-    //    printf("setting user to string"); //testing
     mpz_set_str(m, user, 62); //specified in the assignment doc
 
     if (!rsa_verify(m, s, e, n)) {
+        fprintf(stderr, "Signature not verified.\n");
         mpz_clears(n, e, s, m, NULL);
         fclose(inpub);
         fclose(outpub);
         fclose(pubkey);
         return 0;
     }
-    //    printf("entering encrypt file"); //testing
     rsa_encrypt_file(inpub, outpub, n, e); //rsa encrypt file
 
     size_t pribits; //where to store the bits
