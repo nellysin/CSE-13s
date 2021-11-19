@@ -87,8 +87,6 @@ void rsa_encrypt_file(FILE *infile, FILE *outfile, mpz_t n, mpz_t e) {
     uint8_t *blocke = (uint8_t *) calloc(k, sizeof(uint8_t)); //allocating block
     blocke[0] = 0xFF; //storing the 0th index to 0xFF
 
-    //size_t j = fread(blocke + 1, sizeof(uint8_t), k - 1, infile);
-
     while (j > 0) {
         j = fread(blocke + 1, sizeof(uint8_t), k - 1, infile); //passing fread to j
         mpz_import(m, j + 1, 1, sizeof(blocke[0]), 1, 0, blocke); //from assignment doc
