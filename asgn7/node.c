@@ -32,7 +32,7 @@ void node_delete(Node **n){
 	*n = NULL;
 }
 
-void node_print(Node *n){
+/*void node_print(Node *n){
 	printf("%s -> %s\n", n->oldspeak, n->newspeak);
 	printf("%s\n", n->oldspeak);
-}
+}*/
