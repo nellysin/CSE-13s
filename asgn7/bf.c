@@ -64,27 +64,16 @@ void bf_insert(BloomFilter *bf, char *oldspeak){
 bool bf_probe(BloomFilter *bf, char *oldspeak){
 	uint32_t hashprim = hash(bf->primary, oldspeak);
 	hashprim = hashprim % bf_size(bf);
-	if(bv_set_bit(bf->filter, hashprim)){
-		return true;
-	} else {
-		return false;
-	}
+	
+	return bv_get_bit(bf->filter, hashprim)
 
         uint32_t hashsec = hash(bf->secondary, oldspeak);
 	hashsec = hashsec % bf_size(bf);
-	if(bv_set_bit(bf->filter, hashsec)){
-		return true;
-	} else{
-		return false;
-	}
+	return bv_get_bit(bf->filter, hashsec)
 
         uint32_t hashter = hash(bf->tertiary, oldspeak);	
 	hashter = hashter % bf_size(bf);
-	if(bv_set_bit(bf->filter, hashter)){
-		return true;
-	} else {
-		return false;
-	}
+	return bv_get_bit(bf->filter, hashter)
 }
 
 uint32_t bf_count(BloomFilter *bf){
