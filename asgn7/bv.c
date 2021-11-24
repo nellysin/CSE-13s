@@ -5,7 +5,7 @@
 
 #include "bv.h"
 
-//CITE: Professor Long for code comments repo in bv8
+//CITE: Professor Long for code comments repo in bv8.h
 //CITE: TA Eugene for further instructions in assignment doc
 
 struct BitVector {
@@ -13,20 +13,18 @@ struct BitVector {
     uint8_t *vector;
 };
 
-BitVector *bv_create(uint32_t length) {
+BitVector *bv_create(uint32_t length) { //creating and initializing for the struct
     BitVector *bv = (BitVector *) malloc(sizeof(BitVector));
     if (bv) {
         uint32_t bytes = (length / 8) + (length / 8 ? 1 : 0);
         bv->vector = (uint8_t *) calloc(bytes, sizeof(uint8_t));
         bv->length = length;
-        return bv;
-    } else {
-        return (BitVector *) 0;
     }
+    return bv;
 }
 
 void bv_delete(BitVector **bv) {
-    if (*bv) {
+    if (*bv) { //deleting the bit vector
         free(*bv);
         *bv = NULL;
     }
@@ -34,11 +32,11 @@ void bv_delete(BitVector **bv) {
 }
 
 uint32_t bv_length(BitVector *bv) {
-    return bv->length;
+    return bv->length; //returning the length of bit vector
 }
 
-bool bv_set_bit(BitVector *bv, uint32_t i) {
-    if (i < bv->length) {
+bool bv_set_bit(BitVector *bv, uint32_t i) { //setting to the bit vector
+    if (i < bv->length) { //make sure i is in range
         bv->vector[i / 8] |= (0x1 << i % 8);
         return true;
     } else {
@@ -46,8 +44,8 @@ bool bv_set_bit(BitVector *bv, uint32_t i) {
     }
 }
 
-bool bv_clr_bit(BitVector *bv, uint32_t i) {
-    if (i < bv->length) {
+bool bv_clr_bit(BitVector *bv, uint32_t i) { //clearing the bit vector to 0
+    if (i < bv->length) { //make sure i is in range
         bv->vector[i / 8] &= ~(0x1 << i % 8);
         return true;
     } else {
@@ -55,9 +53,9 @@ bool bv_clr_bit(BitVector *bv, uint32_t i) {
     }
 }
 
-bool bv_get_bit(BitVector *bv, uint32_t i) {
-    if(i < bv->length){
-	return (bv->vector[i / 8] >> i % 8) & 0x1;
+bool bv_get_bit(BitVector *bv, uint32_t i) { //boolean logic getting the bit of 0 and 1
+    if(i < bv->length){ //make sure i is in range
+	return (bv->vector[i / 8] >> i % 8) & 0x1; 
     }
     return false;
 }
