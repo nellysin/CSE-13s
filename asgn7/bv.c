@@ -56,7 +56,10 @@ bool bv_clr_bit(BitVector *bv, uint32_t i) {
 }
 
 bool bv_get_bit(BitVector *bv, uint32_t i) {
-    return (bv->vector[i / 8] >> i % 8) & 0x1;
+    if(i < bv->length){
+	return (bv->vector[i / 8] >> i % 8) & 0x1;
+    }
+    return false;
 }
 
 void bv_print(BitVector *bv);
