@@ -5,7 +5,7 @@
 
 #include "bv.h"
 
-//CITE: Professor Long for code comments repo in bv8.h
+//CITE: Professor Long for bitvector code in comments repo in bv8.h
 //CITE: TA Eugene for further instructions in assignment doc
 
 struct BitVector {
@@ -54,8 +54,8 @@ bool bv_clr_bit(BitVector *bv, uint32_t i) { //clearing the bit vector to 0
 }
 
 bool bv_get_bit(BitVector *bv, uint32_t i) { //boolean logic getting the bit of 0 and 1
-    if(i < bv->length){ //make sure i is in range
-	return (bv->vector[i / 8] >> i % 8) & 0x1; 
+    if (i < bv->length) { //make sure i is in range
+        return (bv->vector[i / 8] >> i % 8) & 0x1;
     }
     return false;
 }

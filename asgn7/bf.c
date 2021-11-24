@@ -11,7 +11,7 @@
 //CITE: TA Eugene for asgn doc
 //CITE: Tutor Jason for explanation for the hashing and bloom filter
 
-struct BloomFilter { //struct for bloom filter
+struct BloomFilter { //struct for bloom filter (from the assignment doc)
     uint64_t primary[2];
     uint64_t secondary[2];
     uint64_t tertiary[2];
@@ -23,7 +23,6 @@ BloomFilter *bf_create(uint32_t size) {
     bf = (BloomFilter *) calloc(1, sizeof(BloomFilter)); //calloc the bf
 
     bf->filter = bv_create(size);
-    //bf->filter = (BitVector *) calloc(size, sizeof(uint8_t));
 
     bf->primary[0] = SALT_PRIMARY_LO; // setting primary, secondary, tertiary
     bf->primary[1] = SALT_PRIMARY_HI; // setting primary, secondary, tertiary
@@ -73,23 +72,23 @@ bool bf_probe(BloomFilter *bf, char *oldspeak) {
     uint32_t hashter = hash(bf->tertiary, oldspeak);
     hashter = hashter % bf_size(bf);
     //return bv_get_bit(bf->filter, hashter);
-    
-    if(bv_get_bit(bf->filter, hashter) && bv_get_bit(bf->filter, hashsec) && bv_get_bit(bf->filter, hashprim)){
-	    return true;
-    } else {
-	    return false;
-    }
 
+    if (bv_get_bit(bf->filter, hashter) && bv_get_bit(bf->filter, hashsec)
+        && bv_get_bit(bf->filter, hashprim)) {
+        return true; //must return true if ALL are one
+    } else {
+        return false; //return false otherwise
+    }
 }
 
 uint32_t bf_count(BloomFilter *bf) {
     uint32_t count = 0;
-    for (uint32_t i = 0; i < bf_size(bf); i += 1) {
-        if (bv_get_bit(bf->filter, i) == 1) {
+    for (uint32_t i = 0; i < bf_size(bf); i += 1) { //for i in the rnage of bf_size
+        if (bv_get_bit(bf->filter, i) == 1) { //if the bf get bit if not 0 then increment count
             count += 1;
         }
     }
-    return count;
+    return count; //returning the count
 }
 
 void bf_print(BloomFilter *bf); /*{
