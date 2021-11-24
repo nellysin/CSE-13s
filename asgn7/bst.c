@@ -1,23 +1,27 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 
 #include "node.h"
 #include "bst.h"
 
 //CITE: Professor Long for code in the lecture slide 18
 
-Node *bst_create(void){i
+Node *bst_create(void){
 	Node *root = node_create(NULL, NULL);
 	root = NULL;
 	return root;
 }
 
+static int max(int x, int y){
+	return x > y ? x : y;
+}
+
 uint32_t bst_height(Node *root){
-	uint32_t bst_left = bst_height(root->left);
-	uint32_t bst_right =  bst_height(root->right);
 	if(root){
-		return 1 + bst_left > bst_right ? bst_left : best_right;
+		return 1 + max(bst_height(root->left) , bst_height(root->right));
 	}
 	return 0;
 }
@@ -25,7 +29,7 @@ uint32_t bst_height(Node *root){
 uint32_t bst_size(Node *root){
 	int size = 0;
 	if(root == NULL){
-		retur false;
+		return false;
 	} else {
 		size = 1 + bst_size(root->left) + bst_size(root->right);
 	}
@@ -46,24 +50,21 @@ Node *bst_find(Node *root, char *oldspeak){
 Node *bst_insert(Node *root, char *oldspeak, char *newspeak){
 	if(root){
 		if(strcmp(root->oldspeak, oldspeak) > 0){
-			root->left = bst_insert(root->left, oldspeak);
+			root->left = bst_insert(root->left, oldspeak, newspeak);
 		} else {
-			root->right = bst_insert(root->right, oldspeak);
-		}
-		if(strcmp(root->newspeak, newspeak) > 0){
-			root->left = bst_insert(root->left, newspeak);
-		} else {
-			root->right = bst_insert(root->right, newspeak);
+			root->right = bst_insert(root->right, oldspeak, newspeak);
 		}
 		return root;
 	}
-	return node_create(oldspeak);
+	return node_create(oldspeak, newspeak);
 }
 
 void bst_print(Node *root){
 	if(root){
 		bst_print(root->left);
-		printf("%s\n", root->oldkey)
+		printf("%s\n", root->oldspeak);
+	}
+}
 
 void bst_delete(Node **root){
 	if(*root){
