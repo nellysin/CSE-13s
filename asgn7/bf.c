@@ -73,8 +73,8 @@ bool bf_probe(BloomFilter *bf, char *oldspeak) {
     hashter = hashter % bf_size(bf);
     //return bv_get_bit(bf->filter, hashter);
 
-    if (bv_get_bit(bf->filter, hashter) && bv_get_bit(bf->filter, hashsec)
-        && bv_get_bit(bf->filter, hashprim)) {
+    if (bv_get_bit(bf->filter, hashter) & bv_get_bit(bf->filter, hashsec)
+        & bv_get_bit(bf->filter, hashprim)) {
         return true; //must return true if ALL are one
     } else {
         return false; //return false otherwise
