@@ -47,16 +47,13 @@ uint32_t bf_size(BloomFilter *bf) {
 }
 
 void bf_insert(BloomFilter *bf, char *oldspeak) {
-    uint32_t hashprim = hash(bf->primary, oldspeak);
-    hashprim = hashprim % bf_size(bf);
+    uint32_t hashprim = hash(bf->primary, oldspeak) % bf_size(bf);
     bv_set_bit(bf->filter, hashprim);
 
-    uint32_t hashsec = hash(bf->secondary, oldspeak);
-    hashsec = hashsec % bf_size(bf);
+    uint32_t hashsec = hash(bf->secondary, oldspeak) % bf_size(bf);
     bv_set_bit(bf->filter, hashsec);
 
-    uint32_t hashter = hash(bf->tertiary, oldspeak);
-    hashter = hashter % bf_size(bf);
+    uint32_t hashter = hash(bf->tertiary, oldspeak) % bf_size(bf);
     bv_set_bit(bf->filter, hashter);
 }
 
