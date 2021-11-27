@@ -148,9 +148,10 @@ int main(int argc, char *argv[]) {
         fprintf(stdout, "Average BST size: %7.6lf\n", ht_avg_bst_size(ht));
         fprintf(stdout, "Average BST height: %7.6lf\n", ht_avg_bst_size(ht));
         fprintf(stdout, "Average branches traversed: %7.6lf\n", average);
-        fprintf(stdout, "Hash table load: %7.6lf%%\n", 100 * ((double) ht_count(ht) / ht_size(ht)));
-        fprintf(
-            stdout, "Bloom filter load: %7.6lf%%\n", 100 * ((double) bf_count(bf) / bf_size(bf)));
+        fprintf(stdout, "Hash table load: %7.6lf%%\n",
+            ((double) 100 * ((double) ht_count(ht) / ht_size(ht))));
+        fprintf(stdout, "Bloom filter load: %7.6lf%%\n",
+            ((double) 100 * ((double) bf_count(bf) / bf_size(bf))));
         return 0;
     }
 
