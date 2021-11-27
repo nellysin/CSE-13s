@@ -7,6 +7,7 @@
 #include <math.h>
 #include <stdio.h>
 #include <regex.h>
+#include <ctype.h>
 
 #include "node.h"
 #include "salts.h"
@@ -19,7 +20,7 @@
 #include "messages.h"
 
 #define OPTIONS "hst:f:"
-#define WORD "[a-zA-Z]+"
+#define WORD "[a-zA-Z0-9_'-]+"
 
 //CITE: Professor Long 
 //CITE: 
@@ -123,6 +124,9 @@ int main(int argc, char *argv[]) {
     bool probe = false;
 
     while((word = next_word(stdin, &re)) != NULL){
+	    for(uint32_t i = 0; i < strlen(word); i += 1){
+		     word[i] = tolower(word[i]);
+	    }
 	    if(bf_probe(bf, word)){
 		probe = true;
             	temp = ht_lookup(ht, word);
