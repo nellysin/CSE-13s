@@ -15,9 +15,15 @@ Node *node_create(char *oldspeak, char *newspeak) {
     if (oldspeak != NULL) {
         n->oldspeak = strdup(oldspeak); //duplicate for oldspeak and newspeak is stored in the node
     }
+    else {
+	    n->oldspeak = NULL;
+    }
 
     if (newspeak != NULL) {
         n->newspeak = strdup(newspeak);
+    }
+    else {
+            n->newspeak = NULL;
     }
 
     n->left = NULL; //set left and right to null?
@@ -37,7 +43,7 @@ void node_print(Node *n) {
     if (n->oldspeak != NULL && n->newspeak != NULL) {
         printf("%s -> %s\n", n->oldspeak, n->newspeak);
     }
-    if (n->oldspeak != NULL) {
+    if (n->oldspeak != NULL && n->newspeak == NULL) {
         printf("%s\n", n->oldspeak);
     }
 }
