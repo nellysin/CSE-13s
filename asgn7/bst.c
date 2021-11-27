@@ -53,7 +53,7 @@ Node *bst_insert(Node *root, char *oldspeak, char *newspeak) {
     if (root) {
         if (strcmp(root->oldspeak, oldspeak) > 0) {
             root->left = bst_insert(root->left, oldspeak, newspeak);
-        } else {
+        } else if (strcmp(root->oldspeak, oldspeak) < 0){
             root->right = bst_insert(root->right, oldspeak, newspeak);
         }
         return root;
@@ -64,7 +64,8 @@ Node *bst_insert(Node *root, char *oldspeak, char *newspeak) {
 void bst_print(Node *root) {
     if (root) {
         bst_print(root->left);
-        printf("%s\n", root->oldspeak);
+	node_print(root);
+	bst_print(root->right);
     }
 }
 

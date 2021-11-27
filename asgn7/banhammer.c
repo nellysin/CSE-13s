@@ -20,10 +20,10 @@
 #include "messages.h"
 
 #define OPTIONS "hst:f:"
-#define WORD "[a-zA-Z0-9_'-]+"
+#define WORD    "[a-zA-Z0-9_'-]+"
 
-//CITE: Professor Long 
-//CITE: 
+//CITE: Professor Long
+//CITE:
 
 void menu(void) {
     printf("SYNOPSIS\n");
@@ -42,9 +42,9 @@ void menu(void) {
 
 void scan_badspeak(BloomFilter *bf, HashTable *ht) {
     FILE *badspeakfile = stdin;
- //   FILE *testingfile = stdout;
+    //   FILE *testingfile = stdout;
 
-   // testingfile = fopen("testing.txt", "w");
+    // testingfile = fopen("testing.txt", "w");
 
     badspeakfile = fopen("badspeak.txt", "r");
     char bad_words[1024]; //buffer blocks are cited in asgn 6
@@ -55,8 +55,8 @@ void scan_badspeak(BloomFilter *bf, HashTable *ht) {
     while (fscanf(badspeakfile, "%s\n", bad_words) != EOF) {
         bf_insert(bf, bad_words);
         ht_insert(ht, bad_words, NULL);
-//	printf("%s\n", bad_words);
-  //      fprintf(stdout, "%s\n", bad_words);
+        //	printf("%s\n", bad_words);
+        //      fprintf(stdout, "%s\n", bad_words);
     }
     fclose(badspeakfile);
     //fclose(testingfile);
@@ -64,9 +64,9 @@ void scan_badspeak(BloomFilter *bf, HashTable *ht) {
 
 void scan_oldnew(BloomFilter *bf, HashTable *ht) {
     FILE *newspeakfile = stdin;
- //   FILE *testingfile = stdout;
+    //   FILE *testingfile = stdout;
 
-//    testingfile = fopen("testing.txt", "w");
+    //    testingfile = fopen("testing.txt", "w");
 
     newspeakfile = fopen("newspeak.txt", "r");
     char old_words[1024];
@@ -76,10 +76,11 @@ void scan_oldnew(BloomFilter *bf, HashTable *ht) {
         fprintf(stderr, "Error: unable to read file.\n");
         exit(1);
     }
-    while(fscanf(newspeakfile, "%s %s\n", old_words, new_words) == 2) { //while there is two values of inputs then continue inserting to br and ht.
+    while (fscanf(newspeakfile, "%s %s\n", old_words, new_words)
+           == 2) { //while there is two values of inputs then continue inserting to br and ht.
         bf_insert(bf, old_words);
         ht_insert(ht, old_words, new_words);
-  //      fprintf(stdout, "%s %s\n", old_words, new_words);
+        //      fprintf(stdout, "%s %s\n", old_words, new_words);
     }
     fclose(newspeakfile);
 }
@@ -109,51 +110,51 @@ int main(int argc, char *argv[]) {
     scan_oldnew(bf, ht);
 
     regex_t re;
-    if(regcomp(&re, WORD, REG_EXTENDED)){
-	    fprintf(stderr, "Failed to compile regex.\n");
-	    return 1;
+    if (regcomp(&re, WORD, REG_EXTENDED)) {
+        fprintf(stderr, "Failed to compile regex.\n");
+        return 1;
     }
 
     char *word = NULL;
 
     Node *root = bst_create();
     Node *temp = bst_create();
-    
+
     bool newspeak_translate = false;
     bool commit_crime = false;
     bool probe = false;
 
-    while((word = next_word(stdin, &re)) != NULL){
-	    for(uint32_t i = 0; i < strlen(word); i += 1){
-		     word[i] = tolower(word[i]);
-	    }
-	    if(bf_probe(bf, word)){
-		probe = true;
-            	temp = ht_lookup(ht, word);
-            	if(temp != NULL && temp->newspeak != NULL){
-                    newspeak_translate = true;
-		    root = bst_insert(root, word, temp->newspeak);
-		}
-	    	else{
-		    commit_crime = true;
-		    root = bst_insert(root, word, temp->newspeak);
-	    	}
-	    }
+    while ((word = next_word(stdin, &re)) != NULL) {
+        for (uint32_t i = 0; i < strlen(word); i += 1) {
+            word[i] = tolower(word[i]);
+        }
+        if (bf_probe(bf, word)) {
+            probe = true;
+            temp = ht_lookup(ht, word);
+            if (temp != NULL && temp->newspeak != NULL) {
+                newspeak_translate = true;
+                root = bst_insert(root, word, temp->newspeak);
+            } else {
+
+                commit_crime = true;
+                root = bst_insert(root, word, NULL);
+            }
+        }
     }
 
-    if(probe == true && commit_crime == false && newspeak_translate == false){
-	    printf("%s", goodspeak_message);
-	    bst_print(root);
+    if (probe == true && commit_crime == false && newspeak_translate == false) {
+        printf("%s", goodspeak_message);
+        bst_print(root);
     }
 
-    else if(commit_crime == true && newspeak_translate == true){
-	    printf("%s", mixspeak_message);
-	    bst_print(root);
+    else if (commit_crime == true && newspeak_translate == true) {
+        printf("%s", mixspeak_message);
+        bst_print(root);
     }
 
-    else if(commit_crime == true && newspeak_translate == false){
-	    printf("%s", badspeak_message);
-	    bst_print(root);
+    else if (commit_crime == true && newspeak_translate == false) {
+        printf("%s", badspeak_message);
+        bst_print(root);
     }
 
     clear_words();
