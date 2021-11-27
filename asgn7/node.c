@@ -14,16 +14,14 @@ Node *node_create(char *oldspeak, char *newspeak) {
 
     if (oldspeak != NULL) {
         n->oldspeak = strdup(oldspeak); //duplicate for oldspeak and newspeak is stored in the node
-    }
-    else {
-	    n->oldspeak = NULL;
+    } else {
+        n->oldspeak = NULL;
     }
 
     if (newspeak != NULL) {
         n->newspeak = strdup(newspeak);
-    }
-    else {
-            n->newspeak = NULL;
+    } else {
+        n->newspeak = NULL;
     }
 
     n->left = NULL; //set left and right to null?

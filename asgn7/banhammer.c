@@ -142,6 +142,18 @@ int main(int argc, char *argv[]) {
         }
     }
 
+    if (stats == true) {
+        double average = ((double) branches / lookups);
+
+        fprintf(stdout, "Average BST size: %7.6lf\n", ht_avg_bst_size(ht));
+        fprintf(stdout, "Average BST height: %7.6lf\n", ht_avg_bst_size(ht));
+        fprintf(stdout, "Average branches traversed: %7.6lf\n", average);
+        fprintf(stdout, "Hash table load: %7.6lf%%\n", 100 * ((double) ht_count(ht) / ht_size(ht)));
+        fprintf(
+            stdout, "Bloom filter load: %7.6lf%%\n", 100 * ((double) bf_count(bf) / bf_size(bf)));
+        return 0;
+    }
+
     if (probe == true && commit_crime == false && newspeak_translate == false) {
         printf("%s", goodspeak_message);
         bst_print(root);

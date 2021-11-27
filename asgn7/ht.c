@@ -7,6 +7,8 @@
 #include "salts.h"
 #include "speck.h"
 
+uint64_t lookups = 0;
+
 //CITE: Professor Long in Lecture slides 28
 //CITE: TA Eugene for explaination on hashtables and given (11/24) section
 
@@ -48,6 +50,7 @@ Node *ht_lookup(HashTable *ht, char *oldspeak) {
     //the index of the binary search tree to perform the "look-up" is by hashing the oldspeak
     //if the node is found, the pointer to the node is returned
     uint32_t index = hash(ht->salt, oldspeak) % ht_size(ht);
+    lookups += 1;
 
     return bst_find(ht->trees[index], oldspeak);
 }
@@ -56,6 +59,7 @@ void ht_insert(HashTable *ht, char *oldspeak, char *newspeak) {
     //inserts the specified oldspeak and its corresponding newspeak translation into the hash index of the binary search tree to insert
     //insert (index) is calculated by hashing the oldspeak
     uint32_t index = hash(ht->salt, oldspeak) % ht_size(ht);
+    lookups += 1;
 
     ht->trees[index] = bst_insert(ht->trees[index], oldspeak, newspeak);
 }

@@ -7,6 +7,8 @@
 #include "node.h"
 #include "bst.h"
 
+uint64_t branches = 0;
+
 //CITE: Professor Long for code in the lecture slide 18
 
 Node *bst_create(void) {
@@ -40,8 +42,10 @@ Node *bst_find(Node *root, char *oldspeak) {
     if (root) {
         //    while(root != NULL && strcmp(root->oldpseak, oldspeak) != 0){
         if (strcmp(root->oldspeak, oldspeak) > 0) {
+            branches += 1;
             return bst_find(root->left, oldspeak);
         } else if (strcmp(root->oldspeak, oldspeak) < 0) {
+            branches += 1;
             return bst_find(root->right, oldspeak);
         }
         // }
@@ -52,8 +56,10 @@ Node *bst_find(Node *root, char *oldspeak) {
 Node *bst_insert(Node *root, char *oldspeak, char *newspeak) {
     if (root) {
         if (strcmp(root->oldspeak, oldspeak) > 0) {
+            branches += 1;
             root->left = bst_insert(root->left, oldspeak, newspeak);
-        } else if (strcmp(root->oldspeak, oldspeak) < 0){
+        } else if (strcmp(root->oldspeak, oldspeak) < 0) {
+            branches += 1;
             root->right = bst_insert(root->right, oldspeak, newspeak);
         }
         return root;
@@ -64,8 +70,8 @@ Node *bst_insert(Node *root, char *oldspeak, char *newspeak) {
 void bst_print(Node *root) {
     if (root) {
         bst_print(root->left);
-	node_print(root);
-	bst_print(root->right);
+        node_print(root);
+        bst_print(root->right);
     }
 }
 
