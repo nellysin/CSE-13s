@@ -144,14 +144,14 @@ int main(int argc, char *argv[]) {
 
     if (stats == true) {
         double average = ((double) branches / lookups);
+	double htLoad = (double) 100 * ((double) ht_count(ht) / ht_size(ht));
+	double bstLoad =  (double) 100 * ((double) bf_count(bf) / bf_size(bf));
 
         fprintf(stdout, "Average BST size: %7.6lf\n", ht_avg_bst_size(ht));
         fprintf(stdout, "Average BST height: %7.6lf\n", ht_avg_bst_height(ht));
         fprintf(stdout, "Average branches traversed: %7.6lf\n", average);
-        fprintf(stdout, "Hash table load: %7.6lf%%\n",
-            ((double) 100 * ((double) ht_count(ht) / ht_size(ht))));
-        fprintf(stdout, "Bloom filter load: %7.6lf%%\n",
-            ((double) 100 * ((double) bf_count(bf) / bf_size(bf))));
+        fprintf(stdout, "Hash table load: %7.6lf%%\n", htLoad);
+        fprintf(stdout, "Bloom filter load: %7.6lf%%\n", bstLoad);
         return 0;
     }
 
