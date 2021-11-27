@@ -146,7 +146,7 @@ int main(int argc, char *argv[]) {
         double average = ((double) branches / lookups);
 
         fprintf(stdout, "Average BST size: %7.6lf\n", ht_avg_bst_size(ht));
-        fprintf(stdout, "Average BST height: %7.6lf\n", ht_avg_bst_size(ht));
+        fprintf(stdout, "Average BST height: %7.6lf\n", ht_avg_bst_height(ht));
         fprintf(stdout, "Average branches traversed: %7.6lf\n", average);
         fprintf(stdout, "Hash table load: %7.6lf%%\n",
             ((double) 100 * ((double) ht_count(ht) / ht_size(ht))));
