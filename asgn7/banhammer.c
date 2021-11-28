@@ -144,8 +144,8 @@ int main(int argc, char *argv[]) {
 
     if (stats == true) {
         double average = ((double) branches / lookups);
-	double htLoad = (double) 100 * ((double) ht_count(ht) / ht_size(ht));
-	double bstLoad =  (double) 100 * ((double) bf_count(bf) / bf_size(bf));
+	double htLoad =  100.0 * ((float) ht_count(ht) / ht_size(ht));
+	double bstLoad =   100.0 * ((float) bf_count(bf) / bf_size(bf));
 
         fprintf(stdout, "Average BST size: %7.6lf\n", ht_avg_bst_size(ht));
         fprintf(stdout, "Average BST height: %7.6lf\n", ht_avg_bst_height(ht));
@@ -169,6 +169,8 @@ int main(int argc, char *argv[]) {
         printf("%s", badspeak_message);
         bst_print(root);
     }
+
+    
 
     clear_words();
     regfree(&re);
