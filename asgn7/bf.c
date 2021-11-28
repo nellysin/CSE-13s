@@ -36,9 +36,11 @@ BloomFilter *bf_create(uint32_t size) {
     return bf;
 }
 void bf_delete(BloomFilter **bf) {
-    free((*bf)->filter);
-    free(*bf); //free bf and filter for no memory leaks
-    *bf = NULL;
+    if (*bf && (*bf)->filter) {
+        bv_delete(&(*bf)->filter);
+        free(*bf); //free bf and filter for no memory leaks
+        *bf = NULL;
+    }
 }
 
 uint32_t bf_size(BloomFilter *bf) {

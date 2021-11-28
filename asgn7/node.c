@@ -31,10 +31,16 @@ Node *node_create(char *oldspeak, char *newspeak) {
 }
 
 void node_delete(Node **n) {
-    free((*n)->oldspeak);
-    free((*n)->newspeak);
-    free(*n);
-    *n = NULL;
+    if (*n) {
+        if ((*n)->oldspeak) {
+            free((*n)->oldspeak);
+        }
+        if ((*n)->newspeak) {
+            free((*n)->newspeak);
+        }
+        free(*n);
+        *n = NULL;
+    }
 }
 
 void node_print(Node *n) {

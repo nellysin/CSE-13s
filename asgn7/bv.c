@@ -25,6 +25,7 @@ BitVector *bv_create(uint32_t length) { //creating and initializing for the stru
 
 void bv_delete(BitVector **bv) {
     if (*bv) { //deleting the bit vector
+        free((*bv)->vector);
         free(*bv);
         *bv = NULL;
     }

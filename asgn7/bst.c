@@ -12,8 +12,7 @@ uint64_t branches = 0;
 //CITE: Professor Long for code in the lecture slide 18
 
 Node *bst_create(void) {
-    Node *root = node_create(NULL, NULL);
-    root = NULL;
+    Node *root = NULL;
     return root;
 }
 
@@ -77,8 +76,13 @@ void bst_print(Node *root) {
 
 void bst_delete(Node **root) {
     if (*root) {
-        bst_delete(&(*root)->left);
-        bst_delete(&(*root)->right);
+        if ((*root)->left) {
+
+            bst_delete(&(*root)->left);
+        }
+        if ((*root)->right) {
+            bst_delete(&(*root)->right);
+        }
         node_delete(root);
     }
 }

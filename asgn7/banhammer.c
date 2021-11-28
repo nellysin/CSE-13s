@@ -22,10 +22,10 @@
 #define OPTIONS "hst:f:"
 #define WORD    "[a-zA-Z0-9_'-]+"
 
-//CITE: Professor Long
-//CITE:
+//CITE: Professor Long in assignment doc
+//CITE: TA Eugene for scanning
 
-void menu(void) {
+void menu(void) { //helper function to print the menu messages
     printf("SYNOPSIS\n");
     printf("  A word filtering program for the GPRSC\n");
     printf("  Filters out and reports bad words parsed from stdin.\n");
@@ -40,13 +40,20 @@ void menu(void) {
     printf("     -f size     Specify Bloom filter size (default: 2^20).\n");
 }
 
-void scan_badspeak(BloomFilter *bf, HashTable *ht) {
-    FILE *badspeakfile = stdin;
+//this function read in the list of oldspeak and newspeak pairs with fscanf()
+//the oldspeak is only added the the bloom filter while the newspeak oldspeak are added to the hashtable
+//the list of oldspeak pairs will be the newspeak.txt and vice versa
+void scan_badspeak(BloomFilter *bf, HashTable *ht) { //helper function to scan the badspeak
+    FILE *badspeakfile = stdin; //
 
     badspeakfile = fopen("badspeak.txt", "r");
     char bad_words[1024]; //buffer blocks are cited in asgn 6
     if (badspeakfile == NULL) {
         fprintf(stderr, "Error: unable to read file.\n");
+
+        bf_delete(&bf);
+        ht_delete(&ht);
+
         fclose(badspeakfile);
         exit(1);
     }
@@ -55,8 +62,12 @@ void scan_badspeak(BloomFilter *bf, HashTable *ht) {
         ht_insert(ht, bad_words, NULL);
     }
     fclose(badspeakfile);
+    return;
 }
 
+//this function read in the list of oldspeak and newspeak pairs with fscanf()
+//the oldspeak is only added the the bloom filter while the newspeak oldspeak are added to the hashtable
+//the list of oldspeak pairs will be the newspeak.txt and vice versa
 void scan_oldnew(BloomFilter *bf, HashTable *ht) {
     FILE *newspeakfile = stdin;
 
@@ -66,6 +77,8 @@ void scan_oldnew(BloomFilter *bf, HashTable *ht) {
 
     if (newspeakfile == NULL) {
         fprintf(stderr, "Error: unable to read file.\n");
+        bf_delete(&bf);
+        ht_delete(&ht);
         fclose(newspeakfile);
         exit(1);
     }
@@ -75,6 +88,7 @@ void scan_oldnew(BloomFilter *bf, HashTable *ht) {
         ht_insert(ht, old_words, new_words);
     }
     fclose(newspeakfile);
+    return;
 }
 
 int main(int argc, char *argv[]) {
@@ -82,6 +96,7 @@ int main(int argc, char *argv[]) {
     uint32_t bfSize = pow(2, 20);
     uint32_t htSize = pow(2, 16);
 
+    //these are the command lines
     int opt = 0;
     while ((opt = getopt(argc, argv, OPTIONS)) != -1) {
         switch (opt) {
@@ -101,6 +116,8 @@ int main(int argc, char *argv[]) {
 
     scan_oldnew(bf, ht);
 
+    //lexicon of badspeak and oldspeak/newspeak translations has been populated and start filter out words
+    //this is done so by using the parsing module
     regex_t re;
     if (regcomp(&re, WORD, REG_EXTENDED)) {
         fprintf(stderr, "Failed to compile regex.\n");
@@ -116,6 +133,11 @@ int main(int argc, char *argv[]) {
     bool commit_crime = false;
     bool probe = false;
 
+    //if the word is most likely been added to the bloom filter, bf_probe() returned true
+    //no further action needs to be taken
+    //However, if the ht contains the word does not have the newspeak translation then the citizen who use the word
+    //is guilty of thought crime and insert the badspeak word in the list of badspeak and notify them with a message
+    //this is the same with the oldspeak words with newspeak transtion.
     while ((word = next_word(stdin, &re)) != NULL) {
         for (uint32_t i = 0; i < strlen(word); i += 1) {
             word[i] = tolower(word[i]);
@@ -134,7 +156,8 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    if (stats == true) {
+    if (stats
+        == true) { // these are the statistics of the program include the bst size, height, average branches, ht load, bf load.
         float average = ((float) branches / lookups);
         float htLoad = 100 * ((float) ht_count(ht) / ht_size(ht));
         float bstLoad = 100 * ((float) bf_count(bf) / bf_size(bf));
@@ -144,9 +167,20 @@ int main(int argc, char *argv[]) {
         fprintf(stdout, "Average branches traversed: %7.6lf\n", average);
         fprintf(stdout, "Hash table load: %7.6lf%%\n", htLoad);
         fprintf(stdout, "Bloom filter load: %7.6lf%%\n", bstLoad);
+
+        clear_words();
+        regfree(&re);
+
+        ht_delete(&ht);
+        bf_delete(&bf);
+
+        bst_delete(&root);
+        bst_delete(&temp);
+
         return 0;
     }
 
+    //using a boolean, for printing the goodspeak_message, mixspeak_message, and badspeak_message.
     if (probe == true && commit_crime == false && newspeak_translate == false) {
         printf("%s", goodspeak_message);
         bst_print(root);
@@ -162,15 +196,14 @@ int main(int argc, char *argv[]) {
         bst_print(root);
     }
 
-    node_delete(&root);
-    node_delete(&temp);
+    //clear memories
+
     bst_delete(&root);
-    bst_delete(&temp);
 
     ht_delete(&ht);
     bf_delete(&bf);
 
-    clear_words();
     regfree(&re);
+    clear_words();
     return 0;
 }

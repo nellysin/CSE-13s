@@ -33,11 +33,11 @@ HashTable *ht_create(uint32_t size) { //create the hashtable
 }
 
 void ht_delete(HashTable **ht) { //delete hash tables
-    if (*ht && (*ht)->trees) { //if ht and node of ht trees exist
-        free((*ht)->trees); //freeing the nodes of the tree
-        free(*ht); //free the hashtable
-        *ht = NULL; //set to NULL
+    for (uint32_t i = 0; i < (*ht)->size; i += 1) {
+        bst_delete(&(*ht)->trees[i]);
     }
+    free((*ht)->trees); //freeing the nodes of the tree
+    free(*ht); //free the hashtable
     return; //this is for no leakage memory
 }
 
