@@ -175,7 +175,6 @@ int main(int argc, char *argv[]) {
         bf_delete(&bf);
 
         bst_delete(&root);
-        bst_delete(&temp);
 
         return 0;
     }
