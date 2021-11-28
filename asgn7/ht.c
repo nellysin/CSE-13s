@@ -38,6 +38,7 @@ void ht_delete(HashTable **ht) { //delete hash tables
     }
     free((*ht)->trees); //freeing the nodes of the tree
     free(*ht); //free the hashtable
+    *ht = NULL;
     return; //this is for no leakage memory
 }
 
