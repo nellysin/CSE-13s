@@ -42,31 +42,23 @@ void menu(void) {
 
 void scan_badspeak(BloomFilter *bf, HashTable *ht) {
     FILE *badspeakfile = stdin;
-    //   FILE *testingfile = stdout;
-
-    // testingfile = fopen("testing.txt", "w");
 
     badspeakfile = fopen("badspeak.txt", "r");
     char bad_words[1024]; //buffer blocks are cited in asgn 6
     if (badspeakfile == NULL) {
         fprintf(stderr, "Error: unable to read file.\n");
+        fclose(badspeakfile);
         exit(1);
     }
     while (fscanf(badspeakfile, "%s\n", bad_words) != EOF) {
         bf_insert(bf, bad_words);
         ht_insert(ht, bad_words, NULL);
-        //	printf("%s\n", bad_words);
-        //      fprintf(stdout, "%s\n", bad_words);
     }
     fclose(badspeakfile);
-    //fclose(testingfile);
 }
 
 void scan_oldnew(BloomFilter *bf, HashTable *ht) {
     FILE *newspeakfile = stdin;
-    //   FILE *testingfile = stdout;
-
-    //    testingfile = fopen("testing.txt", "w");
 
     newspeakfile = fopen("newspeak.txt", "r");
     char old_words[1024];
@@ -74,13 +66,13 @@ void scan_oldnew(BloomFilter *bf, HashTable *ht) {
 
     if (newspeakfile == NULL) {
         fprintf(stderr, "Error: unable to read file.\n");
+        fclose(newspeakfile);
         exit(1);
     }
     while (fscanf(newspeakfile, "%s %s\n", old_words, new_words)
            == 2) { //while there is two values of inputs then continue inserting to br and ht.
         bf_insert(bf, old_words);
         ht_insert(ht, old_words, new_words);
-        //      fprintf(stdout, "%s %s\n", old_words, new_words);
     }
     fclose(newspeakfile);
 }
@@ -144,8 +136,8 @@ int main(int argc, char *argv[]) {
 
     if (stats == true) {
         float average = ((float) branches / lookups);
-	float htLoad = 100 * ((float) ht_count(ht) / ht_size(ht));
-	float bstLoad = 100 * ((float) bf_count(bf) / bf_size(bf));
+        float htLoad = 100 * ((float) ht_count(ht) / ht_size(ht));
+        float bstLoad = 100 * ((float) bf_count(bf) / bf_size(bf));
 
         fprintf(stdout, "Average BST size: %7.6lf\n", ht_avg_bst_size(ht));
         fprintf(stdout, "Average BST height: %7.6lf\n", ht_avg_bst_height(ht));
@@ -170,7 +162,13 @@ int main(int argc, char *argv[]) {
         bst_print(root);
     }
 
-    
+    node_delete(&root);
+    node_delete(&temp);
+    bst_delete(&root);
+    bst_delete(&temp);
+
+    ht_delete(&ht);
+    bf_delete(&bf);
 
     clear_words();
     regfree(&re);

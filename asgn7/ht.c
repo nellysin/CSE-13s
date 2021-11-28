@@ -83,7 +83,6 @@ double ht_avg_bst_size(HashTable *ht) {
     for (uint32_t i = 0; i < ht_size(ht); i += 1) {
         total += bst_size(ht->trees[i]);
     }
-    //double average;
     return total / ht_count(ht);
 }
 
