@@ -143,9 +143,9 @@ int main(int argc, char *argv[]) {
     }
 
     if (stats == true) {
-        double average = ((double) branches / lookups);
-	double htLoad =  100.0 * ((float) ht_count(ht) / ht_size(ht));
-	double bstLoad =   100.0 * ((float) bf_count(bf) / bf_size(bf));
+        float average = ((float) branches / lookups);
+	float htLoad = 100 * ((float) ht_count(ht) / ht_size(ht));
+	float bstLoad = 100 * ((float) bf_count(bf) / bf_size(bf));
 
         fprintf(stdout, "Average BST size: %7.6lf\n", ht_avg_bst_size(ht));
         fprintf(stdout, "Average BST height: %7.6lf\n", ht_avg_bst_height(ht));

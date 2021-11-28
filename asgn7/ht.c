@@ -79,20 +79,20 @@ double ht_avg_bst_size(HashTable *ht) {
     //returning the average binary search tree size.
     //We first must compute the sum of the sizes over binary search trees and divide the number of non-NULL bst in ht
     //by doing this we use the bst_size() function -- average is sum / total
-    uint32_t total = 0;
+    float total = 0;
     for (uint32_t i = 0; i < ht_size(ht); i += 1) {
         total += bst_size(ht->trees[i]);
     }
-    double average;
-    return average = total / ht_count(ht);
+    //double average;
+    return total / ht_count(ht);
 }
 
 double ht_avg_bst_height(HashTable *ht) {
     //similer to the avg_bst_size() we return the average binary search tree size. By doing this we comput the sum of the height with bst_height() and divide by the number of non-NULL bst in ht
-    double total;
-    uint32_t to_divide = 0;
+    //double total;
+    float to_divide = 0;
     for (uint32_t i = 0; i < ht_size(ht); i += 1) {
         to_divide += bst_height(ht->trees[i]);
     }
-    return total = to_divide / ht_count(ht);
+    return to_divide / ht_count(ht);
 }
