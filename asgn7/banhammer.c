@@ -182,6 +182,7 @@ int main(int argc, char *argv[]) {
         fprintf(stdout, "Average branches traversed: %7.6lf\n", average); //print the average
         fprintf(stdout, "Hash table load: %7.6lf%%\n", htLoad); //print the ht load
         fprintf(stdout, "Bloom filter load: %7.6lf%%\n", bstLoad); //print the bst load
+        //fprintf -- testing (gnuplot)
 
         clear_words(); //clear and free any ht,bf, regex, words, and bst for no memory leaks
         regfree(&re);
