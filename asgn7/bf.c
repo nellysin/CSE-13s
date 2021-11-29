@@ -7,8 +7,8 @@
 #include "speck.h"
 #include "bf.h"
 
-//CITE: Professor Long for the struct
-//CITE: TA Eugene for asgn doc
+//CITE: Professor Long for the struct and other instructions for the struct
+//CITE: TA Eugene for asgn doc - instructions
 //CITE: Tutor Jason for explanation for the hashing and bloom filter
 
 struct BloomFilter { //struct for bloom filter (from the assignment doc)

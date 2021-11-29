@@ -22,7 +22,7 @@
 #define OPTIONS "hst:f:"
 #define WORD    "[a-zA-Z0-9_'-]+"
 
-//CITE: Professor Long in assignment doc
+//CITE: Professor Long in assignment doc -- instructions
 //CITE: TA Eugene for scanning
 
 void menu(void) { //helper function to print the menu messages
@@ -44,24 +44,26 @@ void menu(void) { //helper function to print the menu messages
 //the oldspeak is only added the the bloom filter while the newspeak oldspeak are added to the hashtable
 //the list of oldspeak pairs will be the newspeak.txt and vice versa
 void scan_badspeak(BloomFilter *bf, HashTable *ht) { //helper function to scan the badspeak
-    FILE *badspeakfile = stdin; //
+    FILE *badspeakfile = stdin; //this is the file* for the stdin
 
-    badspeakfile = fopen("badspeak.txt", "r");
+    badspeakfile = fopen("badspeak.txt", "r"); //opening the badspeak.txt
     char bad_words[1024]; //buffer blocks are cited in asgn 6
     if (badspeakfile == NULL) {
         fprintf(stderr, "Error: unable to read file.\n");
 
-        bf_delete(&bf);
+        bf_delete(&bf); //we must delete the ht and bf if the badspeak file does not exist
         ht_delete(&ht);
 
-        fclose(badspeakfile);
+        fclose(badspeakfile); //close the badspeak file
         exit(1);
     }
-    while (fscanf(badspeakfile, "%s\n", bad_words) != EOF) {
-        bf_insert(bf, bad_words);
+    while (fscanf(badspeakfile, "%s\n", bad_words)
+           != EOF) { //this part is to scan the words in the badspeakfile
+        bf_insert(bf,
+            bad_words); //when we scan the badspeak.txt we are inserting them into the bf and ht (ht is for oldwords AND new words, however there is no new words and our badword is our oldword)
         ht_insert(ht, bad_words, NULL);
     }
-    fclose(badspeakfile);
+    fclose(badspeakfile); //close the file before exiting the function (no leakage)
     return;
 }
 
@@ -69,25 +71,28 @@ void scan_badspeak(BloomFilter *bf, HashTable *ht) { //helper function to scan t
 //the oldspeak is only added the the bloom filter while the newspeak oldspeak are added to the hashtable
 //the list of oldspeak pairs will be the newspeak.txt and vice versa
 void scan_oldnew(BloomFilter *bf, HashTable *ht) {
-    FILE *newspeakfile = stdin;
+    FILE *newspeakfile = stdin; //file star for the stdin
 
-    newspeakfile = fopen("newspeak.txt", "r");
-    char old_words[1024];
+    newspeakfile = fopen("newspeak.txt", "r"); //we will open the newspeak.txt
+    char old_words[1024]; //this is our buffer for old_words AND new_words
     char new_words[1024];
 
-    if (newspeakfile == NULL) {
+    if (newspeakfile
+        == NULL) { //if the newspeak file does not exist we must print an error message and exit the program with no memory leaks
         fprintf(stderr, "Error: unable to read file.\n");
         bf_delete(&bf);
         ht_delete(&ht);
         fclose(newspeakfile);
         exit(1);
     }
-    while (fscanf(newspeakfile, "%s %s\n", old_words, new_words)
-           == 2) { //while there is two values of inputs then continue inserting to br and ht.
-        bf_insert(bf, old_words);
-        ht_insert(ht, old_words, new_words);
+    while (
+        fscanf(newspeakfile, "%s %s\n", old_words, new_words) //fscanf the words in the newspeak.txt
+        == 2) { //while there is two values of inputs then continue inserting to br and ht (we can use EOF similar to how we're scanning the badspeak words) -- I searched up how fscanf really works -- even without the EOF in tutorialspoint.com / the manual
+        bf_insert(bf, old_words); //we must insert the oldwords to the bf
+        ht_insert(
+            ht, old_words, new_words); //and insert the oldwords and new words in the hashtable
     }
-    fclose(newspeakfile);
+    fclose(newspeakfile); //exit the helper function with no memory leaks
     return;
 }
 
@@ -100,38 +105,44 @@ int main(int argc, char *argv[]) {
     int opt = 0;
     while ((opt = getopt(argc, argv, OPTIONS)) != -1) {
         switch (opt) {
-        case 'h': menu(); return 0;
-        case 's': stats = true; break;
-        case 't': htSize = atoi(optarg); break;
-        case 'f': bfSize = atoi(optarg); break;
-        default: menu(); return 0;
+        case 'h': menu(); return 0; //this is to print the menu
+        case 's': stats = true; break; //this is for statistics (boolean)
+        case 't':
+            htSize = atoi(optarg);
+            break; //using atoi (similar to asgn6) to change the string arg to an integer type
+        case 'f':
+            bfSize = atoi(optarg);
+            break; //using the atoi (similar to adgn6) to change the string arg to an integer type
+        default: menu(); return 0; //the default is printing the menu
         }
     }
 
-    BloomFilter *bf = bf_create(bfSize);
+    BloomFilter *bf = bf_create(bfSize); //initialize our bloom filter bf
 
-    HashTable *ht = ht_create(htSize);
+    HashTable *ht = ht_create(htSize); //initialize our hashtable ht
 
-    scan_badspeak(bf, ht);
+    scan_badspeak(bf,
+        ht); //call the helper function for badspeak to scan and store our words to the ht and bf
 
-    scan_oldnew(bf, ht);
+    scan_oldnew(bf,
+        ht); //call the helper function for newspeak to scan and store our words to the ht and bf
 
     //lexicon of badspeak and oldspeak/newspeak translations has been populated and start filter out words
     //this is done so by using the parsing module
-    regex_t re;
-    if (regcomp(&re, WORD, REG_EXTENDED)) {
+    regex_t re; //this is important to parse our words (given by asgn doc)
+    if (regcomp(&re, WORD, REG_EXTENDED)) { //our pointer to a compuled regular expression
         fprintf(stderr, "Failed to compile regex.\n");
         return 1;
     }
 
     char *word = NULL;
 
-    Node *root = bst_create();
-    Node *temp = bst_create();
+    Node *root = bst_create(); //initialize the root for our bst_create();
+    Node *temp = bst_create(); //initialize a temp for our bst_create();
 
-    bool newspeak_translate = false;
+    bool newspeak_translate = false; //these to indicate what are goodspeak, badspeak, and mixspeak
     bool commit_crime = false;
-    bool probe = false;
+    bool probe = false; //ht_lookup
 
     //if the word is most likely been added to the bloom filter, bf_probe() returned true
     //no further action needs to be taken
@@ -158,17 +169,21 @@ int main(int argc, char *argv[]) {
 
     if (stats
         == true) { // these are the statistics of the program include the bst size, height, average branches, ht load, bf load.
-        float average = ((float) branches / lookups);
-        float htLoad = 100 * ((float) ht_count(ht) / ht_size(ht));
-        float bstLoad = 100 * ((float) bf_count(bf) / bf_size(bf));
+        float average = ((float) branches / lookups); //for brranches / lookups
+        float htLoad
+            = 100 * ((float) ht_count(ht) / ht_size(ht)); //for 100 * ht_count() / ht_size()
+        float bstLoad
+            = 100 * ((float) bf_count(bf) / bf_size(bf)); // for 100 * bf_count() / bf_size()
 
-        fprintf(stdout, "Average BST size: %7.6lf\n", ht_avg_bst_size(ht));
-        fprintf(stdout, "Average BST height: %7.6lf\n", ht_avg_bst_height(ht));
-        fprintf(stdout, "Average branches traversed: %7.6lf\n", average);
-        fprintf(stdout, "Hash table load: %7.6lf%%\n", htLoad);
-        fprintf(stdout, "Bloom filter load: %7.6lf%%\n", bstLoad);
+        fprintf(
+            stdout, "Average BST size: %7.6lf\n", ht_avg_bst_size(ht)); //print the average bst size
+        fprintf(stdout, "Average BST height: %7.6lf\n",
+            ht_avg_bst_height(ht)); //print the average bst height
+        fprintf(stdout, "Average branches traversed: %7.6lf\n", average); //print the average
+        fprintf(stdout, "Hash table load: %7.6lf%%\n", htLoad); //print the ht load
+        fprintf(stdout, "Bloom filter load: %7.6lf%%\n", bstLoad); //print the bst load
 
-        clear_words();
+        clear_words(); //clear and free any ht,bf, regex, words, and bst for no memory leaks
         regfree(&re);
 
         ht_delete(&ht);
