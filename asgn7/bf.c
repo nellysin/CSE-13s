@@ -9,7 +9,7 @@
 
 //CITE: Professor Long for the struct and other instructions for the struct
 //CITE: TA Eugene for asgn doc - instructions
-//CITE: Tutor Jason for explanation for the hashing and bloom filter
+//CITE: Tutor Jason for explanation for the hashing in bloom filter with modulo
 
 struct BloomFilter { //struct for bloom filter (from the assignment doc)
     uint64_t primary[2];
