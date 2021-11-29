@@ -7,9 +7,10 @@
 #include "node.h"
 #include "bst.h"
 
-uint64_t branches = 0;
+uint64_t branches = 0; //this is for statistics
 
 //CITE: Professor Long for code in the lecture slide 18
+//CITE: TA Eugene for statistics instructions
 
 //this is our constructor for a binary search tree that constructs an empty tree (NULL)
 Node *bst_create(void) {
@@ -47,10 +48,10 @@ uint32_t bst_size(Node *root) {
 Node *bst_find(Node *root, char *oldspeak) {
     if (root) {
         if (strcmp(root->oldspeak, oldspeak) > 0) {
-            branches += 1;
+            branches += 1; //this is for statistics
             return bst_find(root->left, oldspeak);
         } else if (strcmp(root->oldspeak, oldspeak) < 0) {
-            branches += 1;
+            branches += 1; //this is for statistics
             return bst_find(root->right, oldspeak);
         }
     }
@@ -61,10 +62,10 @@ Node *bst_find(Node *root, char *oldspeak) {
 Node *bst_insert(Node *root, char *oldspeak, char *newspeak) {
     if (root) {
         if (strcmp(root->oldspeak, oldspeak) > 0) {
-            branches += 1;
+            branches += 1; //this is for statistics
             root->left = bst_insert(root->left, oldspeak, newspeak);
         } else if (strcmp(root->oldspeak, oldspeak) < 0) {
-            branches += 1;
+            branches += 1; //this is for statistics
             root->right = bst_insert(root->right, oldspeak, newspeak);
         }
         return root;
@@ -81,6 +82,7 @@ void bst_print(Node *root) {
     }
 }
 
+//we must free and delete for no memory leakage
 void bst_delete(Node **root) {
     if (*root) {
         if ((*root)->left) {

@@ -90,8 +90,4 @@ uint32_t bf_count(BloomFilter *bf) {
     return count; //returning the count
 }
 
-void bf_print(BloomFilter *bf); /*{
-	for(uint32_t i = 0; i < bf_size(bf); i += 1){
-		if()
-	}
-}*/
+void bf_print(BloomFilter *bf); // THIS IS FOR DEBUGGING
