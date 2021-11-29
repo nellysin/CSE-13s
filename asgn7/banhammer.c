@@ -183,6 +183,7 @@ int main(int argc, char *argv[]) {
         fprintf(stdout, "Hash table load: %7.6lf%%\n", htLoad); //print the ht load
         fprintf(stdout, "Bloom filter load: %7.6lf%%\n", bstLoad); //print the bst load
         //fprintf -- testing (gnuplot)
+        //"%%" this is how we a printing the percent signs
 
         clear_words(); //clear and free any ht,bf, regex, words, and bst for no memory leaks
         regfree(&re);
