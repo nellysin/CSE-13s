@@ -24,6 +24,7 @@
 
 //CITE: Professor Long in assignment doc -- instructions
 //CITE: TA Eugene for scanning
+//CITE: TA Omar for understanting of regex, WORD, and printing alphabetically
 
 void menu(void) { //helper function to print the menu messages
     printf("SYNOPSIS\n");
