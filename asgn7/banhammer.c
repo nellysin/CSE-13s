@@ -23,7 +23,7 @@
 #define WORD    "[a-zA-Z0-9_'-]+"
 
 //CITE: Professor Long in assignment doc -- instructions
-//CITE: TA Eugene for scanning
+//CITE: TA Eugene for scanning and understanding the structure -- (from TA sections)
 //CITE: TA Omar for understanting of regex, WORD, and printing alphabetically
 
 void menu(void) { //helper function to print the menu messages
