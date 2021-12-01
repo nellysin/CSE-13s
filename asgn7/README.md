@@ -1,4 +1,4 @@
-# Assignment 7 - The Great Firewall of Santa Cruz: Bloom Filters, Linked Lists, Binary Trees, and Hash Tables
+# Assignment 7 - The Great Firewall of Santa Cruz: Bloom Filters, Binary Trees, and Hash Tables
 
 In this assignment we are helping the leader of the Glorious People's Republic of Santa Cruz to filter out words in the internet used by their citizens.
 Any word that is used as hurtful or offensive must be detected and alert the usage of them to the citizens.
