@@ -11,6 +11,7 @@ uint64_t lookups = 0;
 
 //CITE: Professor Long in Lecture slides 28
 //CITE: TA Eugene for explaination on hashtables and given (11/24) section & statistics
+//CITE: Tutor Eric for explaination for hashtables
 
 struct HashTable { //struct for hash tables in asgn doc
     uint64_t salt[2];

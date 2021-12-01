@@ -11,6 +11,7 @@ uint64_t branches = 0; //this is for statistics
 
 //CITE: Professor Long for code in the lecture slide 18
 //CITE: TA Eugene for statistics instructions
+//CITE: Tutor Eric for delete and free
 
 //this is our constructor for a binary search tree that constructs an empty tree (NULL)
 Node *bst_create(void) {
