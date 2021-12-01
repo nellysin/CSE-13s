@@ -88,7 +88,7 @@ void scan_oldnew(BloomFilter *bf, HashTable *ht) {
     }
     while (
         fscanf(newspeakfile, "%s %s\n", old_words, new_words) //fscanf the words in the newspeak.txt
-        == 2) { //while there is two values of inputs then continue inserting to br and ht (we can use EOF similar to how we're scanning the badspeak words) -- I searched up how fscanf really works -- even without the EOF in tutorialspoint.com / the manual
+        != EOF) { //while there is two values of inputs then continue inserting to br and ht (we can use EOF similar to how we're scanning the badspeak words) until end of file
         bf_insert(bf, old_words); //we must insert the oldwords to the bf
         ht_insert(
             ht, old_words, new_words); //and insert the oldwords and new words in the hashtable
