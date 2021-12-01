@@ -18,6 +18,7 @@ struct HashTable { //struct for hash tables in asgn doc
     Node **trees;
 };
 
+//similar to bf constructor
 HashTable *ht_create(uint32_t size) { //create the hashtable
     HashTable *ht = (HashTable *) malloc(sizeof(HashTable));
     ht->size = size; //initialize the ht size

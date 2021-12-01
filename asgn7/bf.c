@@ -18,6 +18,9 @@ struct BloomFilter { //struct for bloom filter (from the assignment doc)
     BitVector *filter;
 };
 
+//Constructor for the bloom filter. set the primary, secondary, and tertiary salts from salts.h
+//in addition we will also have to implment the bit vector ADT for the bloom filter
+//As it serves as the array of bits necessary for the proper bloom filter.
 BloomFilter *bf_create(uint32_t size) {
     BloomFilter *bf;
     bf = (BloomFilter *) calloc(1, sizeof(BloomFilter)); //calloc the bf
@@ -35,6 +38,8 @@ BloomFilter *bf_create(uint32_t size) {
 
     return bf;
 }
+
+//Destructor for the bloom filter. By freeing any memory allocated from the contructor
 void bf_delete(BloomFilter **bf) {
     if (*bf && (*bf)->filter) {
         bv_delete(&(*bf)->filter);
@@ -43,14 +48,18 @@ void bf_delete(BloomFilter **bf) {
     }
 }
 
+//returning the size of the bloom filter. the number of bits that the bloom filter can access
+//(the length is an underlying bit vector)
 uint32_t bf_size(BloomFilter *bf) {
     return bv_length(
         bf->filter); //return the length of the bloomfilter w/ the bitvector length function
 }
 
+//Taking the oldspeak and insert into the bloom filter. This means it will hash oldspeak with each of the three
+//salts for three indices and setting those bits to the salt indices.
 void bf_insert(BloomFilter *bf, char *oldspeak) {
     uint32_t hashprim = hash(bf->primary, oldspeak) % bf_size(bf);
-    bv_set_bit(bf->filter, hashprim);
+    bv_set_bit(bf->filter, hashprim); //by using bv_set)bit
 
     uint32_t hashsec = hash(bf->secondary, oldspeak) % bf_size(bf);
     bv_set_bit(bf->filter, hashsec);
@@ -59,6 +68,10 @@ void bf_insert(BloomFilter *bf, char *oldspeak) {
     bv_set_bit(bf->filter, hashter);
 }
 
+//This function probes the bloom filter for oldspeak. (similar with bf_insert())
+//olspeak is hashed with each of the three salts for three indices.
+//If all bits at those indices (salt) are set:
+//return true to indicate that the oldspeak was most likely added to the bloom filter
 bool bf_probe(BloomFilter *bf, char *oldspeak) {
     uint32_t hashprim = hash(bf->primary, oldspeak);
     hashprim = hashprim % bf_size(bf);
@@ -80,6 +93,7 @@ bool bf_probe(BloomFilter *bf, char *oldspeak) {
     }
 }
 
+//this function returns the number of set bits in the bloom filter
 uint32_t bf_count(BloomFilter *bf) {
     uint32_t count = 0;
     for (uint32_t i = 0; i < bf_size(bf); i += 1) { //for i in the rnage of bf_size
