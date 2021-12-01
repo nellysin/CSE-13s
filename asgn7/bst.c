@@ -83,6 +83,7 @@ void bst_print(Node *root) {
 }
 
 //we must free and delete for no memory leakage
+//this is a for loop as it must delete the nodes as well
 void bst_delete(Node **root) {
     if (*root) {
         if ((*root)->left) {
