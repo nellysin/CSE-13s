@@ -4,6 +4,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <unistd.h>
+#include <math.h>
 #include <stdio.h>
 #include <regex.h>
 #include <ctype.h>
