@@ -99,8 +99,19 @@ void scan_oldnew(BloomFilter *bf, HashTable *ht) {
 
 int main(int argc, char *argv[]) {
     bool stats = false;
-    uint32_t bfSize = pow(2, 20);
-    uint32_t htSize = pow(2, 16);
+    
+    uint32_t bfSize = 0;
+    for (bfSize = 0; bfSize < 20; bfSize += 1){
+	    (bfSize = 1 << bfSize);
+    }
+
+    uint32_t htSize = 0;
+    for (htSize = 0; htSize < 16; htSize += 1){
+	    (htSize = 1 << htSize);
+    }
+
+    //uint32_t bfSize = pow(2, 20);
+    //uint32_t htSize = pow(2, 16);
 
     //these are the command lines
     int opt = 0;
