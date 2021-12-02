@@ -4,7 +4,6 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <unistd.h>
-#include <math.h>
 #include <stdio.h>
 #include <regex.h>
 #include <ctype.h>
@@ -23,7 +22,7 @@
 #define WORD    "[a-zA-Z0-9_'-]+"
 
 //CITE: Professor Long in assignment doc -- instructions
-//CITE: TA Eugene for scanning and understanding the structure -- (from TA sections)
+//CITE: TA Eugene for scanning, understanding the structure, and the bfSize and htSize -- (from TA sections)
 //CITE: TA Omar for understanting of regex, WORD, and printing alphabetically
 
 void menu(void) { //helper function to print the menu messages
@@ -101,13 +100,10 @@ int main(int argc, char *argv[]) {
     bool stats = false;
 
     uint32_t bfSize = 0;
-    bfSize = 1 << 20;
+    bfSize = 1 << 20; //shift the bit 20 times by the wpoer of 2
 
     uint32_t htSize = 0;
-    htSize = 1 << 16;
-
-    //uint32_t bfSize = pow(2, 20);
-    //uint32_t htSize = pow(2, 16);
+    htSize = 1 << 16; //shift the bit 16 times by the power of 2
 
     //these are the command lines
     int opt = 0;
