@@ -12,6 +12,7 @@ uint64_t lookups = 0;
 //CITE: Professor Long in Lecture slides 28
 //CITE: TA Eugene for explaination on hashtables and given (11/24) section & statistics
 //CITE: Tutor Eric for explaination for hashtables
+//CITE: Tutor Jason for creating the hashtable
 
 struct HashTable { //struct for hash tables in asgn doc
     uint64_t salt[2];
@@ -34,6 +35,7 @@ HashTable *ht_create(uint32_t size) { //create the hashtable
     return ht; //returning the hashtables
 }
 
+//CITE: Lecture slide 28 page 24 (Professor Long)
 void ht_delete(HashTable **ht) { //delete hash tables
     for (uint32_t i = 0; i < (*ht)->size; i += 1) {
         bst_delete(&(*ht)->trees[i]);
@@ -48,19 +50,23 @@ uint32_t ht_size(HashTable *ht) { //setting the size
     return ht->size;
 }
 
+//CITE: Lecture slide 28 page 22 (Professor Long)
 Node *ht_lookup(HashTable *ht, char *oldspeak) {
     //searches for a node in the hashtable that contains oldspeak. The node stores oldspeak and its nespeak translation.
     //the index of the binary search tree to perform the "look-up" is by hashing the oldspeak
     //if the node is found, the pointer to the node is returned
+    //We have to modulo the hash because we want to reduce it.
     uint32_t index = hash(ht->salt, oldspeak) % ht_size(ht);
     lookups += 1; //this will be very important for statistics
 
     return bst_find(ht->trees[index], oldspeak);
 }
 
+//CITE: Lecture slide 28 page 23 (Professor Long)
 void ht_insert(HashTable *ht, char *oldspeak, char *newspeak) {
     //inserts the specified oldspeak and its corresponding newspeak translation into the hash index of the binary search tree to insert
     //insert (index) is calculated by hashing the oldspeak
+    //We have to modulo the hash because we want to reduce it.
     uint32_t index = hash(ht->salt, oldspeak) % ht_size(ht);
     lookups += 1; //this will be very important for statistics
 

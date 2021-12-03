@@ -11,9 +11,10 @@ uint64_t branches = 0; //this is for statistics
 
 //CITE: Professor Long for code in the lecture slide 18
 //CITE: TA Eugene for statistics instructions
-//CITE: Tutor Eric for delete and free
+//CITE: Tutor Eric for delete, free, size and explanation
 
 //this is our constructor for a binary search tree that constructs an empty tree (NULL)
+//CITE: Lecture slide 18 page 62 (Professor Long)
 Node *bst_create(void) {
     Node *root = NULL;
     return root;
@@ -21,11 +22,13 @@ Node *bst_create(void) {
 
 //Helper function (given by professor long lecture slides 18)
 //if x > y then set to x otherwise set to y
+//CITE: Lecture slide 18 page 55 (Professor Long)
 static int max(int x, int y) {
     return x > y ? x : y;
 }
 
 //returning the hight of the binary search tree rooted at the root
+//CITE: Lecture slide 18 page 55 (Professor Long)
 uint32_t bst_height(Node *root) {
     if (root) {
         return 1 + max(bst_height(root->left), bst_height(root->right));
@@ -46,6 +49,7 @@ uint32_t bst_size(Node *root) {
 
 //We must search for a node that contains the oldspeak in the binary search tree rooted at root.
 //if the node is found and the pointer to the node is returned. Otherwise the pointer will be returned as NULL
+//CITE: Lecture slide 18 page 57 (Professor Long)
 Node *bst_find(Node *root, char *oldspeak) {
     if (root) {
         if (strcmp(root->oldspeak, oldspeak) > 0) {
@@ -60,6 +64,7 @@ Node *bst_find(Node *root, char *oldspeak) {
 }
 
 //In this function, it will insert a new node containing the specified oldspeak and newspeak into the binary search tree rooted at root. *!!BUT DUPLICATES shoulds not be inserted!!*
+//CITE: Lecture slide 18 page 62 (Professor Long)
 Node *bst_insert(Node *root, char *oldspeak, char *newspeak) {
     if (root) {
         if (strcmp(root->oldspeak, oldspeak) > 0) {
@@ -75,6 +80,7 @@ Node *bst_insert(Node *root, char *oldspeak, char *newspeak) {
 }
 
 //By using bst print, it will print out each node in the binary search tree through an inorder traversal. This will be similar to node_print()
+//CITE: Lecture slide 18 page 8 (Professor Long)
 void bst_print(Node *root) {
     if (root) {
         bst_print(root->left);
@@ -85,6 +91,7 @@ void bst_print(Node *root) {
 
 //we must free and delete for no memory leakage
 //this is a for loop as it must delete the nodes as well
+//CITE: Lecture slide 18 page 79 (Professor Long)
 void bst_delete(Node **root) {
     if (*root) {
         if ((*root)->left) {
